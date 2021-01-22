@@ -23,19 +23,21 @@ function addItem(){
 }
 </script>
 
-<div class="row">
+<div class="row topnav">
 <div class="col-6">
 <h4>{cat}</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-outline-dark btn-add" on:click="{addItem}"><i class="bi bi-plus-circle"></i> Add</button>
+<button class="btn btn-dark btn-add" on:click="{addItem}">Add</button>
 </div>
 </div>
 
-<ul class="list-group">
+<div class="content">
+<ul class="list-group entries-list">
 {#each items as item}
   <li class="list-group-item">
   <a href="/#/edit/{cat}/{item.id}">{item.title}</a>
   </li>
 {/each}
 </ul>
+</div>

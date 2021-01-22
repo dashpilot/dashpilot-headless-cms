@@ -24,6 +24,7 @@ html, body, .page{
 
 h4{
 font-size: 22px;
+margin-top: 6px;
 }
 
 .btn-add{
@@ -62,12 +63,33 @@ b{
 #logo{
 	width: 60px;
 	margin: 20px;
-	margin-top: 25px;
+	margin-top: 21px;
 	margin-left: 25px;
 }
 
 .main{
-	padding: 20px;
+	padding: 15px;
+	padding-top: 0;
+}
+
+.topnav{
+	padding: 25px;
+	padding-top: 15px;
+	padding-bottom: 5px;
+	background-color: white;
+	border-bottom: 1px solid #DDD;
+}
+
+.content{
+	padding: 25px;
+}
+
+.entries-list a{
+	color: black;
+}
+
+.btn-dark{
+	min-width: 100px;
 }
 
 .cm-formatting{

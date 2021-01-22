@@ -84,14 +84,16 @@ function slugifyFieldTitle(i)
 {#if collection}
 
 
-<div class="row">
+<div class="row topnav">
 <div class="col-6">
 <h4>Edit {pluralize.singular(collection.title)}</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-outline-dark btn-add" on:click="{save}"><i class="bi bi-check-circle"></i> Save</button>
+<button class="btn btn-dark btn-add" on:click="{save}">Save</button>
 </div>
 </div>
+
+<div class="content">
 
 <b>Title</b>
   <input type="text" class="form-control" bind:value="{data[cat][index].title}" />
@@ -117,17 +119,21 @@ function slugifyFieldTitle(i)
 
 
   {/each}
+
+</div>
+
 {:else}
 
-<div class="row">
+<div class="row topnav">
 <div class="col-6">
 <h4>Edit Collection</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-outline-dark btn-add" on:click="{save}">Save</button>
+<button class="btn btn-dark btn-add" on:click="{save}">Save</button>
 </div>
 </div>
 
+<div class="content">
 
     <b>Title</b>
     <div class="description"></div>
@@ -163,5 +169,7 @@ function slugifyFieldTitle(i)
     {/each}
     </ul>
     {/if}
+
+    </div>
 
 {/if}
