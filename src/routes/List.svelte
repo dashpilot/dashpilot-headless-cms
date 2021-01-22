@@ -36,7 +36,11 @@ function addItem(){
 <ul class="list-group entries-list">
 {#each items as item}
   <li class="list-group-item">
+  {#if cat == 'collections'}
+  <a href="/#/collections/{item.id}">{item.title}</a>
+  {:else}
   <a href="/#/edit/{cat}/{item.id}">{item.title}</a>
+  {/if}
   </li>
 {/each}
 </ul>

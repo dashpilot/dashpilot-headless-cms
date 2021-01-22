@@ -1,5 +1,13 @@
 <script>
 import { onMount } from 'svelte';
+import Router from 'svelte-spa-router'
+import {wrap} from 'svelte-spa-router/wrap'
+import Home from './routes/Home.svelte'
+import List from './routes/List.svelte'
+import Edit from './routes/Edit.svelte'
+import EditCollection from './routes/EditCollection.svelte'
+import NotFound from './routes/NotFound.svelte'
+
 
 let data = false;
 let showApp = false;
@@ -19,7 +27,6 @@ onMount(async () => {
 	        }
 	    }),
 
-	    // Using named parameters, with last being optional
 	    '/list/:cat': wrap({
 	        component: List,
 	        props: {
@@ -27,7 +34,6 @@ onMount(async () => {
 	        }
 	    }),
 
-			// Using named parameters, with last being optional
 			'/edit/:cat/:id': wrap({
 	        component: Edit,
 	        props: {
@@ -35,24 +41,19 @@ onMount(async () => {
 	        }
 	    }),
 
+			'/collections/:id': wrap({
+					component: EditCollection,
+					props: {
+							data:data
+					}
+			}),
+
 	    // Catch-all
 	    // This is optional, but if present it must be the last
 	    '*': NotFound,
 	}
 
 });
-
-
-
-import Router from 'svelte-spa-router'
-import {wrap} from 'svelte-spa-router/wrap'
-import Home from './routes/Home.svelte'
-import List from './routes/List.svelte'
-import Edit from './routes/Edit.svelte'
-import NotFound from './routes/NotFound.svelte'
-
-
-
 
 </script>
 
@@ -65,9 +66,13 @@ import NotFound from './routes/NotFound.svelte'
 
 <div class="side-nav">
 	{#each Object.keys(data) as item}
+	{#if item !== 'collections'}
 	<a href="/#/list/{item}" class:selected="{current === item}"
 	on:click="{() => current = item}">{item}</a>
+	{/if}
 	{/each}
+	<a href="/#/list/collections" class:selected="{current === 'collections'}"
+	on:click="{() => current = 'collections'}">collections</a>
 </div>
 
 </div>
