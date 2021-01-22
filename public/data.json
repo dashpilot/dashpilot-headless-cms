@@ -31,7 +31,7 @@
     "title": "entries",
     "fields": [{
       "title": "body",
-      "description": "",
+      "description": "This editor uses Markdown",
       "type": "mde"
     }, {
       "title": "description",

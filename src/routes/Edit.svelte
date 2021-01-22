@@ -52,6 +52,7 @@ function deleteField(title){
 
 function slugifyTitle(key)
 {
+
   let slug = data.collections[index][key].toString().toLowerCase()
     .replace(/\s+/g, '_')           // Replace spaces with -
     .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
@@ -88,7 +89,7 @@ function slugifyFieldTitle(i)
 <h4>Edit {pluralize.singular(collection.title)}</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-outline-dark btn-add" on:click="{save}">Save</button>
+<button class="btn btn-outline-dark btn-add" on:click="{save}"><i class="bi bi-check-circle"></i> Save</button>
 </div>
 </div>
 
@@ -98,6 +99,9 @@ function slugifyFieldTitle(i)
   {#each collection.fields as field}
 
   <b>{field.title}</b>
+  {#if field.description}
+  <div class="description">{field.description}</div>
+  {/if}
 
   {#if field.type=='txt'}
   <input type="text" class="form-control" bind:value="{data[cat][index][field.title]}" />
@@ -132,27 +136,27 @@ function slugifyFieldTitle(i)
 
     <b>Fields</b>
 
-<button class="btn btn-outline-dark btn-add" on:click="{addField}">Add Field</button>
+<button class="btn btn-outline-dark btn-add" on:click="{addField}"><i class="bi bi-plus-circle"></i> Add Field</button>
 
     {#if data.collections[index].fields}
     <ul class="list-group">
     {#each data.collections[index].fields as field, i}
       <li class="list-group-item">
-<div class="row">
-<div class="col-md-4"><input type="text" class="form-control mb-0" bind:value="{field.title}" on:keyup="{() => slugifyFieldTitle(i)}" placeholder="title" /></div>
-<div class="col-md-4"><input type="text" class="form-control mb-0" bind:value="{field.description}" placeholder="description" /></div>
-<div class="col-md-3">
-<select bind:value="{field.type}" class="form-control mb-0">
-<option value="txt">Text</option>
-<option value="mde">Markdown</option>
-</select>
+      <div class="row">
+      <div class="col-md-4"><input type="text" class="form-control mb-0" bind:value="{field.title}" on:keyup="{() => slugifyFieldTitle(i)}" placeholder="field name" /></div>
+      <div class="col-md-4"><input type="text" class="form-control mb-0" bind:value="{field.description}" placeholder="field description (optional)" /></div>
+      <div class="col-md-3">
+      <select bind:value="{field.type}" class="form-control mb-0">
+      <option value="txt">Text</option>
+      <option value="mde">Markdown</option>
+      </select>
 
-</div>
-<div class="col-md-1 text-right">
-<button class="btn btn-outline-secondary" on:click="{() => deleteField(field.title)}">
-<i class="bi bi-trash"></i>
-</div>
-</div>
+      </div>
+      <div class="col-md-1 text-right">
+      <button class="btn btn-outline-secondary" on:click="{() => deleteField(field.title)}">
+      <i class="bi bi-trash"></i>
+      </div>
+      </div>
 
 
       </li>

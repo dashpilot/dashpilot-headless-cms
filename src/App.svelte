@@ -4,6 +4,7 @@ import { onMount } from 'svelte';
 let data = false;
 let showApp = false;
 let routes = false;
+let current = false;
 
 onMount(async () => {
 	const res = await fetch(`data.json`);
@@ -60,8 +61,11 @@ import NotFound from './routes/NotFound.svelte'
 <div class="col-md-2">
 <div class="side">
 
+<img src="assets/img/rocketlogo.png" id="logo" />
+
 	{#each Object.keys(data) as item}
-	<a href="/#/list/{item}">{item}</a>
+	<a href="/#/list/{item}" class:selected="{current === item}"
+	on:click="{() => current = item}">{item}</a>
 	{/each}
 
 </div>

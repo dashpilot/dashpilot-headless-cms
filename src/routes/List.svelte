@@ -14,7 +14,7 @@ function addItem(){
   newItem.id = Date.now();
   newItem.title = "untitled";
   if(cat=='collections'){
-    newItem.fields = []; 
+    newItem.fields = [];
   }else{
     newItem.slug = "";
   }
@@ -28,7 +28,7 @@ function addItem(){
 <h4>{cat}</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-outline-dark btn-add" on:click="{addItem}">Add</button>
+<button class="btn btn-outline-dark btn-add" on:click="{addItem}"><i class="bi bi-plus-circle"></i> Add</button>
 </div>
 </div>
 

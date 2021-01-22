@@ -37,7 +37,6 @@ b{
 }
 
 .side{
-	padding: 20px;
 	background-color: #333;
 	min-height: 100%;
 	text-transform: capitalize;
@@ -46,13 +45,25 @@ b{
 .side a{
 	display: block;
 	padding: 10px;
-	color: #CCC;
+	color: white;
+	padding-left: 25px;
 }
 
 .side a:hover{
 	color: white;
-	background-color: #666;
+	background-color: #5679FE;
 	text-decoration: none;
+}
+
+.side a.selected{
+	background-color: #5679FE;
+}
+
+#logo{
+	width: 60px;
+	margin: 20px;
+	margin-top: 25px;
+	margin-left: 25px;
 }
 
 .main{
@@ -70,4 +81,17 @@ select.form-control {
     background-position: calc(100% - 15px) 50%;
     -moz-appearance: none;
     appearance: none;
+}
+
+.description{
+	color: #999;
+	margin-bottom: 7px;
+	margin-top: -2px;
+}
+
+i.bi{
+	width: 1em;
+height: 1em;
+vertical-align: .2em;
+margin-right: 3px;
 }
