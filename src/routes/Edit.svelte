@@ -78,9 +78,6 @@ function slugifyFieldTitle(i)
 }
 </script>
 
-
-
-
 {#if collection}
 
 

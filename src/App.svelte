@@ -61,12 +61,14 @@ import NotFound from './routes/NotFound.svelte'
 <div class="col-md-2">
 <div class="side">
 
-<img src="assets/img/rocketlogo.png" id="logo" />
+<a href="/#/" class:selected="{current === false}" on:click="{() => current = false}"><img src="assets/img/rocketlogo.png" id="logo" /></a>
 
+<div class="side-nav">
 	{#each Object.keys(data) as item}
 	<a href="/#/list/{item}" class:selected="{current === item}"
 	on:click="{() => current = item}">{item}</a>
 	{/each}
+</div>
 
 </div>
 

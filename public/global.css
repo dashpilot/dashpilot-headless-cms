@@ -43,20 +43,20 @@ b{
 	text-transform: capitalize;
 }
 
-.side a{
-	display: block;
+.side-nav a{
+	display: block !important;
 	padding: 10px;
 	color: white;
 	padding-left: 25px;
 }
 
-.side a:hover{
+.side-nav a:hover{
 	color: white;
 	background-color: #5679FE;
 	text-decoration: none;
 }
 
-.side a.selected{
+.side-nav a.selected{
 	background-color: #5679FE;
 }
 
@@ -73,6 +73,7 @@ b{
 }
 
 .topnav{
+	height: 70px;
 	padding: 25px;
 	padding-top: 15px;
 	padding-bottom: 5px;
