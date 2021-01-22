@@ -15,15 +15,12 @@ $: if (params.id) {
   cat = 'collections';
   id = params.id;
   item = data[cat].filter(x => x.id == id)[0];
-  if(!item){ // not found
+  if(!item){ // not found, redirect
     window.location = "/";
   }
   index = data[cat].findIndex(x => x.id == id);
   collection = data.collections.filter(x => x.title == cat)[0];
   title = data.collections[index].title;
-
-
-
 }
 
 function save(){

@@ -3783,7 +3783,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (119:4) {:else}
+    // (116:4) {:else}
     function create_else_block$2(ctx) {
     	let div;
     	let t1;
@@ -3798,10 +3798,10 @@ var app = (function () {
     			t1 = space();
     			input = element("input");
     			attr_dev(div, "class", "description");
-    			add_location(div, file$5, 119, 4, 2952);
+    			add_location(div, file$5, 116, 4, 2959);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$5, 120, 4, 3042);
+    			add_location(input, file$5, 117, 4, 3049);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3837,14 +3837,14 @@ var app = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(119:4) {:else}",
+    		source: "(116:4) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (117:4) {#if title in data}
+    // (114:4) {#if title in data}
     function create_if_block_1$1(ctx) {
     	let div;
     	let t_value = /*data*/ ctx[0].collections[/*index*/ ctx[1]].title + "";
@@ -3856,7 +3856,7 @@ var app = (function () {
     			t = text(t_value);
     			attr_dev(div, "class", "mb-3");
     			set_style(div, "margin-top", "-5px");
-    			add_location(div, file$5, 117, 4, 2854);
+    			add_location(div, file$5, 114, 4, 2861);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -3874,14 +3874,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(117:4) {#if title in data}",
+    		source: "(114:4) {#if title in data}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (135:4) {#if data.collections[index].fields}
+    // (132:4) {#if data.collections[index].fields}
     function create_if_block$4(ctx) {
     	let ul;
     	let each_value = /*data*/ ctx[0].collections[/*index*/ ctx[1]].fields;
@@ -3901,7 +3901,7 @@ var app = (function () {
     			}
 
     			attr_dev(ul, "class", "list-group");
-    			add_location(ul, file$5, 135, 4, 3579);
+    			add_location(ul, file$5, 132, 4, 3586);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -3945,14 +3945,14 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(135:4) {#if data.collections[index].fields}",
+    		source: "(132:4) {#if data.collections[index].fields}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (137:4) {#each data.collections[index].fields as field, i}
+    // (134:4) {#each data.collections[index].fields as field, i}
     function create_each_block$3(ctx) {
     	let li;
     	let div4;
@@ -4018,36 +4018,36 @@ var app = (function () {
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control mb-0");
     			attr_dev(input0, "placeholder", "field name");
-    			add_location(input0, file$5, 139, 28, 3745);
+    			add_location(input0, file$5, 136, 28, 3752);
     			attr_dev(div0, "class", "col-md-4");
-    			add_location(div0, file$5, 139, 6, 3723);
+    			add_location(div0, file$5, 136, 6, 3730);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "class", "form-control mb-0");
     			attr_dev(input1, "placeholder", "field description (optional)");
-    			add_location(input1, file$5, 140, 28, 3919);
+    			add_location(input1, file$5, 137, 28, 3926);
     			attr_dev(div1, "class", "col-md-4");
-    			add_location(div1, file$5, 140, 6, 3897);
+    			add_location(div1, file$5, 137, 6, 3904);
     			option0.__value = "txt";
     			option0.value = option0.__value;
-    			add_location(option0, file$5, 143, 6, 4151);
+    			add_location(option0, file$5, 140, 6, 4158);
     			option1.__value = "mde";
     			option1.value = option1.__value;
-    			add_location(option1, file$5, 144, 6, 4191);
+    			add_location(option1, file$5, 141, 6, 4198);
     			attr_dev(select, "class", "form-control mb-0");
     			if (/*field*/ ctx[23].type === void 0) add_render_callback(select_change_handler);
-    			add_location(select, file$5, 142, 6, 4084);
+    			add_location(select, file$5, 139, 6, 4091);
     			attr_dev(div2, "class", "col-md-3");
-    			add_location(div2, file$5, 141, 6, 4055);
+    			add_location(div2, file$5, 138, 6, 4062);
     			attr_dev(i_1, "class", "bi bi-trash");
-    			add_location(i_1, file$5, 150, 6, 4398);
+    			add_location(i_1, file$5, 147, 6, 4405);
     			attr_dev(button, "class", "btn btn-outline-secondary");
-    			add_location(button, file$5, 149, 6, 4305);
+    			add_location(button, file$5, 146, 6, 4312);
     			attr_dev(div3, "class", "col-md-1 text-right");
-    			add_location(div3, file$5, 148, 6, 4265);
+    			add_location(div3, file$5, 145, 6, 4272);
     			attr_dev(div4, "class", "row");
-    			add_location(div4, file$5, 138, 6, 3699);
+    			add_location(div4, file$5, 135, 6, 3706);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$5, 137, 6, 3664);
+    			add_location(li, file$5, 134, 6, 3671);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -4109,7 +4109,7 @@ var app = (function () {
     		block,
     		id: create_each_block$3.name,
     		type: "each",
-    		source: "(137:4) {#each data.collections[index].fields as field, i}",
+    		source: "(134:4) {#each data.collections[index].fields as field, i}",
     		ctx
     	});
 
@@ -4182,31 +4182,31 @@ var app = (function () {
     			t11 = text(" Add Field");
     			t12 = space();
     			if (if_block1) if_block1.c();
-    			add_location(h4, file$5, 98, 0, 2460);
+    			add_location(h4, file$5, 95, 0, 2467);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$5, 97, 0, 2440);
+    			add_location(div0, file$5, 94, 0, 2447);
     			attr_dev(button0, "class", "btn btn-dark btn-add");
-    			add_location(button0, file$5, 101, 0, 2523);
+    			add_location(button0, file$5, 98, 0, 2530);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$5, 100, 0, 2492);
+    			add_location(div1, file$5, 97, 0, 2499);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$5, 96, 0, 2415);
-    			add_location(b0, file$5, 115, 4, 2813);
-    			add_location(b1, file$5, 125, 4, 3263);
+    			add_location(div2, file$5, 93, 0, 2422);
+    			add_location(b0, file$5, 112, 4, 2820);
+    			add_location(b1, file$5, 122, 4, 3270);
     			attr_dev(div3, "class", "description");
-    			add_location(div3, file$5, 126, 4, 3281);
+    			add_location(div3, file$5, 123, 4, 3288);
     			attr_dev(div4, "class", "col-6");
-    			add_location(div4, file$5, 124, 2, 3239);
+    			add_location(div4, file$5, 121, 2, 3246);
     			attr_dev(i, "class", "bi bi-plus-circle");
-    			add_location(i, file$5, 129, 83, 3463);
+    			add_location(i, file$5, 126, 83, 3470);
     			attr_dev(button1, "class", "btn btn-outline-dark btn-add float-right");
-    			add_location(button1, file$5, 129, 4, 3384);
+    			add_location(button1, file$5, 126, 4, 3391);
     			attr_dev(div5, "class", "col-6 text-right");
-    			add_location(div5, file$5, 128, 2, 3349);
+    			add_location(div5, file$5, 125, 2, 3356);
     			attr_dev(div6, "class", "row");
-    			add_location(div6, file$5, 123, 0, 3219);
+    			add_location(div6, file$5, 120, 0, 3226);
     			attr_dev(div7, "class", "content");
-    			add_location(div7, file$5, 105, 0, 2607);
+    			add_location(div7, file$5, 102, 0, 2614);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4457,7 +4457,7 @@ var app = (function () {
     				$$invalidate(12, item = data[cat].filter(x => x.id == id)[0]);
 
     				if (!item) {
-    					// not found
+    					// not found, redirect
     					window.location = "/";
     				}
 
