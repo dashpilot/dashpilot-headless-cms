@@ -84,7 +84,7 @@ function slugifyFieldTitle(i)
 
     <b>Title</b>
     {#if data.collections[index].title == 'untitled'}
-    <div class="description">Lowercase, no spaces</div>
+    <div class="description">Lowercase, no spaces. Title cannot be changed later.</div>
     <input type="text" class="form-control" bind:value={data.collections[index].title} on:keyup="{() => slugifyTitle('title')}" />
     {:else}
     <div class="mb-3" style="margin-top: -5px;">{data.collections[index].title}</div>

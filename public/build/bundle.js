@@ -2741,7 +2741,7 @@ var app = (function () {
     			t = text(t_value);
     			attr_dev(div, "class", "mb-3");
     			set_style(div, "margin-top", "-5px");
-    			add_location(div, file$3, 89, 4, 2391);
+    			add_location(div, file$3, 89, 4, 2423);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2777,14 +2777,14 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			div = element("div");
-    			div.textContent = "Lowercase, no spaces";
+    			div.textContent = "Lowercase, no spaces. Title cannot be changed later.";
     			t1 = space();
     			input = element("input");
     			attr_dev(div, "class", "description");
     			add_location(div, file$3, 86, 4, 2192);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$3, 87, 4, 2248);
+    			add_location(input, file$3, 87, 4, 2280);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2846,7 +2846,7 @@ var app = (function () {
     			}
 
     			attr_dev(ul, "class", "list-group");
-    			add_location(ul, file$3, 104, 4, 2844);
+    			add_location(ul, file$3, 104, 4, 2876);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -2963,36 +2963,36 @@ var app = (function () {
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control mb-0");
     			attr_dev(input0, "placeholder", "field name");
-    			add_location(input0, file$3, 108, 28, 3010);
+    			add_location(input0, file$3, 108, 28, 3042);
     			attr_dev(div0, "class", "col-md-4");
-    			add_location(div0, file$3, 108, 6, 2988);
+    			add_location(div0, file$3, 108, 6, 3020);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "class", "form-control mb-0");
     			attr_dev(input1, "placeholder", "field description (optional)");
-    			add_location(input1, file$3, 109, 28, 3184);
+    			add_location(input1, file$3, 109, 28, 3216);
     			attr_dev(div1, "class", "col-md-4");
-    			add_location(div1, file$3, 109, 6, 3162);
+    			add_location(div1, file$3, 109, 6, 3194);
     			option0.__value = "txt";
     			option0.value = option0.__value;
-    			add_location(option0, file$3, 112, 6, 3416);
+    			add_location(option0, file$3, 112, 6, 3448);
     			option1.__value = "mde";
     			option1.value = option1.__value;
-    			add_location(option1, file$3, 113, 6, 3456);
+    			add_location(option1, file$3, 113, 6, 3488);
     			attr_dev(select, "class", "form-control mb-0");
     			if (/*field*/ ctx[20].type === void 0) add_render_callback(select_change_handler);
-    			add_location(select, file$3, 111, 6, 3349);
+    			add_location(select, file$3, 111, 6, 3381);
     			attr_dev(div2, "class", "col-md-3");
-    			add_location(div2, file$3, 110, 6, 3320);
+    			add_location(div2, file$3, 110, 6, 3352);
     			attr_dev(i_1, "class", "bi bi-trash");
-    			add_location(i_1, file$3, 119, 6, 3663);
+    			add_location(i_1, file$3, 119, 6, 3695);
     			attr_dev(button, "class", "btn btn-outline-secondary");
-    			add_location(button, file$3, 118, 6, 3570);
+    			add_location(button, file$3, 118, 6, 3602);
     			attr_dev(div3, "class", "col-md-1 text-right");
-    			add_location(div3, file$3, 117, 6, 3530);
+    			add_location(div3, file$3, 117, 6, 3562);
     			attr_dev(div4, "class", "row");
-    			add_location(div4, file$3, 107, 6, 2964);
+    			add_location(div4, file$3, 107, 6, 2996);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$3, 106, 6, 2929);
+    			add_location(li, file$3, 106, 6, 2961);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3137,19 +3137,19 @@ var app = (function () {
     			attr_dev(div2, "class", "row topnav");
     			add_location(div2, file$3, 73, 0, 1902);
     			add_location(b0, file$3, 84, 4, 2121);
-    			add_location(b1, file$3, 94, 4, 2528);
+    			add_location(b1, file$3, 94, 4, 2560);
     			attr_dev(div3, "class", "description");
-    			add_location(div3, file$3, 95, 4, 2546);
+    			add_location(div3, file$3, 95, 4, 2578);
     			attr_dev(div4, "class", "col-6");
-    			add_location(div4, file$3, 93, 2, 2504);
+    			add_location(div4, file$3, 93, 2, 2536);
     			attr_dev(i, "class", "bi bi-plus-circle");
-    			add_location(i, file$3, 98, 83, 2728);
+    			add_location(i, file$3, 98, 83, 2760);
     			attr_dev(button1, "class", "btn btn-outline-dark btn-add float-right");
-    			add_location(button1, file$3, 98, 4, 2649);
+    			add_location(button1, file$3, 98, 4, 2681);
     			attr_dev(div5, "class", "col-6 text-right");
-    			add_location(div5, file$3, 97, 2, 2614);
+    			add_location(div5, file$3, 97, 2, 2646);
     			attr_dev(div6, "class", "row");
-    			add_location(div6, file$3, 92, 0, 2484);
+    			add_location(div6, file$3, 92, 0, 2516);
     			attr_dev(div7, "class", "content");
     			add_location(div7, file$3, 82, 0, 2094);
     		},
