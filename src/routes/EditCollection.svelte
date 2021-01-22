@@ -19,6 +19,9 @@ $: if (params.id) {
 }
 
 function save(){
+
+  window.renderData(data);
+
   alert(JSON.stringify(data));
 }
 
@@ -70,7 +73,7 @@ function slugifyFieldTitle(i)
 
 <div class="row topnav">
 <div class="col-6">
-<h4>Edit Collection.</h4>
+<h4>Edit Collection</h4>
 </div>
 <div class="col-6 text-right">
 <button class="btn btn-dark btn-add" on:click="{save}">Save</button>
@@ -80,13 +83,22 @@ function slugifyFieldTitle(i)
 <div class="content">
 
     <b>Title</b>
+    {#if data.collections[index].title == 'untitled'}
     <div class="description">Lowercase, no spaces</div>
     <input type="text" class="form-control" bind:value={data.collections[index].title} on:keyup="{() => slugifyTitle('title')}" />
+    {:else}
+    <div class="mb-3" style="margin-top: -5px;">{data.collections[index].title}</div>
+    {/if}
 
-
+<div class="row">
+  <div class="col-6">
     <b>Fields</b>
-
-<button class="btn btn-outline-dark btn-add" on:click="{addField}"><i class="bi bi-plus-circle"></i> Add Field</button>
+    <div class="description">Fields in this collection</div>
+  </div>
+  <div class="col-6 text-right">
+    <button class="btn btn-outline-dark btn-add float-right" on:click="{addField}"><i class="bi bi-plus-circle"></i> Add Field</button>
+  </div>
+</div>
 
 
     {#if data.collections[index].fields}

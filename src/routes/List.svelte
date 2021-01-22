@@ -6,7 +6,15 @@ let items = false;
 
 $: if (params.cat) {
 cat = params.cat;
-items = data[cat];
+
+// check if object key exists, else create empty array
+if(cat in data){
+  items = data[cat];
+}else{
+  data[cat] = [];
+  items = data[cat];
+}
+
 }
 
 function addItem(){
@@ -19,7 +27,12 @@ function addItem(){
     newItem.slug = "";
   }
   data[cat].push(newItem);
-  window.location = "/#/edit/"+cat+"/"+newItem.id;
+  if(cat=='collections'){
+    window.location = "/#/collections/"+newItem.id;
+  }else{
+    window.location = "/#/edit/"+cat+"/"+newItem.id;
+  }
+
 }
 </script>
 

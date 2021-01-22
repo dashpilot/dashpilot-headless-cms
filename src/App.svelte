@@ -14,6 +14,7 @@ let showApp = false;
 let routes = false;
 let current = false;
 
+
 onMount(async () => {
 	const res = await fetch(`data.json`);
 	data = await res.json();
@@ -55,6 +56,10 @@ onMount(async () => {
 
 });
 
+// allows force re-rendering
+window.renderData = function(mydata){
+	data = mydata;
+}
 </script>
 
 	{#if routes}
@@ -65,12 +70,14 @@ onMount(async () => {
 <a href="/#/" class:selected="{current === false}" on:click="{() => current = false}"><img src="assets/img/rocketlogo.png" id="logo" /></a>
 
 <div class="side-nav">
-	{#each Object.keys(data) as item}
-	{#if item !== 'collections'}
-	<a href="/#/list/{item}" class:selected="{current === item}"
-	on:click="{() => current = item}">{item}</a>
+<div id="collections-nav">
+	{#each data.collections as item}
+	{#if item.title !== 'collections'}
+	<a href="/#/list/{item.title}" class:selected="{current === item}"
+	on:click="{() => current = item.title}">{item.title}</a>
 	{/if}
 	{/each}
+</div>
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
 	on:click="{() => current = 'collections'}">collections</a>
 </div>
