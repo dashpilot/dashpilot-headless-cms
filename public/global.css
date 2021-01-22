@@ -118,3 +118,8 @@ height: 1em;
 vertical-align: .2em;
 margin-right: 3px;
 }
+
+:root {
+  --toastContainerTop: 5px;
+  --toastContainerRight: 5px;
+}

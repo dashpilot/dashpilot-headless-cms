@@ -1,7 +1,9 @@
 <script>
 import { onMount } from 'svelte';
+import { SvelteToast } from '@zerodevx/svelte-toast'
 import Router from 'svelte-spa-router'
 import {wrap} from 'svelte-spa-router/wrap'
+
 import Home from './routes/Home.svelte'
 import List from './routes/List.svelte'
 import Edit from './routes/Edit.svelte'
@@ -93,4 +95,6 @@ window.renderData = function(mydata){
 
 </div>
 </div>
+
+<SvelteToast />
 	{/if}
