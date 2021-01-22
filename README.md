@@ -1,6 +1,9 @@
 # json-cms
 Headless CMS that saves to a single JSON file. Perfect for SPA's or other API-powered sites. Written in Svelte.
 
+## Preview
+![Preview](/public/assets/img/preview.jpg?raw=true "JSON CMS preview")
+
 ## Features
 - Headless and serverless
 - Saves to a single JSON file
