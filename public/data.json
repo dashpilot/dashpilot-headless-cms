@@ -1,0 +1,46 @@
+{
+  "entries": [{
+    "id": "1",
+    "title": "Hello World",
+    "body": "Lorem ipsum dolor site amet"
+  }, {
+    "id": "2",
+    "title": "Second Post",
+    "body": "Lorem ipsum dolor site amet"
+  }, {
+    "id": "3",
+    "title": "Third post",
+    "body": "Lorem ipsum dolor site amet"
+  }],
+  "pages": [{
+    "id": "1",
+    "title": "Home",
+    "slug": "home"
+  }, {
+    "id": "2",
+    "title": "About",
+    "slug": "about"
+  }, {
+    "id": "3",
+    "title": "Contact",
+    "slug": "contact",
+    "layout": "page"
+  }],
+  "collections": [{
+    "id": "1",
+    "title": "entries",
+    "fields": [{
+      "title": "body",
+      "description": "",
+      "type": "mde"
+    }, {
+      "title": "description",
+      "description": "",
+      "type": "txt"
+    }]
+  }, {
+    "id": "2",
+    "title": "pages",
+    "fields": []
+  }]
+}
