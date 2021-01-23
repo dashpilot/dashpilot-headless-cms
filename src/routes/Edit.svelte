@@ -2,12 +2,9 @@
 import { beforeUpdate, afterUpdate, onDestroy } from 'svelte';
 
 onDestroy(() => {
-
-console.log('destroy called');
     if(window.easyMDE !== null && typeof window.easyMDE !== 'undefined'){
       window.easyMDE.toTextArea();
       window.easyMDE = null;
-      console.log('destroyed');
     }
 });
 

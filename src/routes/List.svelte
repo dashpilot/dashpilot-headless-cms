@@ -3,6 +3,8 @@ export let params;
 export let data;
 let cat = false;
 let items = false;
+let addColl = false;
+let error = false;
 
 $: if (params.cat) {
 cat = params.cat;
@@ -18,21 +20,55 @@ if(cat in data){
 }
 
 function addItem(){
+  if(cat=='collections'){
+    addColl = true;
+  }else{
   let newItem = {}
   newItem.id = Date.now();
   newItem.title = "untitled";
-  if(cat=='collections'){
-    newItem.fields = [];
-  }else{
-    newItem.slug = "";
-  }
+  newItem.slug = "";
+
   data[cat].push(newItem);
   if(cat=='collections'){
-    window.location = "/#/collections/"+newItem.id;
+
   }else{
     window.location = "/#/edit/"+cat+"/"+newItem.id;
   }
+  }
 
+}
+
+function saveCollection(){
+  let val = slugifyTitle();
+  if(val.length<3){
+    error = "Collection name should be at least 3 characters long"
+  }else if(val in data){
+    error = "Collection already exists"
+  }else{
+    let newItem = {};
+    newItem.id = Date.now();
+    newItem.title = pluralize.plural(val);
+    newItem.singular = pluralize.singular(val);
+    newItem.fields = [];
+    data.collections.push(newItem);
+    data[val] = [];
+    window.renderData(data);
+    window.location = "/#/collections/"+newItem.id;
+  }
+}
+
+function slugifyTitle()
+{
+  let collTitle = document.querySelector('#coll-title');
+  let val = collTitle.value;
+  let slug = val.toString().toLowerCase()
+    .replace(/\s+/g, '_')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+    .replace(/\-\-+/g, '_')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
+  collTitle.value = slug;
+  return slug;
 }
 </script>
 
@@ -58,3 +94,36 @@ function addItem(){
 {/each}
 </ul>
 </div>
+
+{#if addColl}
+<div class="backdrop">
+
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Collection</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" on:click="{() => addColl = false}">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+{#if error}
+<div class="alert alert-danger">{error}</div>
+{/if}
+
+
+  <b>Collection Name</b>
+      <input type="text" class="form-control" on:keyup="{() => slugifyTitle()}" id="coll-title" />
+          <div class="description-sub">Plural, lowercase, no spaces (e.g. 'entries', 'pages')</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" on:click="{saveCollection}">Add Collection</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+{/if}

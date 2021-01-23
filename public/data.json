@@ -29,6 +29,7 @@
   "collections": [{
     "id": "1",
     "title": "entries",
+    "singular": "entry",
     "fields": [{
       "title": "body",
       "description": "This editor uses Markdown",
@@ -41,6 +42,7 @@
   }, {
     "id": "2",
     "title": "pages",
+    "singular": "page",
     "fields": []
   }]
 }

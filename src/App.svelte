@@ -1,6 +1,10 @@
+<svelte:head>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pluralize/8.0.0/pluralize.min.js"></script>
+</svelte:head>
+
 <script>
 import { onMount } from 'svelte';
-import { SvelteToast } from '@zerodevx/svelte-toast'
 import Router from 'svelte-spa-router'
 import {wrap} from 'svelte-spa-router/wrap'
 
@@ -96,5 +100,5 @@ window.renderData = function(mydata){
 </div>
 </div>
 
-<SvelteToast />
+
 	{/if}

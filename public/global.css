@@ -112,6 +112,12 @@ select.form-control {
 	margin-top: -5px;
 }
 
+.description-sub{
+	color: #999;
+	margin-bottom: 5px;
+	margin-top: -18px;
+}
+
 i.bi{
 	width: 1em;
 height: 1em;
@@ -119,7 +125,15 @@ vertical-align: .2em;
 margin-right: 3px;
 }
 
-:root {
-  --toastContainerTop: 5px;
-  --toastContainerRight: 5px;
+.modal{
+	display: block;
+}
+
+.backdrop{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
 }

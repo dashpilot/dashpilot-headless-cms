@@ -1,6 +1,4 @@
 <script>
-import { toast } from '@zerodevx/svelte-toast'
-
 export let params;
 export let data;
 let cat = false;
@@ -15,19 +13,13 @@ $: if (params.id) {
   cat = 'collections';
   id = params.id;
   item = data[cat].filter(x => x.id == id)[0];
-  if(!item){ // not found, redirect
-    window.location = "/";
-  }
   index = data[cat].findIndex(x => x.id == id);
   collection = data.collections.filter(x => x.title == cat)[0];
   title = data.collections[index].title;
 }
 
 function save(){
-  if(checkLength('title')){
-    window.renderData(data);
     alert(JSON.stringify(data));
-  }
 }
 
 function addField(){
@@ -47,20 +39,6 @@ function deleteField(title){
   }
 }
 
-function slugifyTitle(key)
-{
-
-  let slug = data.collections[index][key].toString().toLowerCase()
-    .replace(/\s+/g, '_')           // Replace spaces with -
-    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-    .replace(/\-\-+/g, '_')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
-
-  data.collections[index][key] = slug;
-  data = data;
-}
-
 function slugifyFieldTitle(i)
 {
   let slug = data.collections[index].fields[i].title.toString().toLowerCase()
@@ -74,20 +52,6 @@ function slugifyFieldTitle(i)
   data = data;
 }
 
-function checkLength(key){
-  if(data.collections[index][key].length < 3){
-    toast.push('Title should be a least 3 characters long',{
-      theme: {
-        '--toastBackground': '#F56565',
-        '--toastProgressBackground': '#C53030',
-        '--toastWidth': '22em',
-      }
-    })
-    return false;
-  }else{
-    return true;
-  }
-}
 </script>
 
 
@@ -102,21 +66,10 @@ function checkLength(key){
 
 <div class="content">
 
-<!--
-<button on:click={() => toast.push('Hello world!',{
-  theme: {
-    '--toastBackground': '#ECC94B',
-    '--toastProgressBackground': '#B7791F'
-  }
-})}>EMIT TOAST</button>
--->
     <b>Title</b>
-    {#if title in data}
+
     <div class="mb-3" style="margin-top: -5px;">{data.collections[index].title}</div>
-    {:else}
-    <div class="description">Plural, lowercase, no spaces (e.g. 'entries', 'pages')</div>
-    <input type="text" class="form-control" bind:value={data.collections[index].title} on:keyup="{() => slugifyTitle('title')}" on:blur="{() => checkLength('title')}" />
-    {/if}
+
 
 <div class="row">
   <div class="col-6">
