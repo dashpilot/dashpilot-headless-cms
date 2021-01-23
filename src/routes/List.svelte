@@ -25,15 +25,12 @@ function addItem(){
   }else{
   let newItem = {}
   newItem.id = Date.now();
-  newItem.title = "untitled";
+  newItem.title = "";
   newItem.slug = "";
 
-  data[cat].push(newItem);
-  if(cat=='collections'){
+  data[cat].unshift(newItem);
+  window.location = "/#/edit/"+cat+"/"+newItem.id;
 
-  }else{
-    window.location = "/#/edit/"+cat+"/"+newItem.id;
-  }
   }
 
 }
@@ -88,7 +85,7 @@ function slugifyTitle()
   {#if cat == 'collections'}
   <a href="/#/collections/{item.id}">{item.title}</a>
   {:else}
-  <a href="/#/edit/{cat}/{item.id}">{item.title}</a>
+  <a href="/#/edit/{cat}/{item.id}">{#if item.title==''}Untitled{:else}{item.title}{/if}</a>
   {/if}
   </li>
 {/each}

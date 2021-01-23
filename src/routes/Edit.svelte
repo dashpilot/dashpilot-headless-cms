@@ -1,13 +1,5 @@
 <script>
-import { beforeUpdate, afterUpdate, onDestroy } from 'svelte';
-
-onDestroy(() => {
-    if(window.easyMDE !== null && typeof window.easyMDE !== 'undefined'){
-      window.easyMDE.toTextArea();
-      window.easyMDE = null;
-    }
-});
-
+import Mde from "../widgets/Mde.svelte"
 export let params;
 export let data;
 let cat = false;
@@ -60,14 +52,13 @@ function save(){
   <input type="text" class="form-control" bind:value="{data[cat][index][field.title]}" />
   {/if}
 
-  {#if field.type=='mde'}
-  <textarea id="my-text-area">{data[cat][index][field.title]}</textarea>
-    <script>
-    window.easyMDE = new EasyMDE({element: document.getElementById('my-text-area')});
-    </script>
+  {#if field.type=='txta'}
+  <textarea class="form-control" bind:value="{data[cat][index][field.title]}" on:change="{() => data[cat][index][field.title] = this.value}"></textarea>
   {/if}
 
-
+  {#if field.type=='mde'}
+  <Mde bind:html={data[cat][index][field.title]} />
+  {/if}
 
   {/each}
 
