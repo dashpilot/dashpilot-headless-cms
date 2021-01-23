@@ -37,7 +37,7 @@ function save(){
 
 <div class="row topnav">
 <div class="col-6">
-<h4>Edit {pluralize.singular(collection.title)}</h4>
+<h4>Edit {collection.singular}</h4>
 </div>
 <div class="col-6 text-right">
 <button class="btn btn-dark btn-add" on:click="{save}">Save</button>

@@ -79,7 +79,7 @@ window.renderData = function(mydata){
 <div id="collections-nav">
 	{#each data.collections as item}
 	{#if item.title !== 'collections'}
-	<a href="/#/list/{item.title}" class:selected="{current === item}"
+	<a href="/#/list/{item.title}" class:selected="{current === item.title}"
 	on:click="{() => current = item.title}">{item.title}</a>
 	{/if}
 	{/each}
