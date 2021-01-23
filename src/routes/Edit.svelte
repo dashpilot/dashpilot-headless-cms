@@ -1,5 +1,6 @@
 <script>
-import Mde from "../widgets/Mde.svelte"
+import Markdown from "../widgets/Markdown.svelte"
+import Textarea from "../widgets/Textarea.svelte"
 export let params;
 export let data;
 let cat = false;
@@ -53,11 +54,11 @@ function save(){
   {/if}
 
   {#if field.type=='txta'}
-  <textarea class="form-control" bind:value="{data[cat][index][field.title]}" on:change="{() => data[cat][index][field.title] = this.value}"></textarea>
+  <Textarea bind:val={data[cat][index][field.title]} />
   {/if}
 
   {#if field.type=='mde'}
-  <Mde bind:html={data[cat][index][field.title]} />
+  <Markdown bind:key={field.title} bind:html={data[cat][index][field.title]} />
   {/if}
 
   {/each}

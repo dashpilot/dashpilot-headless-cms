@@ -1,20 +1,22 @@
 <script>
 import { onMount, onDestroy } from 'svelte';
+export let key;
 export let html;
-
-onDestroy(() => {
-    if(window.easyMDE !== null && typeof window.easyMDE !== 'undefined'){
-      window.easyMDE.toTextArea();
-      window.easyMDE = null;
-    }
-});
+let easyMDE = false;
 
 onMount(() => {
-  window.easyMDE = new EasyMDE({element: document.getElementById('my-mde')});
+  easyMDE = new EasyMDE({element: document.getElementById('mde-'+key)});
   easyMDE.codemirror.on("change", function(){
     // console.log(easyMDE.value());
     html = easyMDE.value();
   });
+});
+
+onDestroy(() => {
+    if(easyMDE && easyMDE !== null && typeof easyMDE !== 'undefined'){
+      easyMDE.toTextArea();
+      easyMDE = null;
+    }
 });
 
 function defined(val){
@@ -25,4 +27,4 @@ function defined(val){
 }
 </script>
 
-<textarea id="my-mde">{defined(html)}</textarea>
+<textarea id="mde-{key}">{defined(html)}</textarea>

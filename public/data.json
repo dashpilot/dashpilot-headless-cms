@@ -37,7 +37,7 @@
     }, {
       "title": "description",
       "description": "",
-      "type": "txt"
+      "type": "mde"
     }]
   }, {
     "id": "2",
