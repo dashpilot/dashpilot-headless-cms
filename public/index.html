@@ -17,6 +17,20 @@
 	<link rel='stylesheet' href='/build/bundle.css'>
 
 	<script defer src='/build/bundle.js'></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/magic-sdk/dist/magic.js"></script>
+	<script>
+		const key = "pk_test_E90FA292AE61C345";
+		const magic = new Magic(key);
+		const checkLoggedIn = async () => {
+			const isLoggedIn = await magic.user.isLoggedIn();
+			const token = await magic.user.getIdToken();
+			console.log(isLoggedIn);
+			// console.log(token);
+		}
+		checkLoggedIn();
+	</script>
+
 </head>
 
 <body>
