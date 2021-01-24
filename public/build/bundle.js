@@ -1753,7 +1753,7 @@ var app = (function () {
     			a = element("a");
     			if_block.c();
     			attr_dev(a, "href", a_href_value = "/#/edit/" + /*cat*/ ctx[0] + "/" + /*item*/ ctx[12].id);
-    			add_location(a, file$1, 97, 2, 2254);
+    			add_location(a, file$1, 97, 2, 2280);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1805,7 +1805,7 @@ var app = (function () {
     			a = element("a");
     			t = text(t_value);
     			attr_dev(a, "href", a_href_value = "/#/collections/" + /*item*/ ctx[12].id);
-    			add_location(a, file$1, 95, 2, 2190);
+    			add_location(a, file$1, 95, 2, 2216);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -1909,9 +1909,9 @@ var app = (function () {
     			button = element("button");
     			i = element("i");
     			attr_dev(i, "class", "bi bi-trash");
-    			add_location(i, file$1, 102, 83, 2508);
+    			add_location(i, file$1, 102, 83, 2534);
     			attr_dev(button, "class", "btn btn-outline-secondary");
-    			add_location(button, file$1, 102, 2, 2427);
+    			add_location(button, file$1, 102, 2, 2453);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -1971,10 +1971,10 @@ var app = (function () {
     			div1 = element("div");
     			if (if_block1) if_block1.c();
     			t1 = space();
-    			attr_dev(div0, "class", "col-6 text-truncate");
+    			attr_dev(div0, "class", "col-6 text-truncate d-flex align-items-center");
     			add_location(div0, file$1, 93, 2, 2125);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$1, 100, 2, 2364);
+    			add_location(div1, file$1, 100, 2, 2390);
     			attr_dev(div2, "class", "row");
     			add_location(div2, file$1, 92, 2, 2105);
     			attr_dev(li, "class", "list-group-item");
@@ -2089,41 +2089,41 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Add Collection";
     			attr_dev(h5, "class", "modal-title");
-    			add_location(h5, file$1, 118, 8, 2805);
+    			add_location(h5, file$1, 118, 8, 2831);
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$1, 120, 10, 2944);
+    			add_location(span, file$1, 120, 10, 2970);
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "close");
     			attr_dev(button0, "data-dismiss", "modal");
     			attr_dev(button0, "aria-label", "Close");
-    			add_location(button0, file$1, 119, 8, 2857);
+    			add_location(button0, file$1, 119, 8, 2883);
     			attr_dev(div0, "class", "modal-header");
-    			add_location(div0, file$1, 117, 6, 2770);
-    			add_location(b, file$1, 130, 2, 3150);
+    			add_location(div0, file$1, 117, 6, 2796);
+    			add_location(b, file$1, 130, 2, 3176);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
     			attr_dev(input, "id", "coll-title");
-    			add_location(input, file$1, 131, 6, 3179);
+    			add_location(input, file$1, 131, 6, 3205);
     			attr_dev(div1, "class", "description-sub");
-    			add_location(div1, file$1, 132, 10, 3282);
+    			add_location(div1, file$1, 132, 10, 3308);
     			attr_dev(div2, "class", "modal-body");
-    			add_location(div2, file$1, 123, 6, 3056);
+    			add_location(div2, file$1, 123, 6, 3082);
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary");
-    			add_location(button1, file$1, 135, 8, 3426);
+    			add_location(button1, file$1, 135, 8, 3452);
     			attr_dev(div3, "class", "modal-footer");
-    			add_location(div3, file$1, 134, 6, 3391);
+    			add_location(div3, file$1, 134, 6, 3417);
     			attr_dev(div4, "class", "modal-content");
-    			add_location(div4, file$1, 116, 4, 2736);
+    			add_location(div4, file$1, 116, 4, 2762);
     			attr_dev(div5, "class", "modal-dialog");
     			attr_dev(div5, "role", "document");
-    			add_location(div5, file$1, 115, 2, 2689);
+    			add_location(div5, file$1, 115, 2, 2715);
     			attr_dev(div6, "class", "modal");
     			attr_dev(div6, "tabindex", "-1");
     			attr_dev(div6, "role", "dialog");
-    			add_location(div6, file$1, 114, 0, 2639);
+    			add_location(div6, file$1, 114, 0, 2665);
     			attr_dev(div7, "class", "backdrop");
-    			add_location(div7, file$1, 112, 0, 2615);
+    			add_location(div7, file$1, 112, 0, 2641);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div7, anchor);
@@ -2201,7 +2201,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[3]);
     			attr_dev(div, "class", "alert alert-danger");
-    			add_location(div, file$1, 126, 0, 3094);
+    			add_location(div, file$1, 126, 0, 3120);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);

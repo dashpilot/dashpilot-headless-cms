@@ -91,7 +91,7 @@ function slugifyTitle()
 {#each items as item}
   <li class="list-group-item">
   <div class="row">
-  <div class="col-6 text-truncate">
+  <div class="col-6 text-truncate d-flex align-items-center">
   {#if cat == 'collections'}
   <a href="/#/collections/{item.id}">{item.title}</a>
   {:else}
