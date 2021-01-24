@@ -35,6 +35,14 @@ function addItem(){
 
 }
 
+function deleteItem(id){
+  let result = confirm("Are you sure you want to delete this item?");
+  if(result){
+    data[cat] = data[cat].filter(x => x.id !== id)
+    data = data;
+  }
+}
+
 function saveCollection(){
   let val = slugifyTitle();
   if(val.length<3){
@@ -82,11 +90,20 @@ function slugifyTitle()
 <ul class="list-group entries-list">
 {#each items as item}
   <li class="list-group-item">
+  <div class="row">
+  <div class="col-6">
   {#if cat == 'collections'}
   <a href="/#/collections/{item.id}">{item.title}</a>
   {:else}
   <a href="/#/edit/{cat}/{item.id}">{#if item.title==''}Untitled{:else}{item.title}{/if}</a>
   {/if}
+  </div>
+  <div class="col-6 text-right">
+  {#if cat !== 'collections'}
+  <button class="btn btn-outline-secondary" on:click="{() => deleteItem(item.id)}"><i class="bi bi-trash"></i></button>
+  {/if}
+  </div>
+  </div>
   </li>
 {/each}
 </ul>

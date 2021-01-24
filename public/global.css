@@ -120,10 +120,18 @@ select.form-control {
 
 i.bi{
 	width: 1em;
-height: 1em;
-vertical-align: .2em;
-margin-right: 3px;
+	height: 1em;
+	vertical-align: .2em;
+	margin-right: 3px;
 }
+
+ i.bi-trash{
+	 display: block;
+	 width: 1em;
+ 	 height: 1.6em;
+	 margin-right: 0px;
+	 margin-top: -2px;
+ }
 
 .modal{
 	display: block;
