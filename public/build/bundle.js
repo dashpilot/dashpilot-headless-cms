@@ -2833,13 +2833,13 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
-    	child_ctx[15] = list;
-    	child_ctx[16] = i;
+    	child_ctx[15] = list[i];
+    	child_ctx[16] = list;
+    	child_ctx[17] = i;
     	return child_ctx;
     }
 
-    // (28:0) {#if collection}
+    // (44:0) {#if collection}
     function create_if_block$2(ctx) {
     	let div2;
     	let div0;
@@ -2894,21 +2894,21 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h4, file$4, 32, 0, 608);
+    			add_location(h4, file$4, 48, 0, 1215);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$4, 31, 0, 588);
+    			add_location(div0, file$4, 47, 0, 1195);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$4, 35, 0, 682);
+    			add_location(button, file$4, 51, 0, 1289);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$4, 34, 0, 651);
+    			add_location(div1, file$4, 50, 0, 1258);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$4, 30, 0, 563);
-    			add_location(b, file$4, 41, 0, 789);
+    			add_location(div2, file$4, 46, 0, 1170);
+    			add_location(b, file$4, 57, 0, 1396);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$4, 42, 2, 804);
+    			add_location(input, file$4, 58, 2, 1411);
     			attr_dev(div3, "class", "content");
-    			add_location(div3, file$4, 39, 0, 766);
+    			add_location(div3, file$4, 55, 0, 1373);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -3009,17 +3009,17 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(28:0) {#if collection}",
+    		source: "(44:0) {#if collection}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (48:2) {#if field.description}
+    // (64:2) {#if field.description}
     function create_if_block_4$1(ctx) {
     	let div;
-    	let t_value = /*field*/ ctx[14].description + "";
+    	let t_value = /*field*/ ctx[15].description + "";
     	let t;
 
     	const block = {
@@ -3027,14 +3027,14 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "description");
-    			add_location(div, file$4, 48, 2, 975);
+    			add_location(div, file$4, 64, 2, 1582);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*collection*/ 8 && t_value !== (t_value = /*field*/ ctx[14].description + "")) set_data_dev(t, t_value);
+    			if (dirty & /*collection*/ 8 && t_value !== (t_value = /*field*/ ctx[15].description + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -3045,21 +3045,21 @@ var app = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(48:2) {#if field.description}",
+    		source: "(64:2) {#if field.description}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (52:2) {#if field.type=='txt'}
+    // (68:2) {#if field.type=='txt'}
     function create_if_block_3$1(ctx) {
     	let input;
     	let mounted;
     	let dispose;
 
     	function input_input_handler_1() {
-    		/*input_input_handler_1*/ ctx[8].call(input, /*field*/ ctx[14]);
+    		/*input_input_handler_1*/ ctx[8].call(input, /*field*/ ctx[15]);
     	}
 
     	const block = {
@@ -3067,11 +3067,11 @@ var app = (function () {
     			input = element("input");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$4, 52, 2, 1063);
+    			add_location(input, file$4, 68, 2, 1670);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
-    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title]);
+    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title]);
 
     			if (!mounted) {
     				dispose = listen_dev(input, "input", input_input_handler_1);
@@ -3081,8 +3081,8 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*data, cat, index, collection*/ 15 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title]) {
-    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title]);
+    			if (dirty & /*data, cat, index, collection*/ 15 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title]) {
+    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title]);
     			}
     		},
     		d: function destroy(detaching) {
@@ -3096,27 +3096,27 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(52:2) {#if field.type=='txt'}",
+    		source: "(68:2) {#if field.type=='txt'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (56:2) {#if field.type=='txta'}
+    // (72:2) {#if field.type=='txta'}
     function create_if_block_2$1(ctx) {
     	let textarea;
     	let updating_val;
     	let current;
 
     	function textarea_val_binding(value) {
-    		/*textarea_val_binding*/ ctx[9].call(null, value, /*field*/ ctx[14]);
+    		/*textarea_val_binding*/ ctx[9].call(null, value, /*field*/ ctx[15]);
     	}
 
     	let textarea_props = {};
 
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title] !== void 0) {
-    		textarea_props.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title];
+    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title] !== void 0) {
+    		textarea_props.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title];
     	}
 
     	textarea = new Textarea({ props: textarea_props, $$inline: true });
@@ -3136,7 +3136,7 @@ var app = (function () {
 
     			if (!updating_val && dirty & /*data, cat, index, collection*/ 15) {
     				updating_val = true;
-    				textarea_changes.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title];
+    				textarea_changes.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title];
     				add_flush_callback(() => updating_val = false);
     			}
 
@@ -3160,14 +3160,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$1.name,
     		type: "if",
-    		source: "(56:2) {#if field.type=='txta'}",
+    		source: "(72:2) {#if field.type=='txta'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (60:2) {#if field.type=='mde'}
+    // (76:2) {#if field.type=='mde'}
     function create_if_block_1$1(ctx) {
     	let markdown;
     	let updating_key;
@@ -3175,21 +3175,21 @@ var app = (function () {
     	let current;
 
     	function markdown_key_binding(value) {
-    		/*markdown_key_binding*/ ctx[10].call(null, value, /*field*/ ctx[14]);
+    		/*markdown_key_binding*/ ctx[10].call(null, value, /*field*/ ctx[15]);
     	}
 
     	function markdown_html_binding(value) {
-    		/*markdown_html_binding*/ ctx[11].call(null, value, /*field*/ ctx[14]);
+    		/*markdown_html_binding*/ ctx[11].call(null, value, /*field*/ ctx[15]);
     	}
 
     	let markdown_props = {};
 
-    	if (/*field*/ ctx[14].title !== void 0) {
-    		markdown_props.key = /*field*/ ctx[14].title;
+    	if (/*field*/ ctx[15].title !== void 0) {
+    		markdown_props.key = /*field*/ ctx[15].title;
     	}
 
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title] !== void 0) {
-    		markdown_props.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title];
+    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title] !== void 0) {
+    		markdown_props.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title];
     	}
 
     	markdown = new Markdown({ props: markdown_props, $$inline: true });
@@ -3210,13 +3210,13 @@ var app = (function () {
 
     			if (!updating_key && dirty & /*collection*/ 8) {
     				updating_key = true;
-    				markdown_changes.key = /*field*/ ctx[14].title;
+    				markdown_changes.key = /*field*/ ctx[15].title;
     				add_flush_callback(() => updating_key = false);
     			}
 
     			if (!updating_html && dirty & /*data, cat, index, collection*/ 15) {
     				updating_html = true;
-    				markdown_changes.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[14].title];
+    				markdown_changes.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title];
     				add_flush_callback(() => updating_html = false);
     			}
 
@@ -3240,17 +3240,17 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(60:2) {#if field.type=='mde'}",
+    		source: "(76:2) {#if field.type=='mde'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (45:2) {#each collection.fields as field}
+    // (61:2) {#each collection.fields as field}
     function create_each_block$1(ctx) {
     	let b;
-    	let t0_value = /*field*/ ctx[14].title + "";
+    	let t0_value = /*field*/ ctx[15].title + "";
     	let t0;
     	let t1;
     	let t2;
@@ -3258,10 +3258,10 @@ var app = (function () {
     	let t4;
     	let if_block3_anchor;
     	let current;
-    	let if_block0 = /*field*/ ctx[14].description && create_if_block_4$1(ctx);
-    	let if_block1 = /*field*/ ctx[14].type == "txt" && create_if_block_3$1(ctx);
-    	let if_block2 = /*field*/ ctx[14].type == "txta" && create_if_block_2$1(ctx);
-    	let if_block3 = /*field*/ ctx[14].type == "mde" && create_if_block_1$1(ctx);
+    	let if_block0 = /*field*/ ctx[15].description && create_if_block_4$1(ctx);
+    	let if_block1 = /*field*/ ctx[15].type == "txt" && create_if_block_3$1(ctx);
+    	let if_block2 = /*field*/ ctx[15].type == "txta" && create_if_block_2$1(ctx);
+    	let if_block3 = /*field*/ ctx[15].type == "mde" && create_if_block_1$1(ctx);
 
     	const block = {
     		c: function create() {
@@ -3276,7 +3276,7 @@ var app = (function () {
     			t4 = space();
     			if (if_block3) if_block3.c();
     			if_block3_anchor = empty();
-    			add_location(b, file$4, 46, 2, 926);
+    			add_location(b, file$4, 62, 2, 1533);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, b, anchor);
@@ -3293,9 +3293,9 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if ((!current || dirty & /*collection*/ 8) && t0_value !== (t0_value = /*field*/ ctx[14].title + "")) set_data_dev(t0, t0_value);
+    			if ((!current || dirty & /*collection*/ 8) && t0_value !== (t0_value = /*field*/ ctx[15].title + "")) set_data_dev(t0, t0_value);
 
-    			if (/*field*/ ctx[14].description) {
+    			if (/*field*/ ctx[15].description) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
@@ -3308,7 +3308,7 @@ var app = (function () {
     				if_block0 = null;
     			}
 
-    			if (/*field*/ ctx[14].type == "txt") {
+    			if (/*field*/ ctx[15].type == "txt") {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
@@ -3321,7 +3321,7 @@ var app = (function () {
     				if_block1 = null;
     			}
 
-    			if (/*field*/ ctx[14].type == "txta") {
+    			if (/*field*/ ctx[15].type == "txta") {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
 
@@ -3344,7 +3344,7 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*field*/ ctx[14].type == "mde") {
+    			if (/*field*/ ctx[15].type == "mde") {
     				if (if_block3) {
     					if_block3.p(ctx, dirty);
 
@@ -3396,7 +3396,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(45:2) {#each collection.fields as field}",
+    		source: "(61:2) {#each collection.fields as field}",
     		ctx
     	});
 
@@ -3484,7 +3484,22 @@ var app = (function () {
     	let fields = {};
 
     	function save() {
+    		if (typeof data[cat][index].slug === "undefined" || data[cat][index].slug == "") {
+    			slugifyTitle();
+    		}
+
     		alert(JSON.stringify(data));
+    	}
+
+    	function slugifyTitle() {
+    		let slug = data[cat][index].title.toString().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, ""); // Replace spaces with -
+    		// Remove all non-word chars
+    		// Replace multiple - with single -
+    		// Trim - from start of text
+    		// Trim - from end of text
+
+    		$$invalidate(0, data[cat][index].slug = slug + "-" + Math.floor(Math.random() * 999), data);
+    		$$invalidate(0, data);
     	}
 
     	const writable_props = ["params", "data"];
@@ -3539,7 +3554,8 @@ var app = (function () {
     		index,
     		collection,
     		fields,
-    		save
+    		save,
+    		slugifyTitle
     	});
 
     	$$self.$inject_state = $$props => {

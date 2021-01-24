@@ -20,7 +20,23 @@ collection = data.collections.filter(x => x.title == cat)[0];
 }
 
 function save(){
+  if(typeof data[cat][index].slug === 'undefined' || data[cat][index].slug == ''){
+    slugifyTitle();
+  }
   alert(JSON.stringify(data));
+}
+
+function slugifyTitle()
+{
+  let slug = data[cat][index].title.toString().toLowerCase()
+    .replace(/\s+/g, '-')           // Replace spaces with -
+    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+    .replace(/^-+/, '')             // Trim - from start of text
+    .replace(/-+$/, '');            // Trim - from end of text
+
+  data[cat][index].slug = slug+'-'+Math.floor(Math.random() * 999);
+  data = data;
 }
 
 </script>
