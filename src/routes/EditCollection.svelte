@@ -57,7 +57,7 @@ function slugifyFieldTitle(i)
 
 <div class="row topnav">
 <div class="col-6">
-<h4>Edit Collection: {data.collections[index].title}</h4>
+<h4><span class="medium-hide">Edit Collection:</span> {data.collections[index].title}</h4>
 </div>
 <div class="col-6 text-right">
 <button class="btn btn-dark btn-add" on:click="{save}">Save</button>
@@ -85,13 +85,8 @@ function slugifyFieldTitle(i)
 
     <li class="list-group-item">
     <div class="row">
-    <div class="col-md-4"><input type="text" class="form-control mb-0" value="title"  readonly/></div>
-    <div class="col-md-4"><div class="description mt-2">Each collection has a title field</div></div>
-    <div class="col-md-3">
-
-    </div>
-    <div class="col-md-1 text-right">
-
+    <div class="col-4"><input type="text" class="form-control mb-0" value="title"  readonly/></div>
+    <div class="col-8"><div class="description mt-2">Each collection has a title field</div></div>
     </div>
     </li>
 
@@ -100,9 +95,9 @@ function slugifyFieldTitle(i)
     {#each data.collections[index].fields as field, i}
       <li class="list-group-item">
       <div class="row">
-      <div class="col-md-4"><input type="text" class="form-control mb-0" bind:value="{field.title}" on:keyup="{() => slugifyFieldTitle(i)}" placeholder="field name" /></div>
-      <div class="col-md-4"><input type="text" class="form-control mb-0" bind:value="{field.description}" placeholder="field description (optional)" /></div>
-      <div class="col-md-3">
+      <div class="col-4"><input type="text" class="form-control mb-0" bind:value="{field.title}" on:keyup="{() => slugifyFieldTitle(i)}" placeholder="field name" /></div>
+      <div class="col-3"><input type="text" class="form-control mb-0" bind:value="{field.description}" placeholder="field description (optional)" /></div>
+      <div class="col-3">
       <select bind:value="{field.type}" class="form-control mb-0">
       <option value="txt">Text</option>
       <option value="txta">Textarea</option>
@@ -110,10 +105,11 @@ function slugifyFieldTitle(i)
       </select>
 
       </div>
-      <div class="col-md-1 text-right">
+      <div class="col-2 text-right">
       <button class="btn btn-outline-secondary" on:click="{() => deleteField(field.title)}">
       <i class="bi bi-trash"></i>
       </button>
+      </div>
       </div>
       </li>
     {/each}

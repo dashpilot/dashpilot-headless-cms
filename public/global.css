@@ -145,3 +145,33 @@ i.bi{
 	height: 100%;
 	background-color: rgba(0,0,0,0.5);
 }
+
+.small-hide, .medium-hide{
+	display: inline-block;
+}
+
+@media only screen and (max-width: 767px) {
+	.content{
+		padding: 0;
+		padding-top: 15px;
+	}
+	.page{
+		height: auto;
+	}
+	.topnav{
+		padding-left: 0;
+		padding-right: 0;
+	}
+	.side{
+		padding-bottom: 20px;
+	}
+	.medium-hide{
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.small-hide{
+		display: none;
+	}
+}

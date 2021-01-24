@@ -3642,17 +3642,13 @@ var app = (function () {
     function create_if_block$3(ctx) {
     	let ul;
     	let li;
-    	let div5;
+    	let div3;
     	let div0;
     	let input;
     	let t0;
     	let div2;
     	let div1;
     	let t2;
-    	let div3;
-    	let t3;
-    	let div4;
-    	let t4;
     	let each_value = /*data*/ ctx[0].collections[/*index*/ ctx[1]].fields;
     	validate_each_argument(each_value);
     	let each_blocks = [];
@@ -3665,7 +3661,7 @@ var app = (function () {
     		c: function create() {
     			ul = element("ul");
     			li = element("li");
-    			div5 = element("div");
+    			div3 = element("div");
     			div0 = element("div");
     			input = element("input");
     			t0 = space();
@@ -3673,10 +3669,6 @@ var app = (function () {
     			div1 = element("div");
     			div1.textContent = "Each collection has a title field";
     			t2 = space();
-    			div3 = element("div");
-    			t3 = space();
-    			div4 = element("div");
-    			t4 = space();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
@@ -3686,38 +3678,30 @@ var app = (function () {
     			attr_dev(input, "class", "form-control mb-0");
     			input.value = "title";
     			input.readOnly = true;
-    			add_location(input, file$5, 87, 26, 2147);
-    			attr_dev(div0, "class", "col-md-4");
-    			add_location(div0, file$5, 87, 4, 2125);
+    			add_location(input, file$5, 87, 23, 2177);
+    			attr_dev(div0, "class", "col-4");
+    			add_location(div0, file$5, 87, 4, 2158);
     			attr_dev(div1, "class", "description mt-2");
-    			add_location(div1, file$5, 88, 26, 2250);
-    			attr_dev(div2, "class", "col-md-4");
-    			add_location(div2, file$5, 88, 4, 2228);
-    			attr_dev(div3, "class", "col-md-3");
-    			add_location(div3, file$5, 89, 4, 2330);
-    			attr_dev(div4, "class", "col-md-1 text-right");
-    			add_location(div4, file$5, 92, 4, 2369);
-    			attr_dev(div5, "class", "row");
-    			add_location(div5, file$5, 86, 4, 2103);
+    			add_location(div1, file$5, 88, 23, 2277);
+    			attr_dev(div2, "class", "col-8");
+    			add_location(div2, file$5, 88, 4, 2258);
+    			attr_dev(div3, "class", "row");
+    			add_location(div3, file$5, 86, 4, 2136);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$5, 85, 4, 2070);
+    			add_location(li, file$5, 85, 4, 2103);
     			attr_dev(ul, "class", "list-group");
-    			add_location(ul, file$5, 82, 4, 2040);
+    			add_location(ul, file$5, 82, 4, 2073);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
     			append_dev(ul, li);
-    			append_dev(li, div5);
-    			append_dev(div5, div0);
+    			append_dev(li, div3);
+    			append_dev(div3, div0);
     			append_dev(div0, input);
-    			append_dev(div5, t0);
-    			append_dev(div5, div2);
+    			append_dev(div3, t0);
+    			append_dev(div3, div2);
     			append_dev(div2, div1);
-    			append_dev(div5, t2);
-    			append_dev(div5, div3);
-    			append_dev(div5, t3);
-    			append_dev(div5, div4);
-    			append_dev(ul, t4);
+    			append_dev(ul, t2);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(ul, null);
@@ -3765,7 +3749,7 @@ var app = (function () {
     	return block;
     }
 
-    // (100:4) {#each data.collections[index].fields as field, i}
+    // (95:4) {#each data.collections[index].fields as field, i}
     function create_each_block$2(ctx) {
     	let li;
     	let div4;
@@ -3834,39 +3818,39 @@ var app = (function () {
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control mb-0");
     			attr_dev(input0, "placeholder", "field name");
-    			add_location(input0, file$5, 102, 28, 2570);
-    			attr_dev(div0, "class", "col-md-4");
-    			add_location(div0, file$5, 102, 6, 2548);
+    			add_location(input0, file$5, 97, 25, 2516);
+    			attr_dev(div0, "class", "col-4");
+    			add_location(div0, file$5, 97, 6, 2497);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "class", "form-control mb-0");
     			attr_dev(input1, "placeholder", "field description (optional)");
-    			add_location(input1, file$5, 103, 28, 2744);
-    			attr_dev(div1, "class", "col-md-4");
-    			add_location(div1, file$5, 103, 6, 2722);
+    			add_location(input1, file$5, 98, 25, 2687);
+    			attr_dev(div1, "class", "col-3");
+    			add_location(div1, file$5, 98, 6, 2668);
     			option0.__value = "txt";
     			option0.value = option0.__value;
-    			add_location(option0, file$5, 106, 6, 2976);
+    			add_location(option0, file$5, 101, 6, 2916);
     			option1.__value = "txta";
     			option1.value = option1.__value;
-    			add_location(option1, file$5, 107, 6, 3016);
+    			add_location(option1, file$5, 102, 6, 2956);
     			option2.__value = "mde";
     			option2.value = option2.__value;
-    			add_location(option2, file$5, 108, 6, 3061);
+    			add_location(option2, file$5, 103, 6, 3001);
     			attr_dev(select, "class", "form-control mb-0");
     			if (/*field*/ ctx[18].type === void 0) add_render_callback(select_change_handler);
-    			add_location(select, file$5, 105, 6, 2909);
-    			attr_dev(div2, "class", "col-md-3");
-    			add_location(div2, file$5, 104, 6, 2880);
+    			add_location(select, file$5, 100, 6, 2849);
+    			attr_dev(div2, "class", "col-3");
+    			add_location(div2, file$5, 99, 6, 2823);
     			attr_dev(i_1, "class", "bi bi-trash");
-    			add_location(i_1, file$5, 114, 6, 3268);
+    			add_location(i_1, file$5, 109, 6, 3205);
     			attr_dev(button, "class", "btn btn-outline-secondary");
-    			add_location(button, file$5, 113, 6, 3175);
-    			attr_dev(div3, "class", "col-md-1 text-right");
-    			add_location(div3, file$5, 112, 6, 3135);
+    			add_location(button, file$5, 108, 6, 3112);
+    			attr_dev(div3, "class", "col-2 text-right");
+    			add_location(div3, file$5, 107, 6, 3075);
     			attr_dev(div4, "class", "row");
-    			add_location(div4, file$5, 101, 6, 2524);
+    			add_location(div4, file$5, 96, 6, 2473);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$5, 100, 6, 2489);
+    			add_location(li, file$5, 95, 6, 2438);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -3889,7 +3873,7 @@ var app = (function () {
     			append_dev(div4, div3);
     			append_dev(div3, button);
     			append_dev(button, i_1);
-    			append_dev(div4, t6);
+    			append_dev(li, t6);
 
     			if (!mounted) {
     				dispose = [
@@ -3929,7 +3913,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(100:4) {#each data.collections[index].fields as field, i}",
+    		source: "(95:4) {#each data.collections[index].fields as field, i}",
     		ctx
     	});
 
@@ -3940,25 +3924,26 @@ var app = (function () {
     	let div2;
     	let div0;
     	let h4;
-    	let t0;
-    	let t1_value = /*data*/ ctx[0].collections[/*index*/ ctx[1]].title + "";
+    	let span;
     	let t1;
+    	let t2_value = /*data*/ ctx[0].collections[/*index*/ ctx[1]].title + "";
     	let t2;
+    	let t3;
     	let div1;
     	let button0;
-    	let t4;
+    	let t5;
     	let div7;
     	let div6;
     	let div4;
     	let b;
-    	let t6;
+    	let t7;
     	let div3;
-    	let t8;
+    	let t9;
     	let div5;
     	let button1;
     	let i;
-    	let t9;
     	let t10;
+    	let t11;
     	let mounted;
     	let dispose;
     	let if_block = /*data*/ ctx[0].collections[/*index*/ ctx[1]].fields && create_if_block$3(ctx);
@@ -3968,52 +3953,56 @@ var app = (function () {
     			div2 = element("div");
     			div0 = element("div");
     			h4 = element("h4");
-    			t0 = text("Edit Collection: ");
-    			t1 = text(t1_value);
-    			t2 = space();
+    			span = element("span");
+    			span.textContent = "Edit Collection:";
+    			t1 = space();
+    			t2 = text(t2_value);
+    			t3 = space();
     			div1 = element("div");
     			button0 = element("button");
     			button0.textContent = "Save";
-    			t4 = space();
+    			t5 = space();
     			div7 = element("div");
     			div6 = element("div");
     			div4 = element("div");
     			b = element("b");
     			b.textContent = "Fields";
-    			t6 = space();
+    			t7 = space();
     			div3 = element("div");
     			div3.textContent = "Fields in this collection";
-    			t8 = space();
+    			t9 = space();
     			div5 = element("div");
     			button1 = element("button");
     			i = element("i");
-    			t9 = text(" Add Field");
-    			t10 = space();
+    			t10 = text(" Add Field");
+    			t11 = space();
     			if (if_block) if_block.c();
+    			attr_dev(span, "class", "medium-hide");
+    			add_location(span, file$5, 59, 4, 1479);
     			add_location(h4, file$5, 59, 0, 1475);
     			attr_dev(div0, "class", "col-6");
     			add_location(div0, file$5, 58, 0, 1455);
     			attr_dev(button0, "class", "btn btn-dark btn-add");
-    			add_location(button0, file$5, 62, 0, 1571);
+    			add_location(button0, file$5, 62, 0, 1604);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$5, 61, 0, 1540);
+    			add_location(div1, file$5, 61, 0, 1573);
     			attr_dev(div2, "class", "row topnav");
     			add_location(div2, file$5, 57, 0, 1430);
-    			add_location(b, file$5, 72, 4, 1724);
+    			add_location(b, file$5, 72, 4, 1757);
     			attr_dev(div3, "class", "description");
-    			add_location(div3, file$5, 73, 4, 1742);
+    			add_location(div3, file$5, 73, 4, 1775);
     			attr_dev(div4, "class", "col-6");
-    			add_location(div4, file$5, 71, 2, 1700);
+    			add_location(div4, file$5, 71, 2, 1733);
     			attr_dev(i, "class", "bi bi-plus-circle");
-    			add_location(i, file$5, 76, 83, 1924);
+    			add_location(i, file$5, 76, 83, 1957);
     			attr_dev(button1, "class", "btn btn-outline-dark btn-add float-right");
-    			add_location(button1, file$5, 76, 4, 1845);
+    			add_location(button1, file$5, 76, 4, 1878);
     			attr_dev(div5, "class", "col-6 text-right");
-    			add_location(div5, file$5, 75, 2, 1810);
+    			add_location(div5, file$5, 75, 2, 1843);
     			attr_dev(div6, "class", "row");
-    			add_location(div6, file$5, 70, 0, 1680);
+    			add_location(div6, file$5, 70, 0, 1713);
     			attr_dev(div7, "class", "content");
-    			add_location(div7, file$5, 66, 0, 1655);
+    			add_location(div7, file$5, 66, 0, 1688);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4022,24 +4011,25 @@ var app = (function () {
     			insert_dev(target, div2, anchor);
     			append_dev(div2, div0);
     			append_dev(div0, h4);
-    			append_dev(h4, t0);
+    			append_dev(h4, span);
     			append_dev(h4, t1);
-    			append_dev(div2, t2);
+    			append_dev(h4, t2);
+    			append_dev(div2, t3);
     			append_dev(div2, div1);
     			append_dev(div1, button0);
-    			insert_dev(target, t4, anchor);
+    			insert_dev(target, t5, anchor);
     			insert_dev(target, div7, anchor);
     			append_dev(div7, div6);
     			append_dev(div6, div4);
     			append_dev(div4, b);
-    			append_dev(div4, t6);
+    			append_dev(div4, t7);
     			append_dev(div4, div3);
-    			append_dev(div6, t8);
+    			append_dev(div6, t9);
     			append_dev(div6, div5);
     			append_dev(div5, button1);
     			append_dev(button1, i);
-    			append_dev(button1, t9);
-    			append_dev(div7, t10);
+    			append_dev(button1, t10);
+    			append_dev(div7, t11);
     			if (if_block) if_block.m(div7, null);
 
     			if (!mounted) {
@@ -4052,7 +4042,7 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*data, index*/ 3 && t1_value !== (t1_value = /*data*/ ctx[0].collections[/*index*/ ctx[1]].title + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*data, index*/ 3 && t2_value !== (t2_value = /*data*/ ctx[0].collections[/*index*/ ctx[1]].title + "")) set_data_dev(t2, t2_value);
 
     			if (/*data*/ ctx[0].collections[/*index*/ ctx[1]].fields) {
     				if (if_block) {
@@ -4071,7 +4061,7 @@ var app = (function () {
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div2);
-    			if (detaching) detach_dev(t4);
+    			if (detaching) detach_dev(t5);
     			if (detaching) detach_dev(div7);
     			if (if_block) if_block.d();
     			mounted = false;
