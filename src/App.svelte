@@ -15,15 +15,11 @@ import Edit from './routes/Edit.svelte'
 import EditCollection from './routes/EditCollection.svelte'
 import NotFound from './routes/NotFound.svelte'
 
-
 let data = false;
 let showApp = false;
 let routes = false;
 let current = false;
 let loading = true;
-
-
-
 
 onMount(async () => {
 
