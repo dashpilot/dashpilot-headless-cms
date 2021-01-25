@@ -4716,7 +4716,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (153:0) {:else}
+    // (149:0) {:else}
     function create_else_block$2(ctx) {
     	let div;
     	let img;
@@ -4743,21 +4743,21 @@ var app = (function () {
     			i1 = element("i");
     			t3 = text(" Sign In with Twitter");
     			if (img.src !== (img_src_value = "assets/img/rocket-planet.png")) attr_dev(img, "src", img_src_value);
-    			add_location(img, file$6, 154, 3, 3221);
+    			add_location(img, file$6, 150, 3, 3217);
     			attr_dev(i0, "class", "bi bi-google");
-    			add_location(i0, file$6, 155, 85, 3349);
+    			add_location(i0, file$6, 151, 92, 3352);
+    			attr_dev(button0, "id", "google-signin");
     			attr_dev(button0, "onclick", "login('google');");
     			attr_dev(button0, "class", "btn btn-outline-dark w-100");
-    			attr_dev(button0, "id", "log-in");
-    			add_location(button0, file$6, 155, 3, 3267);
+    			add_location(button0, file$6, 151, 3, 3263);
     			attr_dev(i1, "class", "bi bi-twitter");
-    			add_location(i1, file$6, 156, 90, 3497);
+    			add_location(i1, file$6, 152, 98, 3508);
+    			attr_dev(button1, "id", "twitter-signin");
     			attr_dev(button1, "onclick", "login('twitter');");
     			attr_dev(button1, "class", "btn btn-outline-dark w-100 mt-2");
-    			attr_dev(button1, "id", "log-in");
-    			add_location(button1, file$6, 156, 2, 3409);
+    			add_location(button1, file$6, 152, 2, 3412);
     			attr_dev(div, "id", "log-in-screen");
-    			add_location(div, file$6, 153, 1, 3193);
+    			add_location(div, file$6, 149, 1, 3189);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -4783,14 +4783,14 @@ var app = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(153:0) {:else}",
+    		source: "(149:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (120:25) 
+    // (116:25) 
     function create_if_block_1$3(ctx) {
     	let div6;
     	let div3;
@@ -4853,29 +4853,29 @@ var app = (function () {
     			create_component(router.$$.fragment);
     			if (img.src !== (img_src_value = "assets/img/rocketlogo.png")) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "id", "logo");
-    			add_location(img, file$6, 124, 86, 2562);
+    			add_location(img, file$6, 120, 86, 2558);
     			attr_dev(a0, "href", "/#/");
     			toggle_class(a0, "selected", /*current*/ ctx[2] === false);
-    			add_location(a0, file$6, 124, 0, 2476);
+    			add_location(a0, file$6, 120, 0, 2472);
     			attr_dev(div0, "id", "collections-nav");
-    			add_location(div0, file$6, 127, 0, 2640);
+    			add_location(div0, file$6, 123, 0, 2636);
     			attr_dev(a1, "href", "/#/list/collections");
     			toggle_class(a1, "selected", /*current*/ ctx[2] === "collections");
-    			add_location(a1, file$6, 135, 1, 2893);
+    			add_location(a1, file$6, 131, 1, 2889);
     			attr_dev(a2, "href", "#");
-    			add_location(a2, file$6, 137, 1, 3029);
+    			add_location(a2, file$6, 133, 1, 3025);
     			attr_dev(div1, "class", "side-nav");
-    			add_location(div1, file$6, 126, 0, 2617);
+    			add_location(div1, file$6, 122, 0, 2613);
     			attr_dev(div2, "class", "side");
-    			add_location(div2, file$6, 122, 0, 2456);
+    			add_location(div2, file$6, 118, 0, 2452);
     			attr_dev(div3, "class", "col-md-2");
-    			add_location(div3, file$6, 121, 0, 2433);
+    			add_location(div3, file$6, 117, 0, 2429);
     			attr_dev(div4, "class", "main");
-    			add_location(div4, file$6, 145, 0, 3121);
+    			add_location(div4, file$6, 141, 0, 3117);
     			attr_dev(div5, "class", "col-md-10");
-    			add_location(div5, file$6, 143, 0, 3096);
+    			add_location(div5, file$6, 139, 0, 3092);
     			attr_dev(div6, "class", "row no-gutters page");
-    			add_location(div6, file$6, 120, 0, 2383);
+    			add_location(div6, file$6, 116, 0, 2379);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div6, anchor);
@@ -4979,14 +4979,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$3.name,
     		type: "if",
-    		source: "(120:25) ",
+    		source: "(116:25) ",
     		ctx
     	});
 
     	return block;
     }
 
-    // (108:0) {#if loading}
+    // (104:0) {#if loading}
     function create_if_block$4(ctx) {
     	let div2;
     	let img;
@@ -5008,17 +5008,17 @@ var app = (function () {
     			span = element("span");
     			span.textContent = "Loading...";
     			if (img.src !== (img_src_value = "assets/img/rocket-planet.png")) attr_dev(img, "src", img_src_value);
-    			add_location(img, file$6, 111, 0, 2187);
+    			add_location(img, file$6, 107, 0, 2183);
     			attr_dev(div0, "class", "clear");
-    			add_location(div0, file$6, 112, 0, 2230);
+    			add_location(div0, file$6, 108, 0, 2226);
     			attr_dev(span, "class", "sr-only");
-    			add_location(span, file$6, 114, 2, 2301);
+    			add_location(span, file$6, 110, 2, 2297);
     			attr_dev(div1, "class", "spinner-border");
     			attr_dev(div1, "role", "status");
-    			add_location(div1, file$6, 113, 0, 2256);
+    			add_location(div1, file$6, 109, 0, 2252);
     			attr_dev(div2, "id", "loading");
     			attr_dev(div2, "class", "text-center");
-    			add_location(div2, file$6, 109, 0, 2147);
+    			add_location(div2, file$6, 105, 0, 2143);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -5041,14 +5041,14 @@ var app = (function () {
     		block,
     		id: create_if_block$4.name,
     		type: "if",
-    		source: "(108:0) {#if loading}",
+    		source: "(104:0) {#if loading}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (130:1) {#if item.title !== 'collections'}
+    // (126:1) {#if item.title !== 'collections'}
     function create_if_block_2$2(ctx) {
     	let a;
     	let t_value = /*item*/ ctx[9].title + "";
@@ -5067,7 +5067,7 @@ var app = (function () {
     			t = text(t_value);
     			attr_dev(a, "href", a_href_value = "/#/list/" + /*item*/ ctx[9].title);
     			toggle_class(a, "selected", /*current*/ ctx[2] === /*item*/ ctx[9].title);
-    			add_location(a, file$6, 130, 1, 2738);
+    			add_location(a, file$6, 126, 1, 2734);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -5101,14 +5101,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$2.name,
     		type: "if",
-    		source: "(130:1) {#if item.title !== 'collections'}",
+    		source: "(126:1) {#if item.title !== 'collections'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (129:1) {#each data.collections as item}
+    // (125:1) {#each data.collections as item}
     function create_each_block$3(ctx) {
     	let if_block_anchor;
     	let if_block = /*item*/ ctx[9].title !== "collections" && create_if_block_2$2(ctx);
@@ -5146,7 +5146,7 @@ var app = (function () {
     		block,
     		id: create_each_block$3.name,
     		type: "each",
-    		source: "(129:1) {#each data.collections as item}",
+    		source: "(125:1) {#each data.collections as item}",
     		ctx
     	});
 
