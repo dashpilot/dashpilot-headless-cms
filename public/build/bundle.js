@@ -4708,8 +4708,6 @@ var app = (function () {
     	let img_src_value;
     	let t0;
     	let button;
-    	let div_transition;
-    	let current;
 
     	const block = {
     		c: function create() {
@@ -4719,11 +4717,11 @@ var app = (function () {
     			button = element("button");
     			button.textContent = "Log In";
     			if (img.src !== (img_src_value = "assets/img/rocket-planet.png")) attr_dev(img, "src", img_src_value);
-    			add_location(img, file$6, 154, 3, 3212);
+    			add_location(img, file$6, 154, 3, 3196);
     			attr_dev(button, "onclick", "login();");
     			attr_dev(button, "class", "btn btn-outline-dark w-100");
     			attr_dev(button, "id", "log-in");
-    			add_location(button, file$6, 155, 3, 3258);
+    			add_location(button, file$6, 155, 3, 3242);
     			attr_dev(div, "id", "log-in-screen");
     			add_location(div, file$6, 153, 1, 3168);
     		},
@@ -4732,27 +4730,12 @@ var app = (function () {
     			append_dev(div, img);
     			append_dev(div, t0);
     			append_dev(div, button);
-    			current = true;
     		},
     		p: noop,
-    		i: function intro(local) {
-    			if (current) return;
-
-    			add_render_callback(() => {
-    				if (!div_transition) div_transition = create_bidirectional_transition(div, fade, {}, true);
-    				div_transition.run(1);
-    			});
-
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			if (!div_transition) div_transition = create_bidirectional_transition(div, fade, {}, false);
-    			div_transition.run(0);
-    			current = false;
-    		},
+    		i: noop,
+    		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
-    			if (detaching && div_transition) div_transition.end();
     		}
     	};
 

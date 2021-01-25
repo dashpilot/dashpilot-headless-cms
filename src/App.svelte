@@ -151,7 +151,7 @@ window.renderData = function(mydata){
 </div>
 
 {:else}
- <div id="log-in-screen" transition:fade>
+ <div id="log-in-screen">
  		<img src="assets/img/rocket-planet.png" />
  		<button onclick="login();" class="btn btn-outline-dark w-100" id="log-in">Log In</button>
  </div>
