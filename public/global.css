@@ -67,6 +67,30 @@ b{
 	margin-left: 25px;
 }
 
+#loading, #log-in-screen{
+	width: 150px;
+	margin: 0 auto;
+	padding-top: 50px;
+}
+
+#loading img, #log-in-screen img{
+	max-width: 100%;
+	margin-bottom: 10px;
+}
+
+#loading .spinner-border{
+	color: #5679FE;
+}
+
+#log-in{
+	border: 2px solid #5679FE;
+	color: #5679FE;
+}
+
+#log-in:hover{
+	background-color: white;
+}
+
 .main{
 	padding: 15px;
 	padding-top: 0;

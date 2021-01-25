@@ -23,7 +23,10 @@ function save(){
   if(typeof data[cat][index].slug === 'undefined' || data[cat][index].slug == ''){
     slugifyTitle();
   }
-  alert(JSON.stringify(data));
+  setData('github', 'data.json', 'json', data).then(function(result){
+    console.log('saved');
+  })
+  //alert(JSON.stringify(data));
 }
 
 function slugifyTitle()

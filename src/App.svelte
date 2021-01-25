@@ -4,6 +4,7 @@
 </svelte:head>
 
 <script>
+import { fade } from 'svelte/transition';
 import { onMount } from 'svelte';
 import Router from 'svelte-spa-router'
 import {wrap} from 'svelte-spa-router/wrap'
@@ -19,48 +20,84 @@ let data = false;
 let showApp = false;
 let routes = false;
 let current = false;
+let loading = true;
+
+
 
 
 onMount(async () => {
-	const res = await fetch(`data.json`);
-	data = await res.json();
 
-	routes = {
-	    // Exact path
-	    '/': wrap({
-	        component: Home,
-	        props: {
-	            data:data,
-	        }
-	    }),
+	firebase.auth().onAuthStateChanged(async function(user){
+		if (user) {
+			//console.log(user);
+			user.getIdToken().then(async function(idToken) {
+				console.log('Signed in');
+				const res = await fetch(`data.json`);
+				data = await res.json();
+				console.log(data);
 
-	    '/list/:cat': wrap({
-	        component: List,
-	        props: {
-	            data:data
-	        }
-	    }),
+				routes = {
+						// Exact path
+						'/': wrap({
+								component: Home,
+								props: {
+										data:data,
+								}
+						}),
 
-			'/edit/:cat/:id': wrap({
-	        component: Edit,
-	        props: {
-	            data:data
-	        }
-	    }),
+						'/list/:cat': wrap({
+								component: List,
+								props: {
+										data:data
+								}
+						}),
 
-			'/collections/:id': wrap({
-					component: EditCollection,
-					props: {
-							data:data
-					}
-			}),
+						'/edit/:cat/:id': wrap({
+								component: Edit,
+								props: {
+										data:data
+								}
+						}),
 
-	    // Catch-all
-	    // This is optional, but if present it must be the last
-	    '*': NotFound,
-	}
+						'/collections/:id': wrap({
+								component: EditCollection,
+								props: {
+										data:data
+								}
+						}),
+
+						// Catch-all
+						// This is optional, but if present it must be the last
+						'*': NotFound,
+				}
+
+				setTimeout(function(){
+					loading = false;
+				}, 1000)
+
+
+			});
+
+		} else {
+			console.log('User not signed in');
+			setTimeout(function(){
+				loading = false;
+			}, 1000)
+		}
+	});
 
 });
+
+function logout() {
+  firebase.auth().signOut().then(() => {
+    // Sign-out successful.
+    console.log('Signed out');
+		data = false;
+		routes = false;
+  }).catch((error) => {
+    console.log(error);
+  });
+}
 
 // allows force re-rendering
 window.renderData = function(mydata){
@@ -68,8 +105,20 @@ window.renderData = function(mydata){
 }
 </script>
 
-	{#if routes}
-<div class="row no-gutters page">
+{#if loading}
+
+<div id="loading" class="text-center">
+
+<img src="assets/img/rocket-planet.png" />
+
+<div class="spinner-border" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+
+</div>
+
+{:else if routes && data}
+<div class="row no-gutters page" transition:fade>
 <div class="col-md-2">
 <div class="side">
 
@@ -86,6 +135,7 @@ window.renderData = function(mydata){
 </div>
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
 	on:click="{() => current = 'collections'}">collections</a>
+	<a href="#" on:click="{logout}">Log Out</a>
 </div>
 
 </div>
@@ -100,5 +150,9 @@ window.renderData = function(mydata){
 </div>
 </div>
 
-
-	{/if}
+{:else}
+ <div id="log-in-screen" transition:fade>
+ 		<img src="assets/img/rocket-planet.png" />
+ 		<button onclick="login();" class="btn btn-outline-dark w-100" id="log-in">Log In</button>
+ </div>
+{/if}

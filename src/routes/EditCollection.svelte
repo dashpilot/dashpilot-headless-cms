@@ -19,7 +19,10 @@ $: if (params.id) {
 }
 
 function save(){
-    alert(JSON.stringify(data));
+  setData('github', 'data.json', 'json', data).then(function(result){
+    console.log('saved');
+  })
+  //alert(JSON.stringify(data));
 }
 
 function addField(){
