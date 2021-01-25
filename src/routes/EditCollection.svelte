@@ -8,6 +8,7 @@ let index = false;
 let collection = false;
 let fields = {};
 let title = '';
+let loading = false;
 
 $: if (params.id) {
   cat = 'collections';

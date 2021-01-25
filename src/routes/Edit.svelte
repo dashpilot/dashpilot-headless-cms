@@ -43,7 +43,6 @@ function save(){
     }
   });
 
-  //alert(JSON.stringify(data));
 }
 
 function slugifyTitle()

@@ -68,13 +68,14 @@ b{
 }
 
 #loading, #log-in-screen{
-	width: 150px;
+	width: 250px;
 	margin: 0 auto;
 	padding-top: 50px;
+	text-align: center;
 }
 
 #loading img, #log-in-screen img{
-	max-width: 100%;
+	max-width: 60%;
 	margin-bottom: 10px;
 }
 
@@ -89,6 +90,10 @@ b{
 
 #log-in:hover{
 	background-color: white;
+}
+
+.clear{
+	clear: both;
 }
 
 .main{

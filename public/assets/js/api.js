@@ -5,9 +5,15 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-var provider = new firebase.auth.GoogleAuthProvider();
 
-function login() {
+
+function login(service) {
+
+  if (service == 'google') {
+    var provider = new firebase.auth.GoogleAuthProvider();
+  } else if (service == 'twitter') {
+    var provider = new firebase.auth.TwitterAuthProvider();
+  }
 
   firebase
     .auth()
