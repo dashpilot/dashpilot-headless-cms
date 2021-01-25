@@ -149,7 +149,7 @@ window.renderData = function(mydata){
 {:else}
  <div id="log-in-screen">
  		<img src="assets/img/rocket-planet.png" />
- 		<button id="google-signin" onclick="login('google');" class="btn btn-outline-dark w-100"><i class="bi bi-google"></i> Sign In with Google</button>
-		<button id="twitter-signin" onclick="login('twitter');" class="btn btn-outline-dark w-100 mt-2"><i class="bi bi-twitter"></i> Sign In with Twitter</button>
+ 		<button id="google-signin" onclick="login('google');" class="btn btn-outline-dark w-100 btn-signin"><i class="bi bi-google"></i> Sign In with Google</button>
+		<button id="twitter-signin" onclick="login('twitter');" class="btn btn-outline-dark w-100 mt-2 btn-signin"><i class="bi bi-twitter"></i> Sign In with Twitter</button>
  </div>
 {/if}

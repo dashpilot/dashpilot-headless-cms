@@ -83,12 +83,14 @@ b{
 	color: #5679FE;
 }
 
-#log-in{
+.btn-signin{
 	border: 2px solid #5679FE;
 	color: #5679FE;
 }
 
-#log-in:hover{
+.btn-signin:hover{
+	border: 2px solid #5679FE;
+	color: #5679FE;
 	background-color: white;
 }
 

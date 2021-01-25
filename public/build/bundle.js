@@ -4745,17 +4745,17 @@ var app = (function () {
     			if (img.src !== (img_src_value = "assets/img/rocket-planet.png")) attr_dev(img, "src", img_src_value);
     			add_location(img, file$6, 150, 3, 3217);
     			attr_dev(i0, "class", "bi bi-google");
-    			add_location(i0, file$6, 151, 92, 3352);
+    			add_location(i0, file$6, 151, 103, 3363);
     			attr_dev(button0, "id", "google-signin");
     			attr_dev(button0, "onclick", "login('google');");
-    			attr_dev(button0, "class", "btn btn-outline-dark w-100");
+    			attr_dev(button0, "class", "btn btn-outline-dark w-100 btn-signin");
     			add_location(button0, file$6, 151, 3, 3263);
     			attr_dev(i1, "class", "bi bi-twitter");
-    			add_location(i1, file$6, 152, 98, 3508);
+    			add_location(i1, file$6, 152, 109, 3530);
     			attr_dev(button1, "id", "twitter-signin");
     			attr_dev(button1, "onclick", "login('twitter');");
-    			attr_dev(button1, "class", "btn btn-outline-dark w-100 mt-2");
-    			add_location(button1, file$6, 152, 2, 3412);
+    			attr_dev(button1, "class", "btn btn-outline-dark w-100 mt-2 btn-signin");
+    			add_location(button1, file$6, 152, 2, 3423);
     			attr_dev(div, "id", "log-in-screen");
     			add_location(div, file$6, 149, 1, 3189);
     		},
