@@ -28,22 +28,6 @@ function login() {
 
 }
 
-
-const setData = async function(service, path, type, content) {
-  let opts = {};
-  opts.path = path;
-  opts.type = type;
-  opts.content = content;
-  call_api(service + '/set-data', opts).then(function(res) {
-    if (res.ok) {
-      console.log('Saved to ' + service);
-    } else {
-      console.log('Error saving to ' + service);
-    }
-    return res;
-  });
-}
-
 const getData = async function(service, path) {
   let opts = {};
   opts.path = path;

@@ -3062,13 +3062,13 @@ var app = (function () {
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[15] = list[i];
-    	child_ctx[16] = list;
-    	child_ctx[17] = i;
+    	child_ctx[16] = list[i];
+    	child_ctx[17] = list;
+    	child_ctx[18] = i;
     	return child_ctx;
     }
 
-    // (47:0) {#if collection}
+    // (64:0) {#if collection}
     function create_if_block$2(ctx) {
     	let div2;
     	let div0;
@@ -3079,6 +3079,7 @@ var app = (function () {
     	let t2;
     	let div1;
     	let button;
+    	let t3;
     	let t4;
     	let div3;
     	let b;
@@ -3088,6 +3089,7 @@ var app = (function () {
     	let current;
     	let mounted;
     	let dispose;
+    	let if_block = /*loading*/ ctx[4] && create_if_block_5(ctx);
     	let each_value = /*collection*/ ctx[3].fields;
     	validate_each_argument(each_value);
     	let each_blocks = [];
@@ -3110,7 +3112,8 @@ var app = (function () {
     			t2 = space();
     			div1 = element("div");
     			button = element("button");
-    			button.textContent = "Save";
+    			if (if_block) if_block.c();
+    			t3 = text("  Save");
     			t4 = space();
     			div3 = element("div");
     			b = element("b");
@@ -3123,21 +3126,21 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h4, file$4, 51, 0, 1319);
+    			add_location(h4, file$4, 68, 0, 1605);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$4, 50, 0, 1299);
+    			add_location(div0, file$4, 67, 0, 1585);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$4, 54, 0, 1393);
+    			add_location(button, file$4, 71, 0, 1679);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$4, 53, 0, 1362);
+    			add_location(div1, file$4, 70, 0, 1648);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$4, 49, 0, 1274);
-    			add_location(b, file$4, 60, 0, 1500);
+    			add_location(div2, file$4, 66, 0, 1560);
+    			add_location(b, file$4, 77, 0, 1899);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$4, 61, 2, 1515);
+    			add_location(input, file$4, 78, 2, 1914);
     			attr_dev(div3, "class", "content");
-    			add_location(div3, file$4, 58, 0, 1477);
+    			add_location(div3, file$4, 75, 0, 1876);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -3148,6 +3151,8 @@ var app = (function () {
     			append_dev(div2, t2);
     			append_dev(div2, div1);
     			append_dev(div1, button);
+    			if (if_block) if_block.m(button, null);
+    			append_dev(button, t3);
     			insert_dev(target, t4, anchor);
     			insert_dev(target, div3, anchor);
     			append_dev(div3, b);
@@ -3164,8 +3169,8 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button, "click", /*save*/ ctx[4], false, false, false),
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[7])
+    					listen_dev(button, "click", /*save*/ ctx[5], false, false, false),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[8])
     				];
 
     				mounted = true;
@@ -3173,6 +3178,17 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if ((!current || dirty & /*collection*/ 8) && t1_value !== (t1_value = /*collection*/ ctx[3].singular + "")) set_data_dev(t1, t1_value);
+
+    			if (/*loading*/ ctx[4]) {
+    				if (if_block) ; else {
+    					if_block = create_if_block_5(ctx);
+    					if_block.c();
+    					if_block.m(button, t3);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
 
     			if (dirty & /*data, cat, index*/ 7 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].title) {
     				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].title);
@@ -3226,6 +3242,7 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div2);
+    			if (if_block) if_block.d();
     			if (detaching) detach_dev(t4);
     			if (detaching) detach_dev(div3);
     			destroy_each(each_blocks, detaching);
@@ -3238,17 +3255,48 @@ var app = (function () {
     		block,
     		id: create_if_block$2.name,
     		type: "if",
-    		source: "(47:0) {#if collection}",
+    		source: "(64:0) {#if collection}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (67:2) {#if field.description}
+    // (72:55) {#if loading}
+    function create_if_block_5(ctx) {
+    	let span;
+
+    	const block = {
+    		c: function create() {
+    			span = element("span");
+    			attr_dev(span, "class", "spinner-border spinner-border-sm");
+    			attr_dev(span, "role", "status");
+    			attr_dev(span, "aria-hidden", "true");
+    			add_location(span, file$4, 71, 68, 1747);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_5.name,
+    		type: "if",
+    		source: "(72:55) {#if loading}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (84:2) {#if field.description}
     function create_if_block_4$1(ctx) {
     	let div;
-    	let t_value = /*field*/ ctx[15].description + "";
+    	let t_value = /*field*/ ctx[16].description + "";
     	let t;
 
     	const block = {
@@ -3256,14 +3304,14 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "description");
-    			add_location(div, file$4, 67, 2, 1686);
+    			add_location(div, file$4, 84, 2, 2085);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*collection*/ 8 && t_value !== (t_value = /*field*/ ctx[15].description + "")) set_data_dev(t, t_value);
+    			if (dirty & /*collection*/ 8 && t_value !== (t_value = /*field*/ ctx[16].description + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -3274,21 +3322,21 @@ var app = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(67:2) {#if field.description}",
+    		source: "(84:2) {#if field.description}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (71:2) {#if field.type=='txt'}
+    // (88:2) {#if field.type=='txt'}
     function create_if_block_3$1(ctx) {
     	let input;
     	let mounted;
     	let dispose;
 
     	function input_input_handler_1() {
-    		/*input_input_handler_1*/ ctx[8].call(input, /*field*/ ctx[15]);
+    		/*input_input_handler_1*/ ctx[9].call(input, /*field*/ ctx[16]);
     	}
 
     	const block = {
@@ -3296,11 +3344,11 @@ var app = (function () {
     			input = element("input");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$4, 71, 2, 1774);
+    			add_location(input, file$4, 88, 2, 2173);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
-    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title]);
+    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title]);
 
     			if (!mounted) {
     				dispose = listen_dev(input, "input", input_input_handler_1);
@@ -3310,8 +3358,8 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*data, cat, index, collection*/ 15 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title]) {
-    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title]);
+    			if (dirty & /*data, cat, index, collection*/ 15 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title]) {
+    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title]);
     			}
     		},
     		d: function destroy(detaching) {
@@ -3325,27 +3373,27 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(71:2) {#if field.type=='txt'}",
+    		source: "(88:2) {#if field.type=='txt'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (75:2) {#if field.type=='txta'}
+    // (92:2) {#if field.type=='txta'}
     function create_if_block_2$1(ctx) {
     	let textarea;
     	let updating_val;
     	let current;
 
     	function textarea_val_binding(value) {
-    		/*textarea_val_binding*/ ctx[9].call(null, value, /*field*/ ctx[15]);
+    		/*textarea_val_binding*/ ctx[10].call(null, value, /*field*/ ctx[16]);
     	}
 
     	let textarea_props = {};
 
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title] !== void 0) {
-    		textarea_props.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title];
+    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title] !== void 0) {
+    		textarea_props.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title];
     	}
 
     	textarea = new Textarea({ props: textarea_props, $$inline: true });
@@ -3365,7 +3413,7 @@ var app = (function () {
 
     			if (!updating_val && dirty & /*data, cat, index, collection*/ 15) {
     				updating_val = true;
-    				textarea_changes.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title];
+    				textarea_changes.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title];
     				add_flush_callback(() => updating_val = false);
     			}
 
@@ -3389,14 +3437,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$1.name,
     		type: "if",
-    		source: "(75:2) {#if field.type=='txta'}",
+    		source: "(92:2) {#if field.type=='txta'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (79:2) {#if field.type=='mde'}
+    // (96:2) {#if field.type=='mde'}
     function create_if_block_1$1(ctx) {
     	let markdown;
     	let updating_key;
@@ -3404,21 +3452,21 @@ var app = (function () {
     	let current;
 
     	function markdown_key_binding(value) {
-    		/*markdown_key_binding*/ ctx[10].call(null, value, /*field*/ ctx[15]);
+    		/*markdown_key_binding*/ ctx[11].call(null, value, /*field*/ ctx[16]);
     	}
 
     	function markdown_html_binding(value) {
-    		/*markdown_html_binding*/ ctx[11].call(null, value, /*field*/ ctx[15]);
+    		/*markdown_html_binding*/ ctx[12].call(null, value, /*field*/ ctx[16]);
     	}
 
     	let markdown_props = {};
 
-    	if (/*field*/ ctx[15].title !== void 0) {
-    		markdown_props.key = /*field*/ ctx[15].title;
+    	if (/*field*/ ctx[16].title !== void 0) {
+    		markdown_props.key = /*field*/ ctx[16].title;
     	}
 
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title] !== void 0) {
-    		markdown_props.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title];
+    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title] !== void 0) {
+    		markdown_props.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title];
     	}
 
     	markdown = new Markdown({ props: markdown_props, $$inline: true });
@@ -3439,13 +3487,13 @@ var app = (function () {
 
     			if (!updating_key && dirty & /*collection*/ 8) {
     				updating_key = true;
-    				markdown_changes.key = /*field*/ ctx[15].title;
+    				markdown_changes.key = /*field*/ ctx[16].title;
     				add_flush_callback(() => updating_key = false);
     			}
 
     			if (!updating_html && dirty & /*data, cat, index, collection*/ 15) {
     				updating_html = true;
-    				markdown_changes.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[15].title];
+    				markdown_changes.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[16].title];
     				add_flush_callback(() => updating_html = false);
     			}
 
@@ -3469,17 +3517,17 @@ var app = (function () {
     		block,
     		id: create_if_block_1$1.name,
     		type: "if",
-    		source: "(79:2) {#if field.type=='mde'}",
+    		source: "(96:2) {#if field.type=='mde'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (64:2) {#each collection.fields as field}
+    // (81:2) {#each collection.fields as field}
     function create_each_block$1(ctx) {
     	let b;
-    	let t0_value = /*field*/ ctx[15].title + "";
+    	let t0_value = /*field*/ ctx[16].title + "";
     	let t0;
     	let t1;
     	let t2;
@@ -3487,10 +3535,10 @@ var app = (function () {
     	let t4;
     	let if_block3_anchor;
     	let current;
-    	let if_block0 = /*field*/ ctx[15].description && create_if_block_4$1(ctx);
-    	let if_block1 = /*field*/ ctx[15].type == "txt" && create_if_block_3$1(ctx);
-    	let if_block2 = /*field*/ ctx[15].type == "txta" && create_if_block_2$1(ctx);
-    	let if_block3 = /*field*/ ctx[15].type == "mde" && create_if_block_1$1(ctx);
+    	let if_block0 = /*field*/ ctx[16].description && create_if_block_4$1(ctx);
+    	let if_block1 = /*field*/ ctx[16].type == "txt" && create_if_block_3$1(ctx);
+    	let if_block2 = /*field*/ ctx[16].type == "txta" && create_if_block_2$1(ctx);
+    	let if_block3 = /*field*/ ctx[16].type == "mde" && create_if_block_1$1(ctx);
 
     	const block = {
     		c: function create() {
@@ -3505,7 +3553,7 @@ var app = (function () {
     			t4 = space();
     			if (if_block3) if_block3.c();
     			if_block3_anchor = empty();
-    			add_location(b, file$4, 65, 2, 1637);
+    			add_location(b, file$4, 82, 2, 2036);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, b, anchor);
@@ -3522,9 +3570,9 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if ((!current || dirty & /*collection*/ 8) && t0_value !== (t0_value = /*field*/ ctx[15].title + "")) set_data_dev(t0, t0_value);
+    			if ((!current || dirty & /*collection*/ 8) && t0_value !== (t0_value = /*field*/ ctx[16].title + "")) set_data_dev(t0, t0_value);
 
-    			if (/*field*/ ctx[15].description) {
+    			if (/*field*/ ctx[16].description) {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
@@ -3537,7 +3585,7 @@ var app = (function () {
     				if_block0 = null;
     			}
 
-    			if (/*field*/ ctx[15].type == "txt") {
+    			if (/*field*/ ctx[16].type == "txt") {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
@@ -3550,7 +3598,7 @@ var app = (function () {
     				if_block1 = null;
     			}
 
-    			if (/*field*/ ctx[15].type == "txta") {
+    			if (/*field*/ ctx[16].type == "txta") {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
 
@@ -3573,7 +3621,7 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*field*/ ctx[15].type == "mde") {
+    			if (/*field*/ ctx[16].type == "mde") {
     				if (if_block3) {
     					if_block3.p(ctx, dirty);
 
@@ -3625,7 +3673,7 @@ var app = (function () {
     		block,
     		id: create_each_block$1.name,
     		type: "each",
-    		source: "(64:2) {#each collection.fields as field}",
+    		source: "(81:2) {#each collection.fields as field}",
     		ctx
     	});
 
@@ -3711,14 +3759,33 @@ var app = (function () {
     	let index = false;
     	let collection = false;
     	let fields = {};
+    	let loading = false;
 
     	function save() {
     		if (typeof data[cat][index].slug === "undefined" || data[cat][index].slug == "") {
     			slugifyTitle();
     		}
 
-    		setData("github", "data2.json", "json", data).then(function (result) {
-    			console.log("saved");
+    		$$invalidate(4, loading = true);
+    		let opts = {};
+    		opts.path = "data.json";
+    		opts.type = "json";
+    		opts.content = data;
+
+    		call_api("github/set-data", opts).then(function (res) {
+    			if (res.ok) {
+    				console.log("Saved");
+    				$$invalidate(4, loading = false);
+    			} else {
+    				console.log("Error saving");
+
+    				setTimeout(
+    					function () {
+    						$$invalidate(4, loading = false);
+    					},
+    					1000
+    				);
+    			}
     		});
     	} //alert(JSON.stringify(data));
 
@@ -3742,16 +3809,16 @@ var app = (function () {
     	function input_input_handler() {
     		data[cat][index].title = this.value;
     		$$invalidate(0, data);
-    		((($$invalidate(1, cat), $$invalidate(5, params)), $$invalidate(0, data)), $$invalidate(6, id));
-    		(((($$invalidate(2, index), $$invalidate(5, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(6, id));
+    		((($$invalidate(1, cat), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(7, id));
+    		(((($$invalidate(2, index), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
     	}
 
     	function input_input_handler_1(field) {
     		data[cat][index][field.title] = this.value;
     		$$invalidate(0, data);
-    		((($$invalidate(1, cat), $$invalidate(5, params)), $$invalidate(0, data)), $$invalidate(6, id));
-    		(((($$invalidate(2, index), $$invalidate(5, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(6, id));
-    		(((($$invalidate(3, collection), $$invalidate(5, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(6, id));
+    		((($$invalidate(1, cat), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(7, id));
+    		(((($$invalidate(2, index), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
+    		(((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
     	}
 
     	function textarea_val_binding(value, field) {
@@ -3761,7 +3828,7 @@ var app = (function () {
 
     	function markdown_key_binding(value, field) {
     		field.title = value;
-    		(((($$invalidate(3, collection), $$invalidate(5, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(6, id));
+    		(((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
     	}
 
     	function markdown_html_binding(value, field) {
@@ -3770,7 +3837,7 @@ var app = (function () {
     	}
 
     	$$self.$$set = $$props => {
-    		if ("params" in $$props) $$invalidate(5, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(6, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     	};
 
@@ -3785,19 +3852,21 @@ var app = (function () {
     		index,
     		collection,
     		fields,
+    		loading,
     		save,
     		slugifyTitle
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("params" in $$props) $$invalidate(5, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(6, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     		if ("cat" in $$props) $$invalidate(1, cat = $$props.cat);
-    		if ("id" in $$props) $$invalidate(6, id = $$props.id);
+    		if ("id" in $$props) $$invalidate(7, id = $$props.id);
     		if ("item" in $$props) item = $$props.item;
     		if ("index" in $$props) $$invalidate(2, index = $$props.index);
     		if ("collection" in $$props) $$invalidate(3, collection = $$props.collection);
     		if ("fields" in $$props) fields = $$props.fields;
+    		if ("loading" in $$props) $$invalidate(4, loading = $$props.loading);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -3805,10 +3874,10 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*params, data, cat, id*/ 99) {
+    		if ($$self.$$.dirty & /*params, data, cat, id*/ 195) {
     			 if (params.cat && params.id) {
     				$$invalidate(1, cat = params.cat);
-    				$$invalidate(6, id = params.id);
+    				$$invalidate(7, id = params.id);
     				item = data[cat].filter(x => x.id == id)[0];
     				$$invalidate(2, index = data[cat].findIndex(x => x.id == id));
     				$$invalidate(3, collection = data.collections.filter(x => x.title == cat)[0]);
@@ -3821,6 +3890,7 @@ var app = (function () {
     		cat,
     		index,
     		collection,
+    		loading,
     		save,
     		params,
     		id,
@@ -3835,7 +3905,7 @@ var app = (function () {
     class Edit extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$5, create_fragment$5, safe_not_equal, { params: 5, data: 0 });
+    		init(this, options, instance$5, create_fragment$5, safe_not_equal, { params: 6, data: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -3847,7 +3917,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*params*/ ctx[5] === undefined && !("params" in props)) {
+    		if (/*params*/ ctx[6] === undefined && !("params" in props)) {
     			console_1$1.warn("<Edit> was created without expected prop 'params'");
     		}
 
@@ -3875,6 +3945,7 @@ var app = (function () {
 
     /* src/routes/EditCollection.svelte generated by Svelte v3.31.2 */
 
+    const { console: console_1$2 } = globals;
     const file$5 = "src/routes/EditCollection.svelte";
 
     function get_each_context$2(ctx, list, i) {
@@ -3885,7 +3956,38 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (82:4) {#if data.collections[index].fields}
+    // (81:55) {#if loading}
+    function create_if_block_1$2(ctx) {
+    	let span;
+
+    	const block = {
+    		c: function create() {
+    			span = element("span");
+    			attr_dev(span, "class", "spinner-border spinner-border-sm");
+    			attr_dev(span, "role", "status");
+    			attr_dev(span, "aria-hidden", "true");
+    			add_location(span, file$5, 80, 68, 2006);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, span, anchor);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(span);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$2.name,
+    		type: "if",
+    		source: "(81:55) {#if loading}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (100:4) {#if data.collections[index].fields}
     function create_if_block$3(ctx) {
     	let ul;
     	let li;
@@ -3925,19 +4027,19 @@ var app = (function () {
     			attr_dev(input, "class", "form-control mb-0");
     			input.value = "title";
     			input.readOnly = true;
-    			add_location(input, file$5, 87, 23, 2177);
+    			add_location(input, file$5, 105, 23, 2624);
     			attr_dev(div0, "class", "col-4");
-    			add_location(div0, file$5, 87, 4, 2158);
+    			add_location(div0, file$5, 105, 4, 2605);
     			attr_dev(div1, "class", "description mt-2");
-    			add_location(div1, file$5, 88, 23, 2277);
+    			add_location(div1, file$5, 106, 23, 2724);
     			attr_dev(div2, "class", "col-8");
-    			add_location(div2, file$5, 88, 4, 2258);
+    			add_location(div2, file$5, 106, 4, 2705);
     			attr_dev(div3, "class", "row");
-    			add_location(div3, file$5, 86, 4, 2136);
+    			add_location(div3, file$5, 104, 4, 2583);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$5, 85, 4, 2103);
+    			add_location(li, file$5, 103, 4, 2550);
     			attr_dev(ul, "class", "list-group");
-    			add_location(ul, file$5, 82, 4, 2073);
+    			add_location(ul, file$5, 100, 4, 2520);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -3989,14 +4091,14 @@ var app = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(82:4) {#if data.collections[index].fields}",
+    		source: "(100:4) {#if data.collections[index].fields}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (95:4) {#each data.collections[index].fields as field, i}
+    // (113:4) {#each data.collections[index].fields as field, i}
     function create_each_block$2(ctx) {
     	let li;
     	let div4;
@@ -4065,39 +4167,39 @@ var app = (function () {
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control mb-0");
     			attr_dev(input0, "placeholder", "field name");
-    			add_location(input0, file$5, 97, 25, 2516);
+    			add_location(input0, file$5, 115, 25, 2963);
     			attr_dev(div0, "class", "col-4");
-    			add_location(div0, file$5, 97, 6, 2497);
+    			add_location(div0, file$5, 115, 6, 2944);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "class", "form-control mb-0");
     			attr_dev(input1, "placeholder", "field description (optional)");
-    			add_location(input1, file$5, 98, 25, 2687);
+    			add_location(input1, file$5, 116, 25, 3134);
     			attr_dev(div1, "class", "col-3");
-    			add_location(div1, file$5, 98, 6, 2668);
+    			add_location(div1, file$5, 116, 6, 3115);
     			option0.__value = "txt";
     			option0.value = option0.__value;
-    			add_location(option0, file$5, 101, 6, 2916);
+    			add_location(option0, file$5, 119, 6, 3363);
     			option1.__value = "txta";
     			option1.value = option1.__value;
-    			add_location(option1, file$5, 102, 6, 2956);
+    			add_location(option1, file$5, 120, 6, 3403);
     			option2.__value = "mde";
     			option2.value = option2.__value;
-    			add_location(option2, file$5, 103, 6, 3001);
+    			add_location(option2, file$5, 121, 6, 3448);
     			attr_dev(select, "class", "form-control mb-0");
     			if (/*field*/ ctx[18].type === void 0) add_render_callback(select_change_handler);
-    			add_location(select, file$5, 100, 6, 2849);
+    			add_location(select, file$5, 118, 6, 3296);
     			attr_dev(div2, "class", "col-3");
-    			add_location(div2, file$5, 99, 6, 2823);
+    			add_location(div2, file$5, 117, 6, 3270);
     			attr_dev(i_1, "class", "bi bi-trash");
-    			add_location(i_1, file$5, 109, 6, 3205);
+    			add_location(i_1, file$5, 127, 6, 3652);
     			attr_dev(button, "class", "btn btn-outline-secondary");
-    			add_location(button, file$5, 108, 6, 3112);
+    			add_location(button, file$5, 126, 6, 3559);
     			attr_dev(div3, "class", "col-2 text-right");
-    			add_location(div3, file$5, 107, 6, 3075);
+    			add_location(div3, file$5, 125, 6, 3522);
     			attr_dev(div4, "class", "row");
-    			add_location(div4, file$5, 96, 6, 2473);
+    			add_location(div4, file$5, 114, 6, 2920);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$5, 95, 6, 2438);
+    			add_location(li, file$5, 113, 6, 2885);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -4160,7 +4262,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(95:4) {#each data.collections[index].fields as field, i}",
+    		source: "(113:4) {#each data.collections[index].fields as field, i}",
     		ctx
     	});
 
@@ -4178,6 +4280,7 @@ var app = (function () {
     	let t3;
     	let div1;
     	let button0;
+    	let t4;
     	let t5;
     	let div7;
     	let div6;
@@ -4193,7 +4296,8 @@ var app = (function () {
     	let t11;
     	let mounted;
     	let dispose;
-    	let if_block = /*data*/ ctx[0].collections[/*index*/ ctx[1]].fields && create_if_block$3(ctx);
+    	let if_block0 = loading && create_if_block_1$2(ctx);
+    	let if_block1 = /*data*/ ctx[0].collections[/*index*/ ctx[1]].fields && create_if_block$3(ctx);
 
     	const block = {
     		c: function create() {
@@ -4207,7 +4311,8 @@ var app = (function () {
     			t3 = space();
     			div1 = element("div");
     			button0 = element("button");
-    			button0.textContent = "Save";
+    			if (if_block0) if_block0.c();
+    			t4 = text("  Save");
     			t5 = space();
     			div7 = element("div");
     			div6 = element("div");
@@ -4223,33 +4328,33 @@ var app = (function () {
     			i = element("i");
     			t10 = text(" Add Field");
     			t11 = space();
-    			if (if_block) if_block.c();
+    			if (if_block1) if_block1.c();
     			attr_dev(span, "class", "medium-hide");
-    			add_location(span, file$5, 59, 4, 1479);
-    			add_location(h4, file$5, 59, 0, 1475);
+    			add_location(span, file$5, 77, 4, 1813);
+    			add_location(h4, file$5, 77, 0, 1809);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$5, 58, 0, 1455);
+    			add_location(div0, file$5, 76, 0, 1789);
     			attr_dev(button0, "class", "btn btn-dark btn-add");
-    			add_location(button0, file$5, 62, 0, 1604);
+    			add_location(button0, file$5, 80, 0, 1938);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$5, 61, 0, 1573);
+    			add_location(div1, file$5, 79, 0, 1907);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$5, 57, 0, 1430);
-    			add_location(b, file$5, 72, 4, 1757);
+    			add_location(div2, file$5, 75, 0, 1764);
+    			add_location(b, file$5, 90, 4, 2204);
     			attr_dev(div3, "class", "description");
-    			add_location(div3, file$5, 73, 4, 1775);
+    			add_location(div3, file$5, 91, 4, 2222);
     			attr_dev(div4, "class", "col-6");
-    			add_location(div4, file$5, 71, 2, 1733);
+    			add_location(div4, file$5, 89, 2, 2180);
     			attr_dev(i, "class", "bi bi-plus-circle");
-    			add_location(i, file$5, 76, 83, 1957);
+    			add_location(i, file$5, 94, 83, 2404);
     			attr_dev(button1, "class", "btn btn-outline-dark btn-add float-right");
-    			add_location(button1, file$5, 76, 4, 1878);
+    			add_location(button1, file$5, 94, 4, 2325);
     			attr_dev(div5, "class", "col-6 text-right");
-    			add_location(div5, file$5, 75, 2, 1843);
+    			add_location(div5, file$5, 93, 2, 2290);
     			attr_dev(div6, "class", "row");
-    			add_location(div6, file$5, 70, 0, 1713);
+    			add_location(div6, file$5, 88, 0, 2160);
     			attr_dev(div7, "class", "content");
-    			add_location(div7, file$5, 66, 0, 1688);
+    			add_location(div7, file$5, 84, 0, 2135);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -4264,6 +4369,8 @@ var app = (function () {
     			append_dev(div2, t3);
     			append_dev(div2, div1);
     			append_dev(div1, button0);
+    			if (if_block0) if_block0.m(button0, null);
+    			append_dev(button0, t4);
     			insert_dev(target, t5, anchor);
     			insert_dev(target, div7, anchor);
     			append_dev(div7, div6);
@@ -4277,7 +4384,7 @@ var app = (function () {
     			append_dev(button1, i);
     			append_dev(button1, t10);
     			append_dev(div7, t11);
-    			if (if_block) if_block.m(div7, null);
+    			if (if_block1) if_block1.m(div7, null);
 
     			if (!mounted) {
     				dispose = [
@@ -4292,25 +4399,26 @@ var app = (function () {
     			if (dirty & /*data, index*/ 3 && t2_value !== (t2_value = /*data*/ ctx[0].collections[/*index*/ ctx[1]].title + "")) set_data_dev(t2, t2_value);
 
     			if (/*data*/ ctx[0].collections[/*index*/ ctx[1]].fields) {
-    				if (if_block) {
-    					if_block.p(ctx, dirty);
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
     				} else {
-    					if_block = create_if_block$3(ctx);
-    					if_block.c();
-    					if_block.m(div7, null);
+    					if_block1 = create_if_block$3(ctx);
+    					if_block1.c();
+    					if_block1.m(div7, null);
     				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
     			}
     		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div2);
+    			if (if_block0) if_block0.d();
     			if (detaching) detach_dev(t5);
     			if (detaching) detach_dev(div7);
-    			if (if_block) if_block.d();
+    			if (if_block1) if_block1.d();
     			mounted = false;
     			run_all(dispose);
     		}
@@ -4341,7 +4449,27 @@ var app = (function () {
     	let title = "";
 
     	function save() {
-    		alert(JSON.stringify(data));
+    		loading = true;
+    		let opts = {};
+    		opts.path = "data.json";
+    		opts.type = "json";
+    		opts.content = data;
+
+    		call_api("github/set-data", opts).then(function (res) {
+    			if (res.ok) {
+    				console.log("Saved");
+    				loading = false;
+    			} else {
+    				console.log("Error saving");
+
+    				setTimeout(
+    					function () {
+    						loading = false;
+    					},
+    					1000
+    				);
+    			}
+    		});
     	}
 
     	function addField() {
@@ -4376,7 +4504,7 @@ var app = (function () {
     	const writable_props = ["params", "data"];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<EditCollection> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1$2.warn(`<EditCollection> was created with unknown prop '${key}'`);
     	});
 
     	function input0_input_handler(each_value, i) {
@@ -4485,11 +4613,11 @@ var app = (function () {
     		const props = options.props || {};
 
     		if (/*params*/ ctx[6] === undefined && !("params" in props)) {
-    			console.warn("<EditCollection> was created without expected prop 'params'");
+    			console_1$2.warn("<EditCollection> was created without expected prop 'params'");
     		}
 
     		if (/*data*/ ctx[0] === undefined && !("data" in props)) {
-    			console.warn("<EditCollection> was created without expected prop 'data'");
+    			console_1$2.warn("<EditCollection> was created without expected prop 'data'");
     		}
     	}
 
@@ -4564,7 +4692,7 @@ var app = (function () {
 
     /* src/App.svelte generated by Svelte v3.31.2 */
 
-    const { console: console_1$2 } = globals;
+    const { console: console_1$3 } = globals;
     const file$6 = "src/App.svelte";
 
     function get_each_context$3(ctx, list, i) {
@@ -4640,7 +4768,7 @@ var app = (function () {
     }
 
     // (120:25) 
-    function create_if_block_1$2(ctx) {
+    function create_if_block_1$3(ctx) {
     	let div6;
     	let div3;
     	let div2;
@@ -4826,7 +4954,7 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$2.name,
+    		id: create_if_block_1$3.name,
     		type: "if",
     		source: "(120:25) ",
     		ctx
@@ -5003,7 +5131,7 @@ var app = (function () {
     	let if_block;
     	let if_block_anchor;
     	let current;
-    	const if_block_creators = [create_if_block$4, create_if_block_1$2, create_else_block$2];
+    	const if_block_creators = [create_if_block$4, create_if_block_1$3, create_else_block$2];
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
@@ -5168,7 +5296,7 @@ var app = (function () {
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1$2.warn(`<App> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1$3.warn(`<App> was created with unknown prop '${key}'`);
     	});
 
     	const click_handler = () => $$invalidate(2, current = false);

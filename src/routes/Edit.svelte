@@ -9,6 +9,7 @@ let item = false;
 let index = false;
 let collection = false;
 let fields = {};
+let loading = false;
 
 $: if (params.cat && params.id) {
 cat = params.cat;
@@ -23,9 +24,25 @@ function save(){
   if(typeof data[cat][index].slug === 'undefined' || data[cat][index].slug == ''){
     slugifyTitle();
   }
-  setData('github', 'data.json', 'json', data).then(function(result){
-    console.log('saved');
-  })
+
+  loading = true;
+  let opts = {};
+  opts.path = 'data.json';
+  opts.type = 'json';
+  opts.content = data;
+  call_api('github/set-data', opts).then(function(res) {
+    if (res.ok) {
+      console.log('Saved');
+      loading = false;
+    } else {
+      console.log('Error saving');
+      setTimeout(function(){
+          loading = false;
+      }, 1000)
+
+    }
+  });
+
   //alert(JSON.stringify(data));
 }
 
@@ -52,7 +69,7 @@ function slugifyTitle()
 <h4>Edit {collection.singular}</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-dark btn-add" on:click="{save}">Save</button>
+<button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
 </div>
 </div>
 

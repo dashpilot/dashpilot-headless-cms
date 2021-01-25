@@ -19,10 +19,25 @@ $: if (params.id) {
 }
 
 function save(){
-  setData('github', 'data.json', 'json', data).then(function(result){
-    console.log('saved');
-  })
-  //alert(JSON.stringify(data));
+
+  loading = true;
+  let opts = {};
+  opts.path = 'data.json';
+  opts.type = 'json';
+  opts.content = data;
+  call_api('github/set-data', opts).then(function(res) {
+    if (res.ok) {
+      console.log('Saved');
+      loading = false;
+    } else {
+      console.log('Error saving');
+      setTimeout(function(){
+          loading = false;
+      }, 1000)
+
+    }
+  });
+
 }
 
 function addField(){
@@ -63,7 +78,7 @@ function slugifyFieldTitle(i)
 <h4><span class="medium-hide">Edit Collection:</span> {data.collections[index].title}</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-dark btn-add" on:click="{save}">Save</button>
+<button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
 </div>
 </div>
 
