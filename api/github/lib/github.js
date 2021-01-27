@@ -57,7 +57,35 @@ const setData = async function(path, content, type) {
 
 }
 
+const deleteFile = async function(path) {
+
+
+  const myres = await getData(path);
+
+  let sha = myres.sha;
+  let message = "Deleting file";
+
+  const response = await octokit.repos.deleteFile({
+    owner: owner,
+    repo: repo,
+    path: path,
+    message: message,
+    sha: sha
+  });
+
+  var result = {};
+  if (response.status == 200 || response.status == 201) {
+    result.ok = true;
+  } else {
+    result.ok = false;
+  }
+
+  return result;
+
+}
+
 export {
   getData,
-  setData
+  setData,
+  deleteFile
 };

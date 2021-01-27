@@ -98,7 +98,7 @@ function slugifyTitle()
   {/if}
 
   {#if field.type=='gal'}
-  <Gallery bind:data bind:cat bind:index bind:key={field.title} bind:item={data[cat][index]} />
+  <Gallery bind:key={field.title} bind:item={data[cat][index]} />
   {/if}
 
   {/each}

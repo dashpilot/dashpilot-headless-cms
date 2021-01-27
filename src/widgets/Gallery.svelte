@@ -1,10 +1,7 @@
 <script>
 import { onMount } from 'svelte';
-export let data;
-export let cat;
-export let index;
-export let key;
 
+export let key;
 export let item;
 
 let uploading = false;
@@ -93,34 +90,28 @@ function clickSelect(mykey){
 
 function deleteImage(key, i){
   console.log(key);
-/*
+
   var r = confirm("Are you sure you want to delete this image?");
   if (r == true) {
+  uploading = true;
 
-  if(window.config.apiPath){
-
-    fetch(window.config.apiPath+"delete-img/", {
-        method: 'post',
-        body: JSON.stringify({filename: item[key][i].filename}),
-      }).then(function(response) {
-        return response.json();
-      }).then(function(data) {
-
+    let opts = {};
+    opts.path = item[key][i].filename;
+    call_api('github/delete-file', opts).then(function(res) {
+      if (res.ok) {
+        console.log('Deleted');
         item[key].splice(i, 1);
         item = item;
-        console.log(data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+        uploading = false;
+      } else {
+        console.log('Error deleting');
+        setTimeout(function(){
+            uploading = false;
+        }, 1000)
 
-  }else{
-    item[key].splice(i, 1);
-    item = item;
+      }
+    });
   }
-
-  }
-*/
 }
 
 function move(array, from, to) {
