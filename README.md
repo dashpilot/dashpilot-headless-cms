@@ -13,4 +13,4 @@ Headless CMS that saves to a single JSON file. Perfect for SPA's or other API-po
 ## Demo
 https://json-cms-sigma.vercel.app/
 
-(no login required for the demo, saving is disabled)
+(Sign in with Google or Twitter, saving is disabled)
