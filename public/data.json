@@ -35,9 +35,9 @@
       "description": "This editor uses Markdown",
       "type": "mde"
     }, {
-      "title": "description",
+      "title": "Gallery",
       "description": "",
-      "type": "mde"
+      "type": "gal"
     }]
   }, {
     "id": "2",

@@ -19,6 +19,11 @@ export default async (req, res) => {
 
     if (type == 'json') {
       content = JSON.stringify(content)
+    } else if (type == 'img') {
+      content = new Buffer.from(
+        content.replace(/^data:image\/\w+;base64,/, ""),
+        "base64"
+      );
     }
 
     verifyToken(token).then(function(userid) {

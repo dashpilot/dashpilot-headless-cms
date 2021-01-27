@@ -5,7 +5,8 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-
+config = {}
+config.imgPath = 'https://raw.githubusercontent.com/dashpilot/test-repo/main/';
 
 function login(service) {
 

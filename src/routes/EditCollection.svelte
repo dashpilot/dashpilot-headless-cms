@@ -121,6 +121,7 @@ function slugifyFieldTitle(i)
       <option value="txt">Text</option>
       <option value="txta">Textarea</option>
       <option value="mde">Markdown</option>
+      <option value="gal">Gallery</option>
       </select>
 
       </div>
