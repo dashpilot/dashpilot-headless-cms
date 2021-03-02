@@ -11,6 +11,6 @@ Headless CMS that saves to a single JSON file. Perfect for SPA's or other API-po
 - written in Svelte and easily extendible
 
 ## Demo
-https://json-cms-sigma.vercel.app/
+https://dashpilot-cms.vercel.app/
 
 (Sign in with Google or Twitter, saving is disabled)
