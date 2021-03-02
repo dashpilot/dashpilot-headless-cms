@@ -23,7 +23,7 @@ let loading = true;
 
 onMount(async () => {
 
-				const res = await fetch(`data.json`);
+				const res = await fetch(`/get/data`);
 				data = await res.json();
 				console.log(data);
 
