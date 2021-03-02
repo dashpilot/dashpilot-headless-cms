@@ -56,8 +56,8 @@ onMount(async () => {
       let opts = {};
       opts.path = 'img/'+Date.now()+".jpg";
       opts.type = 'img';
-      opts.content = base64Image;
-      call_api('github/set-data', opts).then(function(res) {
+      opts.data = base64Image;
+      call_api('api/save', opts).then(function(res) {
         if (res.ok) {
           console.log('Saved');
           let newItem = {'filename': res.filename};
@@ -97,7 +97,7 @@ function deleteImage(key, i){
 
     let opts = {};
     opts.path = item[key][i].filename;
-    call_api('github/delete-file', opts).then(function(res) {
+    call_api('api/delete', opts).then(function(res) {
       if (res.ok) {
         console.log('Deleted');
         item[key].splice(i, 1);

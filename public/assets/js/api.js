@@ -18,13 +18,9 @@ async function call_api(route, mydata) {
   var settings = {
     method: 'post',
     body: JSON.stringify(mydata),
-    headers: {
-      'Authorization': idToken,
-      'Content-Type': 'application/json'
-    }
   };
   try {
-    const fetchResponse = await fetch('/api/' + route, settings);
+    const fetchResponse = await fetch(route, settings);
     const result = await fetchResponse.json();
     return result;
   } catch (e) {
