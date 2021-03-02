@@ -60,7 +60,7 @@ onMount(async () => {
       call_api('github/set-data', opts).then(function(res) {
         if (res.ok) {
           console.log('Saved');
-          let newItem = {'filename': opts.path};
+          let newItem = {'filename': res.filename};
           item[key].push(newItem);
           item = item;
           uploading = false;
