@@ -1,5 +1,5 @@
 config = {}
-config.imgPath = 'https://raw.githubusercontent.com/dashpilot/test-repo/main/';
+config.dataPath = 'data.json';
 
 const getData = async function(service, path) {
   let opts = {};
