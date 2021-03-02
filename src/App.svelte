@@ -23,11 +23,6 @@ let loading = true;
 
 onMount(async () => {
 
-	firebase.auth().onAuthStateChanged(async function(user){
-		if (user) {
-			//console.log(user);
-			user.getIdToken().then(async function(idToken) {
-				console.log('Signed in');
 				const res = await fetch(`data.json`);
 				data = await res.json();
 				console.log(data);
@@ -72,28 +67,8 @@ onMount(async () => {
 				}, 1000)
 
 
-			});
-
-		} else {
-			console.log('User not signed in');
-			setTimeout(function(){
-				loading = false;
-			}, 1000)
-		}
 	});
 
-});
-
-function logout() {
-  firebase.auth().signOut().then(() => {
-    // Sign-out successful.
-    console.log('Signed out');
-		data = false;
-		routes = false;
-  }).catch((error) => {
-    console.log(error);
-  });
-}
 
 // allows force re-rendering
 window.renderData = function(mydata){
@@ -131,7 +106,7 @@ window.renderData = function(mydata){
 </div>
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
 	on:click="{() => current = 'collections'}">collections</a>
-	<a href="#" on:click="{logout}">Log Out</a>
+	<a href="#" on:click="{logout}" id="logout">Log Out</a>
 </div>
 
 </div>

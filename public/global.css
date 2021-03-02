@@ -181,6 +181,12 @@ i.bi{
 	display: inline-block;
 }
 
+#logout{
+	position: absolute;
+	bottom: 10px;
+	width: 110px;
+}
+
 @media only screen and (max-width: 767px) {
 	.content{
 		padding: 0;
