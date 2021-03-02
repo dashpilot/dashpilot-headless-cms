@@ -13,4 +13,4 @@ Headless CMS that saves to a single JSON file. Perfect for SPA's or other API-po
 ## Demo
 https://dashpilot-cms.vercel.app/
 
-(Sign in with Google or Twitter, saving is disabled)
+(Saving is disabled)
