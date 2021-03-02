@@ -54,7 +54,7 @@ onMount(async () => {
 
       console.log(base64Image);
       let opts = {};
-      opts.path = 'img/'+Date.now()+".jpg";
+      opts.filename = 'img/'+Date.now()+".jpg";
       opts.type = 'img';
       opts.data = base64Image;
       call_api('api/save', opts).then(function(res) {
@@ -96,7 +96,7 @@ function deleteImage(key, i){
   uploading = true;
 
     let opts = {};
-    opts.path = item[key][i].filename;
+    opts.filename = item[key][i].filename;
     call_api('api/delete', opts).then(function(res) {
       if (res.ok) {
         console.log('Deleted');
