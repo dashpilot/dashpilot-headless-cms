@@ -64,7 +64,7 @@ onMount(async () => {
 
 				setTimeout(function(){
 					loading = false;
-				}, 1000)
+				}, 500)
 
 
 	});
