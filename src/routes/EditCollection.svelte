@@ -120,7 +120,8 @@ function slugifyFieldTitle(i)
       <select bind:value="{field.type}" class="form-control mb-0">
       <option value="txt">Text</option>
       <option value="txta">Textarea</option>
-      <option value="mde">Markdown</option>
+      <option value="mde">Markdown Editor</option>
+      <option value="rte">Rich Text Editor</option>
       <option value="gal">Gallery</option>
       </select>
 

@@ -1,5 +1,6 @@
 <script>
 import Markdown from "../widgets/Markdown.svelte"
+import TextEditor from "../widgets/TextEditor.svelte"
 import Textarea from "../widgets/Textarea.svelte"
 import Gallery from "../widgets/Gallery.svelte"
 export let params;
@@ -96,6 +97,11 @@ function slugifyTitle()
   {#if field.type=='mde'}
   <Markdown bind:key={field.title} bind:html={data[cat][index][field.title]} />
   {/if}
+
+  {#if field.type=='rte'}
+  <TextEditor bind:key={field.title} bind:html={data[cat][index][field.title]} />
+  {/if}
+
 
   {#if field.type=='gal'}
   <Gallery bind:key={field.title} bind:item={data[cat][index]} />
