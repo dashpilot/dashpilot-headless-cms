@@ -5,7 +5,7 @@ export let html;
 let easyMDE = false;
 
 onMount(() => {
-  easyMDE = new EasyMDE({element: document.getElementById('mde-'+key)});
+  easyMDE = new EasyMDE({element: document.getElementById('mde-'+key), spellChecker: false});
   easyMDE.codemirror.on("change", function(){
     // console.log(easyMDE.value());
     html = easyMDE.value();
