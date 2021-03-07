@@ -41,6 +41,8 @@ b{
 	background-color: #333;
 	min-height: 100%;
 	text-transform: capitalize;
+	position: fixed;
+	width: 16.6%;
 }
 
 .side-nav a{
@@ -201,6 +203,9 @@ i.bi{
 	}
 	.side{
 		padding-bottom: 20px;
+		position: relative;
+		width: 100%;
+		padding-bottom: 50px;
 	}
 	.medium-hide{
 		display: none;
