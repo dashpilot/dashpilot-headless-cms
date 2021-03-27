@@ -44,5 +44,9 @@
     "title": "pages",
     "singular": "page",
     "fields": []
-  }]
+  }],
+  "settings": {
+    "website_title": "My Website",
+    "image_width": "800"
+  }
 }

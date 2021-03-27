@@ -16,6 +16,7 @@ import Home from './routes/Home.svelte'
 import List from './routes/List.svelte'
 import Edit from './routes/Edit.svelte'
 import EditCollection from './routes/EditCollection.svelte'
+import Settings from './routes/Settings.svelte'
 import NotFound from './routes/NotFound.svelte'
 
 let data = false;
@@ -60,6 +61,13 @@ onMount(async () => {
 								}
 						}),
 
+						'/settings': wrap({
+								component: Settings,
+								props: {
+										data:data
+								}
+						}),
+
 						// Catch-all
 						// This is optional, but if present it must be the last
 						'*': NotFound,
@@ -99,6 +107,7 @@ window.renderData = function(mydata){
 <a href="/#/" class:selected="{current === false}" on:click="{() => current = false}"><img src="assets/img/rocketlogo.png" id="logo" /></a>
 
 <div class="side-nav">
+<h5>Content</h5>
 <div id="collections-nav">
 	{#each data.collections as item}
 	{#if item.title !== 'collections'}
@@ -107,9 +116,14 @@ window.renderData = function(mydata){
 	{/if}
 	{/each}
 </div>
+
+<h5>Manage</h5>
+
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
 	on:click="{() => current = 'collections'}">collections</a>
-	<a href="#" on:click="{logout}" id="logout">Log Out</a>
+	<a href="/#/settings" class:selected="{current === 'settings'}"
+	on:click="{() => current = 'settings'}">settings</a>
+	<a href="/logout" id="logout">Log Out</a>
 </div>
 
 </div>
