@@ -3,9 +3,6 @@ export let data;
 let loading = false;
 
 function save(){
-  if(typeof data[cat][index].slug === 'undefined' || data[cat][index].slug == ''){
-    slugifyTitle();
-  }
 
   loading = true;
   let opts = {};
@@ -21,7 +18,6 @@ function save(){
       setTimeout(function(){
           loading = false;
       }, 1000)
-
     }
   });
 

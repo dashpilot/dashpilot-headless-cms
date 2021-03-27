@@ -2613,7 +2613,7 @@ var app = (function () {
     	return block;
     }
 
-    function slugifyTitle$1() {
+    function slugifyTitle() {
     	let collTitle = document.querySelector("#coll-title");
     	let val = collTitle.value;
 
@@ -2660,7 +2660,7 @@ var app = (function () {
     	}
 
     	function saveCollection() {
-    		let val = slugifyTitle$1();
+    		let val = slugifyTitle();
 
     		if (val.length < 3) {
     			$$invalidate(3, error = "Collection name should be at least 3 characters long");
@@ -2687,7 +2687,7 @@ var app = (function () {
 
     	const click_handler = item => deleteItem(item.id);
     	const click_handler_1 = () => $$invalidate(2, addColl = false);
-    	const keyup_handler = () => slugifyTitle$1();
+    	const keyup_handler = () => slugifyTitle();
 
     	$$self.$$set = $$props => {
     		if ("params" in $$props) $$invalidate(8, params = $$props.params);
@@ -2704,7 +2704,7 @@ var app = (function () {
     		addItem,
     		deleteItem,
     		saveCollection,
-    		slugifyTitle: slugifyTitle$1
+    		slugifyTitle
     	});
 
     	$$self.$inject_state = $$props => {
@@ -5819,7 +5819,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (38:55) {#if loading}
+    // (34:55) {#if loading}
     function create_if_block$5(ctx) {
     	let span;
 
@@ -5829,7 +5829,7 @@ var app = (function () {
     			attr_dev(span, "class", "spinner-border spinner-border-sm");
     			attr_dev(span, "role", "status");
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$8, 37, 68, 713);
+    			add_location(span, file$8, 33, 68, 605);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -5843,14 +5843,14 @@ var app = (function () {
     		block,
     		id: create_if_block$5.name,
     		type: "if",
-    		source: "(38:55) {#if loading}",
+    		source: "(34:55) {#if loading}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (44:0) {#each Object.entries(data.settings) as [key, value]}
+    // (40:0) {#each Object.entries(data.settings) as [key, value]}
     function create_each_block$4(ctx) {
     	let b;
     	let t0_value = /*key*/ ctx[4].replace("_", " ") + "";
@@ -5870,10 +5870,10 @@ var app = (function () {
     			t0 = text(t0_value);
     			t1 = space();
     			input = element("input");
-    			add_location(b, file$8, 45, 0, 920);
+    			add_location(b, file$8, 41, 0, 812);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$8, 46, 0, 951);
+    			add_location(input, file$8, 42, 0, 843);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, b, anchor);
@@ -5908,7 +5908,7 @@ var app = (function () {
     		block,
     		id: create_each_block$4.name,
     		type: "each",
-    		source: "(44:0) {#each Object.entries(data.settings) as [key, value]}",
+    		source: "(40:0) {#each Object.entries(data.settings) as [key, value]}",
     		ctx
     	});
 
@@ -5954,17 +5954,17 @@ var app = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h4, file$8, 34, 0, 589);
+    			add_location(h4, file$8, 30, 0, 481);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$8, 33, 0, 569);
+    			add_location(div0, file$8, 29, 0, 461);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$8, 37, 0, 645);
+    			add_location(button, file$8, 33, 0, 537);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$8, 36, 0, 614);
+    			add_location(div1, file$8, 32, 0, 506);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$8, 32, 0, 544);
+    			add_location(div2, file$8, 28, 0, 436);
     			attr_dev(div3, "class", "content");
-    			add_location(div3, file$8, 41, 0, 842);
+    			add_location(div3, file$8, 37, 0, 734);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6057,10 +6057,6 @@ var app = (function () {
     	let loading = false;
 
     	function save() {
-    		if (typeof data[cat][index].slug === "undefined" || data[cat][index].slug == "") {
-    			slugifyTitle();
-    		}
-
     		$$invalidate(1, loading = true);
     		let opts = {};
     		opts.path = "data.json";
