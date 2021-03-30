@@ -121,7 +121,7 @@ window.renderData = function(mydata){
 
 
 <a href="/#/list/pages" class:selected="{current === 'pages'}"
-on:click="{() => current = 'collections'}">pages</a>
+on:click="{() => current = 'pages'}">pages</a>
 
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
 	on:click="{() => current = 'collections'}">collections</a>
