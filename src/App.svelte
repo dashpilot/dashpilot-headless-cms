@@ -110,7 +110,7 @@ window.renderData = function(mydata){
 <h5>Content</h5>
 <div id="collections-nav">
 	{#each data.collections as item}
-	{#if item.title !== 'collections' && item.title !== 'pages'}
+	{#if item.title !== 'collections' && item.title !== 'categories'}
 	<a href="/#/list/{item.title}" class:selected="{current === item.title}"
 	on:click="{() => current = item.title}">{item.title}</a>
 	{/if}
@@ -120,8 +120,8 @@ window.renderData = function(mydata){
 <h5>Manage</h5>
 
 
-<a href="/#/list/pages" class:selected="{current === 'pages'}"
-on:click="{() => current = 'pages'}">pages</a>
+<a href="/#/list/categories" class:selected="{current === 'categories'}"
+on:click="{() => current = 'categories'}">categories</a>
 
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
 	on:click="{() => current = 'collections'}">collections</a>
