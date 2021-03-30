@@ -26,7 +26,7 @@ function save(){
   opts.path = 'data.json';
   opts.type = 'json';
   opts.content = data;
-  call_api('github/set-data', opts).then(function(res) {
+  call_api('api/save', opts).then(function(res) {
     if (res.ok) {
       console.log('Saved');
       loading = false;
