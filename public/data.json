@@ -12,7 +12,7 @@
     "title": "Third post",
     "body": "Lorem ipsum dolor site amet"
   }],
-  "pages": [{
+  "categories": [{
     "id": "1",
     "title": "Home",
     "slug": "home"
@@ -38,11 +38,15 @@
       "title": "Gallery",
       "description": "",
       "type": "gal"
+    }, {
+      "title": "Category",
+      "description": "",
+      "type": "cat"
     }]
   }, {
     "id": "2",
-    "title": "pages",
-    "singular": "page",
+    "title": "categories",
+    "singular": "category",
     "fields": []
   }],
   "settings": {

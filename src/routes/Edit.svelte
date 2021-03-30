@@ -76,10 +76,13 @@ function slugifyTitle()
 
 <div class="content">
 
+
 <b>Title</b>
-  <input type="text" class="form-control" bind:value="{data[cat][index].title}" />
+<input type="text" class="form-control" bind:value="{data[cat][index].title}" />
+
 
   {#each collection.fields as field}
+
 
   <b>{field.title}</b>
   {#if field.description}
@@ -105,6 +108,14 @@ function slugifyTitle()
 
   {#if field.type=='gal'}
   <Gallery bind:key={field.title} bind:item={data[cat][index]} />
+  {/if}
+
+  {#if field.type=='cat'}
+  <select bind:value="{data[cat][index].category}" class="form-control w-25">
+  {#each data.categories as cat}
+  <option value="{cat.slug}">{cat.title}</option>
+  {/each}
+  </select>
   {/if}
 
   {/each}

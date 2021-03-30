@@ -139,7 +139,7 @@ function moveDown(key, index) {
 </script>
 
 <input type="file" id="fileInput" class="fileInput" accept="image/*" data-name="{key}" />
-<button class="btn btn-outline-secondary" on:click="{() => clickSelect(key)}">
+<button class="btn btn-outline-secondary w-25 mb-3" on:click="{() => clickSelect(key)}">
 
 
 {#if uploading}
