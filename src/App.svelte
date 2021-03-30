@@ -127,6 +127,8 @@ on:click="{() => current = 'categories'}">categories</a>
 	on:click="{() => current = 'collections'}">collections</a>
 	<a href="/#/settings" class:selected="{current === 'settings'}"
 	on:click="{() => current = 'settings'}">settings</a>
+<br><br>
+
 	<a href="/logout" id="logout">Log Out</a>
 </div>
 

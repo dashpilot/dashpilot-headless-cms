@@ -198,6 +198,7 @@ i.bi{
 	position: absolute;
 	bottom: 10px;
 	width: 110px;
+	background-color: #333;
 }
 
 @media only screen and (max-width: 767px) {
