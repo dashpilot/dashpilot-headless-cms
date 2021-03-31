@@ -2,15 +2,18 @@
   "entries": [{
     "id": "1",
     "title": "Hello World",
-    "body": "Lorem ipsum dolor site amet"
+    "body": "Lorem ipsum dolor site amet",
+    "category": "home"
   }, {
     "id": "2",
     "title": "Second Post",
-    "body": "Lorem ipsum dolor site amet"
+    "body": "Lorem ipsum dolor site amet",
+    "category": "about"
   }, {
     "id": "3",
     "title": "Third post",
-    "body": "Lorem ipsum dolor site amet"
+    "body": "Lorem ipsum dolor site amet",
+    "category": "home"
   }],
   "something_else": [{
     "id": "1",
@@ -29,6 +32,10 @@
       "title": "Gallery",
       "description": "",
       "type": "gal"
+    }, {
+      "title": "Category",
+      "description": "",
+      "type": "cat"
     }]
   }, {
     "id": "2",
@@ -40,11 +47,20 @@
       "type": "mde"
     }]
   }],
+  "categories": [{
+    "id": "1",
+    "title": "Home",
+    "slug": "home"
+  }, {
+    "id": "2",
+    "title": "About",
+    "slug": "about"
+  }],
   "settings": {
     "website_title": "My Website",
     "image_width": "800",
     "webhook": "",
-    "collections_label": "categories",
-    "collections_label_singular": "category"
+    "collections_label": "collections",
+    "collections_label_singular": "collection"
   }
 }

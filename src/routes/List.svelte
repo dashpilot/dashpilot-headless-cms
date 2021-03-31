@@ -6,6 +6,10 @@ let items = false;
 let addColl = false;
 let error = false;
 let coll_title = false;
+let curCat = false;
+let hasCat = [];
+let filterBy = false;
+let selected = false;
 
 $: if (params.cat) {
 cat = params.cat;
@@ -18,9 +22,19 @@ if(cat in data){
   items = data[cat];
 }
 
+
 if(cat!=='collections'){
-coll_title = data.collections.filter(x => x.slug == cat)[0].title;
+curCat = data.collections.filter(x => x.slug == cat)[0];
+// check if this collection has a category dropdown
+hasCat = curCat.fields.filter(x => x.type == 'cat');
+
+if(hasCat[0] && filterBy){
+  items = items.filter(x => x.category == filterBy)
 }
+
+}
+
+
 
 }
 
@@ -101,8 +115,9 @@ function slugifyTitle()
 {#if cat=='collections'}
 <h4>{data.settings.collections_label}</h4>
 {:else}
-<h4>{coll_title}</h4>
+<h4>{curCat.title}</h4>
 {/if}
+
 </div>
 <div class="col-6 text-right">
 <button class="btn btn-dark btn-add" on:click="{addItem}">Add</button>
@@ -110,6 +125,20 @@ function slugifyTitle()
 </div>
 
 <div class="content">
+
+{#if hasCat[0]}
+
+
+  <select class="form-control w-25" bind:value={selected} on:change="{() => filterBy = selected}">
+  <option value="">All</option>
+  {#each data.categories as cat}
+  <option value="{cat.slug}">{cat.title}</option>
+  {/each}
+  </select>
+
+{/if}
+
+
 <ul class="list-group entries-list">
 {#each items as item}
   <li class="list-group-item">

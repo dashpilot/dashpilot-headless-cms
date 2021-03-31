@@ -16,6 +16,7 @@ import Home from './routes/Home.svelte'
 import List from './routes/List.svelte'
 import Edit from './routes/Edit.svelte'
 import EditCollection from './routes/EditCollection.svelte'
+import Categories from './routes/Categories.svelte'
 import Settings from './routes/Settings.svelte'
 import NotFound from './routes/NotFound.svelte'
 
@@ -56,6 +57,13 @@ onMount(async () => {
 
 						'/collections/:id': wrap({
 								component: EditCollection,
+								props: {
+										data:data
+								}
+						}),
+
+						'/categories': wrap({
+								component: Categories,
 								props: {
 										data:data
 								}
@@ -122,6 +130,8 @@ window.renderData = function(mydata){
 
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
 	on:click="{() => current = 'collections'}">{#if data.settings.collections_label == ''}collections{:else}{data.settings.collections_label}{/if}</a>
+	<a href="/#/categories" class:selected="{current === 'categories'}"
+	on:click="{() => current = 'categories'}">Categories</a>
 	<a href="/#/settings" class:selected="{current === 'settings'}"
 	on:click="{() => current = 'settings'}">settings</a>
 <br><br>

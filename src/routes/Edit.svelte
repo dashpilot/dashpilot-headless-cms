@@ -110,7 +110,7 @@ function slugifyTitle()
   <Gallery bind:key={field.title} bind:item={data[cat][index]} />
   {/if}
 
-<!--
+
   {#if field.type=='cat'}
   <select bind:value="{data[cat][index].category}" class="form-control w-25">
   {#each data.categories as cat}
@@ -118,7 +118,7 @@ function slugifyTitle()
   {/each}
   </select>
   {/if}
-  -->
+  
 
   {/each}
 
