@@ -76,7 +76,7 @@ function slugifyFieldTitle(i)
 
 <div class="row topnav">
 <div class="col-6">
-<h4><span class="medium-hide">Edit {data.settings.collections_label_singular}:</span> {data.collections[index].title}</h4>
+<h4><span class="medium-hide">Edit Collection:</span> {data.collections[index].title}</h4>
 </div>
 <div class="col-6 text-right">
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
@@ -90,7 +90,7 @@ function slugifyFieldTitle(i)
 <div class="row">
   <div class="col-6">
     <b>Fields</b>
-    <div class="description">Fields in this {data.settings.collections_label_singular}</div>
+    <div class="description">Fields in this Collection</div>
   </div>
   <div class="col-6 text-right">
     <button class="btn btn-outline-dark btn-add float-right" on:click="{addField}"><i class="bi bi-plus-circle"></i> Add Field</button>

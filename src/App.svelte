@@ -129,7 +129,7 @@ window.renderData = function(mydata){
 
 
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
-	on:click="{() => current = 'collections'}">{#if data.settings.collections_label == ''}collections{:else}{data.settings.collections_label}{/if}</a>
+	on:click="{() => current = 'collections'}">Collections</a>
 	<a href="/#/categories" class:selected="{current === 'categories'}"
 	on:click="{() => current = 'categories'}">Categories</a>
 	<a href="/#/settings" class:selected="{current === 'settings'}"

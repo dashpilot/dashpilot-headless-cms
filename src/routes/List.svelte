@@ -53,6 +53,7 @@ function addItem(){
   newItem.id = Date.now();
   newItem.title = "";
   newItem.slug = "";
+  newItem.category = filterBy;
 
   data[cat].unshift(newItem);
   window.location = "/#/edit/"+cat+"/"+newItem.id;
@@ -120,7 +121,7 @@ function slugifyTitle()
 <div class="row topnav">
 <div class="col-6">
 {#if cat=='collections'}
-<h4>{data.settings.collections_label}</h4>
+<h4>Collections</h4>
 {:else}
 <h4>{curCat.title}</h4>
 {/if}
@@ -187,7 +188,7 @@ function slugifyTitle()
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Add {data.settings.collections_label_singular}</h4>
+        <h4 class="modal-title">Add Collection</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true" on:click="{() => addColl = false}">&times;</span>
         </button>
@@ -199,12 +200,12 @@ function slugifyTitle()
 {/if}
 
 
-  <b>{data.settings.collections_label_singular} Name</b>
+  <b>Collection Name</b>
       <input type="text" class="form-control" id="coll-title" />
           <div class="description-sub"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" on:click="{saveCollection}">Add {data.settings.collections_label_singular}</button>
+        <button type="button" class="btn btn-primary" on:click="{saveCollection}">Add Collection</button>
       </div>
     </div>
   </div>

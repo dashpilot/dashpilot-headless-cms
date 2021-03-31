@@ -59,8 +59,6 @@
   "settings": {
     "website_title": "My Website",
     "image_width": "800",
-    "webhook": "",
-    "collections_label": "collections",
-    "collections_label_singular": "collection"
+    "webhook": ""
   }
 }

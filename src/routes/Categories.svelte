@@ -30,6 +30,18 @@ function saveCat(){
     addCat = false;
 }
 
+function moveItemDown(id) {
+
+    let fromIndex = data.categories.findIndex(x => x.id == id);
+    let toIndex = fromIndex + 1;
+    var element = data.categories[fromIndex];
+    data.categories.splice(fromIndex, 1);
+    data.categories.splice(toIndex, 0, element);
+    items = data.categories;
+    data = data
+
+}
+
 function slugify(text)
 {
 
@@ -66,9 +78,10 @@ function slugify(text)
 
   </div>
   <div class="col-6 text-right">
-  {#if cat !== 'collections'}
+  <div class="btn-group">
+    <button class="btn btn-outline-secondary w-50" on:click="{() => moveItemDown(item.id)}"><i class="bi bi-caret-down"></i></button>
   <button class="btn btn-outline-secondary" on:click="{() => deleteItem(item.id)}"><i class="bi bi-trash"></i></button>
-  {/if}
+  </div>
   </div>
   </div>
   </li>
