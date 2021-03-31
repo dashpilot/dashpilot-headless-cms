@@ -5,6 +5,7 @@ let cat = false;
 let items = false;
 let addColl = false;
 let error = false;
+let coll_title = false;
 
 $: if (params.cat) {
 cat = params.cat;
@@ -15,6 +16,10 @@ if(cat in data){
 }else{
   data[cat] = [];
   items = data[cat];
+}
+
+if(cat!=='collections'){
+coll_title = data.collections.filter(x => x.slug == cat)[0].title;
 }
 
 }
@@ -44,16 +49,19 @@ function deleteItem(id){
 }
 
 function saveCollection(){
-  let val = slugifyTitle();
+
+  let val = document.querySelector('#coll-title').value;
+  let slug = slugifyTitle();
+
   if(val.length<3){
-    error = "Collection name should be at least 3 characters long"
+    error = "Name should be at least 3 characters long"
   }else if(val in data){
-    error = "Collection already exists"
+    error = "Name already exists"
   }else{
     let newItem = {};
     newItem.id = Date.now();
-    newItem.title = pluralize.plural(val);
-    newItem.singular = pluralize.singular(val);
+    newItem.title = val;
+    newItem.slug = slug;
     newItem.fields = [];
     data.collections.push(newItem);
     data[val] = [];
@@ -79,7 +87,11 @@ function slugifyTitle()
 
 <div class="row topnav">
 <div class="col-6">
-<h4>{cat}</h4>
+{#if cat=='collections'}
+<h4>{data.settings.collections_label}</h4>
+{:else}
+<h4>{coll_title}</h4>
+{/if}
 </div>
 <div class="col-6 text-right">
 <button class="btn btn-dark btn-add" on:click="{addItem}">Add</button>
@@ -116,7 +128,7 @@ function slugifyTitle()
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Add Collection</h5>
+        <h4 class="modal-title">Add {data.settings.collections_label_singular}</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true" on:click="{() => addColl = false}">&times;</span>
         </button>
@@ -128,12 +140,12 @@ function slugifyTitle()
 {/if}
 
 
-  <b>Collection Name</b>
-      <input type="text" class="form-control" on:keyup="{() => slugifyTitle()}" id="coll-title" />
-          <div class="description-sub">Plural, lowercase, no spaces (e.g. 'entries', 'pages')</div>
+  <b>{data.settings.collections_label_singular} Name</b>
+      <input type="text" class="form-control" id="coll-title" />
+          <div class="description-sub"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" on:click="{saveCollection}">Add Collection</button>
+        <button type="button" class="btn btn-primary" on:click="{saveCollection}">Add {data.settings.collections_label_singular}</button>
       </div>
     </div>
   </div>

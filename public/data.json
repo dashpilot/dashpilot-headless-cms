@@ -12,24 +12,15 @@
     "title": "Third post",
     "body": "Lorem ipsum dolor site amet"
   }],
-  "categories": [{
+  "something_else": [{
     "id": "1",
-    "title": "Home",
-    "slug": "home"
-  }, {
-    "id": "2",
-    "title": "About",
-    "slug": "about"
-  }, {
-    "id": "3",
-    "title": "Contact",
-    "slug": "contact",
-    "layout": "page"
+    "title": "Hello World",
+    "body": "Lorem ipsum dolor site amet"
   }],
   "collections": [{
     "id": "1",
-    "title": "entries",
-    "singular": "entry",
+    "title": "Entries",
+    "slug": "entries",
     "fields": [{
       "title": "body",
       "description": "This editor uses Markdown",
@@ -38,19 +29,22 @@
       "title": "Gallery",
       "description": "",
       "type": "gal"
-    }, {
-      "title": "Category",
-      "description": "",
-      "type": "cat"
     }]
   }, {
     "id": "2",
-    "title": "categories",
-    "singular": "category",
-    "fields": []
+    "title": "Something Else",
+    "slug": "something_else",
+    "fields": [{
+      "title": "body",
+      "description": "",
+      "type": "mde"
+    }]
   }],
   "settings": {
     "website_title": "My Website",
-    "image_width": "800"
+    "image_width": "800",
+    "webhook": "",
+    "collections_label": "categories",
+    "collections_label_singular": "category"
   }
 }

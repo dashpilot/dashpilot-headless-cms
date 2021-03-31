@@ -18,7 +18,7 @@ cat = params.cat;
 id = params.id;
 item = data[cat].filter(x => x.id == id)[0];
 index = data[cat].findIndex(x => x.id == id);
-collection = data.collections.filter(x => x.title == cat)[0];
+collection = data.collections.filter(x => x.slug == cat)[0];
 
 }
 
@@ -67,7 +67,7 @@ function slugifyTitle()
 
 <div class="row topnav">
 <div class="col-6">
-<h4>Edit {collection.singular}</h4>
+<h4>Edit</h4>
 </div>
 <div class="col-6 text-right">
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
@@ -110,6 +110,7 @@ function slugifyTitle()
   <Gallery bind:key={field.title} bind:item={data[cat][index]} />
   {/if}
 
+<!--
   {#if field.type=='cat'}
   <select bind:value="{data[cat][index].category}" class="form-control w-25">
   {#each data.categories as cat}
@@ -117,6 +118,7 @@ function slugifyTitle()
   {/each}
   </select>
   {/if}
+  -->
 
   {/each}
 
