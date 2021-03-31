@@ -48,6 +48,17 @@ function deleteItem(id){
   }
 }
 
+function moveItemDown(id) {
+
+    let fromIndex = data[cat].findIndex(x => x.id == id);
+    let toIndex = fromIndex + 1;
+    var element = data[cat][fromIndex];
+    data[cat].splice(fromIndex, 1);
+    data[cat].splice(toIndex, 0, element);
+    data = data
+
+}
+
 function saveCollection(){
 
   let val = document.querySelector('#coll-title').value;
@@ -112,7 +123,10 @@ function slugifyTitle()
   </div>
   <div class="col-6 text-right">
   {#if cat !== 'collections'}
-  <button class="btn btn-outline-secondary" on:click="{() => deleteItem(item.id)}"><i class="bi bi-trash"></i></button>
+<div class="btn-group">
+  <button class="btn btn-outline-secondary w-50" on:click="{() => moveItemDown(item.id)}"><i class="bi bi-caret-down"></i></button>
+  <button class="btn btn-outline-secondary w-50" on:click="{() => deleteItem(item.id)}"><i class="bi bi-trash"></i></button>
+  </div>
   {/if}
   </div>
   </div>

@@ -1964,11 +1964,11 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[12] = list[i];
+    	child_ctx[14] = list[i];
     	return child_ctx;
     }
 
-    // (92:0) {:else}
+    // (103:0) {:else}
     function create_else_block_2(ctx) {
     	let h4;
     	let t;
@@ -1977,7 +1977,7 @@ var app = (function () {
     		c: function create() {
     			h4 = element("h4");
     			t = text(/*coll_title*/ ctx[5]);
-    			add_location(h4, file$1, 92, 0, 2049);
+    			add_location(h4, file$1, 103, 0, 2308);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -1995,14 +1995,14 @@ var app = (function () {
     		block,
     		id: create_else_block_2.name,
     		type: "else",
-    		source: "(92:0) {:else}",
+    		source: "(103:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (90:0) {#if cat=='collections'}
+    // (101:0) {#if cat=='collections'}
     function create_if_block_5(ctx) {
     	let h4;
     	let t_value = /*data*/ ctx[0].settings.collections_label + "";
@@ -2012,7 +2012,7 @@ var app = (function () {
     		c: function create() {
     			h4 = element("h4");
     			t = text(t_value);
-    			add_location(h4, file$1, 90, 0, 1998);
+    			add_location(h4, file$1, 101, 0, 2257);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h4, anchor);
@@ -2030,20 +2030,20 @@ var app = (function () {
     		block,
     		id: create_if_block_5.name,
     		type: "if",
-    		source: "(90:0) {#if cat=='collections'}",
+    		source: "(101:0) {#if cat=='collections'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (109:2) {:else}
+    // (120:2) {:else}
     function create_else_block$1(ctx) {
     	let a;
     	let a_href_value;
 
     	function select_block_type_2(ctx, dirty) {
-    		if (/*item*/ ctx[12].title == "") return create_if_block_4;
+    		if (/*item*/ ctx[14].title == "") return create_if_block_4;
     		return create_else_block_1;
     	}
 
@@ -2054,8 +2054,8 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			if_block.c();
-    			attr_dev(a, "href", a_href_value = "/#/edit/" + /*cat*/ ctx[1] + "/" + /*item*/ ctx[12].id);
-    			add_location(a, file$1, 109, 2, 2490);
+    			attr_dev(a, "href", a_href_value = "/#/edit/" + /*cat*/ ctx[1] + "/" + /*item*/ ctx[14].id);
+    			add_location(a, file$1, 120, 2, 2749);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2074,7 +2074,7 @@ var app = (function () {
     				}
     			}
 
-    			if (dirty & /*cat, items*/ 6 && a_href_value !== (a_href_value = "/#/edit/" + /*cat*/ ctx[1] + "/" + /*item*/ ctx[12].id)) {
+    			if (dirty & /*cat, items*/ 6 && a_href_value !== (a_href_value = "/#/edit/" + /*cat*/ ctx[1] + "/" + /*item*/ ctx[14].id)) {
     				attr_dev(a, "href", a_href_value);
     			}
     		},
@@ -2088,17 +2088,17 @@ var app = (function () {
     		block,
     		id: create_else_block$1.name,
     		type: "else",
-    		source: "(109:2) {:else}",
+    		source: "(120:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (107:2) {#if cat == 'collections'}
+    // (118:2) {#if cat == 'collections'}
     function create_if_block_3(ctx) {
     	let a;
-    	let t_value = /*item*/ ctx[12].title + "";
+    	let t_value = /*item*/ ctx[14].title + "";
     	let t;
     	let a_href_value;
 
@@ -2106,17 +2106,17 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			t = text(t_value);
-    			attr_dev(a, "href", a_href_value = "/#/collections/" + /*item*/ ctx[12].id);
-    			add_location(a, file$1, 107, 2, 2426);
+    			attr_dev(a, "href", a_href_value = "/#/collections/" + /*item*/ ctx[14].id);
+    			add_location(a, file$1, 118, 2, 2685);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
     			append_dev(a, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*items*/ 4 && t_value !== (t_value = /*item*/ ctx[12].title + "")) set_data_dev(t, t_value);
+    			if (dirty & /*items*/ 4 && t_value !== (t_value = /*item*/ ctx[14].title + "")) set_data_dev(t, t_value);
 
-    			if (dirty & /*items*/ 4 && a_href_value !== (a_href_value = "/#/collections/" + /*item*/ ctx[12].id)) {
+    			if (dirty & /*items*/ 4 && a_href_value !== (a_href_value = "/#/collections/" + /*item*/ ctx[14].id)) {
     				attr_dev(a, "href", a_href_value);
     			}
     		},
@@ -2129,16 +2129,16 @@ var app = (function () {
     		block,
     		id: create_if_block_3.name,
     		type: "if",
-    		source: "(107:2) {#if cat == 'collections'}",
+    		source: "(118:2) {#if cat == 'collections'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (110:64) {:else}
+    // (121:64) {:else}
     function create_else_block_1(ctx) {
-    	let t_value = /*item*/ ctx[12].title + "";
+    	let t_value = /*item*/ ctx[14].title + "";
     	let t;
 
     	const block = {
@@ -2149,7 +2149,7 @@ var app = (function () {
     			insert_dev(target, t, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*items*/ 4 && t_value !== (t_value = /*item*/ ctx[12].title + "")) set_data_dev(t, t_value);
+    			if (dirty & /*items*/ 4 && t_value !== (t_value = /*item*/ ctx[14].title + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t);
@@ -2160,14 +2160,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(110:64) {:else}",
+    		source: "(121:64) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (110:36) {#if item.title==''}
+    // (121:36) {#if item.title==''}
     function create_if_block_4(ctx) {
     	let t;
 
@@ -2188,39 +2188,65 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(110:36) {#if item.title==''}",
+    		source: "(121:36) {#if item.title==''}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (114:2) {#if cat !== 'collections'}
+    // (125:2) {#if cat !== 'collections'}
     function create_if_block_2(ctx) {
-    	let button;
-    	let i;
+    	let div;
+    	let button0;
+    	let i0;
+    	let t;
+    	let button1;
+    	let i1;
     	let mounted;
     	let dispose;
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[10](/*item*/ ctx[12]);
+    		return /*click_handler*/ ctx[11](/*item*/ ctx[14]);
+    	}
+
+    	function click_handler_1() {
+    		return /*click_handler_1*/ ctx[12](/*item*/ ctx[14]);
     	}
 
     	const block = {
     		c: function create() {
-    			button = element("button");
-    			i = element("i");
-    			attr_dev(i, "class", "bi bi-trash");
-    			add_location(i, file$1, 114, 83, 2744);
-    			attr_dev(button, "class", "btn btn-outline-secondary");
-    			add_location(button, file$1, 114, 2, 2663);
+    			div = element("div");
+    			button0 = element("button");
+    			i0 = element("i");
+    			t = space();
+    			button1 = element("button");
+    			i1 = element("i");
+    			attr_dev(i0, "class", "bi bi-caret-down");
+    			add_location(i0, file$1, 126, 90, 3034);
+    			attr_dev(button0, "class", "btn btn-outline-secondary w-50");
+    			add_location(button0, file$1, 126, 2, 2946);
+    			attr_dev(i1, "class", "bi bi-trash");
+    			add_location(i1, file$1, 127, 88, 3164);
+    			attr_dev(button1, "class", "btn btn-outline-secondary w-50");
+    			add_location(button1, file$1, 127, 2, 3078);
+    			attr_dev(div, "class", "btn-group");
+    			add_location(div, file$1, 125, 0, 2920);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, button, anchor);
-    			append_dev(button, i);
+    			insert_dev(target, div, anchor);
+    			append_dev(div, button0);
+    			append_dev(button0, i0);
+    			append_dev(div, t);
+    			append_dev(div, button1);
+    			append_dev(button1, i1);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", click_handler, false, false, false);
+    				dispose = [
+    					listen_dev(button0, "click", click_handler, false, false, false),
+    					listen_dev(button1, "click", click_handler_1, false, false, false)
+    				];
+
     				mounted = true;
     			}
     		},
@@ -2228,9 +2254,9 @@ var app = (function () {
     			ctx = new_ctx;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(button);
+    			if (detaching) detach_dev(div);
     			mounted = false;
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -2238,14 +2264,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(114:2) {#if cat !== 'collections'}",
+    		source: "(125:2) {#if cat !== 'collections'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (103:0) {#each items as item}
+    // (114:0) {#each items as item}
     function create_each_block(ctx) {
     	let li;
     	let div2;
@@ -2274,13 +2300,13 @@ var app = (function () {
     			if (if_block1) if_block1.c();
     			t1 = space();
     			attr_dev(div0, "class", "col-6 text-truncate d-flex align-items-center");
-    			add_location(div0, file$1, 105, 2, 2335);
+    			add_location(div0, file$1, 116, 2, 2594);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$1, 112, 2, 2600);
+    			add_location(div1, file$1, 123, 2, 2859);
     			attr_dev(div2, "class", "row");
-    			add_location(div2, file$1, 104, 2, 2315);
+    			add_location(div2, file$1, 115, 2, 2574);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$1, 103, 2, 2284);
+    			add_location(li, file$1, 114, 2, 2543);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2329,14 +2355,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(103:0) {#each items as item}",
+    		source: "(114:0) {#each items as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (124:0) {#if addColl}
+    // (138:0) {#if addColl}
     function create_if_block$1(ctx) {
     	let div7;
     	let div6;
@@ -2402,41 +2428,41 @@ var app = (function () {
     			t11 = text("Add ");
     			t12 = text(t12_value);
     			attr_dev(h4, "class", "modal-title");
-    			add_location(h4, file$1, 130, 8, 3041);
+    			add_location(h4, file$1, 144, 8, 3470);
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$1, 132, 10, 3212);
+    			add_location(span, file$1, 146, 10, 3641);
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "close");
     			attr_dev(button0, "data-dismiss", "modal");
     			attr_dev(button0, "aria-label", "Close");
-    			add_location(button0, file$1, 131, 8, 3125);
+    			add_location(button0, file$1, 145, 8, 3554);
     			attr_dev(div0, "class", "modal-header");
-    			add_location(div0, file$1, 129, 6, 3006);
-    			add_location(b, file$1, 142, 2, 3418);
+    			add_location(div0, file$1, 143, 6, 3435);
+    			add_location(b, file$1, 156, 2, 3847);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
     			attr_dev(input, "id", "coll-title");
-    			add_location(input, file$1, 143, 6, 3479);
+    			add_location(input, file$1, 157, 6, 3908);
     			attr_dev(div1, "class", "description-sub");
-    			add_location(div1, file$1, 144, 10, 3548);
+    			add_location(div1, file$1, 158, 10, 3977);
     			attr_dev(div2, "class", "modal-body");
-    			add_location(div2, file$1, 135, 6, 3324);
+    			add_location(div2, file$1, 149, 6, 3753);
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary");
-    			add_location(button1, file$1, 147, 8, 3638);
+    			add_location(button1, file$1, 161, 8, 4067);
     			attr_dev(div3, "class", "modal-footer");
-    			add_location(div3, file$1, 146, 6, 3603);
+    			add_location(div3, file$1, 160, 6, 4032);
     			attr_dev(div4, "class", "modal-content");
-    			add_location(div4, file$1, 128, 4, 2972);
+    			add_location(div4, file$1, 142, 4, 3401);
     			attr_dev(div5, "class", "modal-dialog");
     			attr_dev(div5, "role", "document");
-    			add_location(div5, file$1, 127, 2, 2925);
+    			add_location(div5, file$1, 141, 2, 3354);
     			attr_dev(div6, "class", "modal");
     			attr_dev(div6, "tabindex", "-1");
     			attr_dev(div6, "role", "dialog");
-    			add_location(div6, file$1, 126, 0, 2875);
+    			add_location(div6, file$1, 140, 0, 3304);
     			attr_dev(div7, "class", "backdrop");
-    			add_location(div7, file$1, 124, 0, 2851);
+    			add_location(div7, file$1, 138, 0, 3280);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div7, anchor);
@@ -2469,8 +2495,8 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(span, "click", /*click_handler_1*/ ctx[11], false, false, false),
-    					listen_dev(button1, "click", /*saveCollection*/ ctx[8], false, false, false)
+    					listen_dev(span, "click", /*click_handler_2*/ ctx[13], false, false, false),
+    					listen_dev(button1, "click", /*saveCollection*/ ctx[9], false, false, false)
     				];
 
     				mounted = true;
@@ -2507,14 +2533,14 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(124:0) {#if addColl}",
+    		source: "(138:0) {#if addColl}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (138:0) {#if error}
+    // (152:0) {#if error}
     function create_if_block_1(ctx) {
     	let div;
     	let t;
@@ -2524,7 +2550,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[4]);
     			attr_dev(div, "class", "alert alert-danger");
-    			add_location(div, file$1, 138, 0, 3362);
+    			add_location(div, file$1, 152, 0, 3791);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2542,7 +2568,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(138:0) {#if error}",
+    		source: "(152:0) {#if error}",
     		ctx
     	});
 
@@ -2601,17 +2627,17 @@ var app = (function () {
     			if (if_block1) if_block1.c();
     			if_block1_anchor = empty();
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$1, 88, 0, 1953);
+    			add_location(div0, file$1, 99, 0, 2212);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$1, 96, 0, 2115);
+    			add_location(button, file$1, 107, 0, 2374);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$1, 95, 0, 2084);
+    			add_location(div1, file$1, 106, 0, 2343);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$1, 87, 0, 1928);
+    			add_location(div2, file$1, 98, 0, 2187);
     			attr_dev(ul, "class", "list-group entries-list");
-    			add_location(ul, file$1, 101, 0, 2223);
+    			add_location(ul, file$1, 112, 0, 2482);
     			attr_dev(div3, "class", "content");
-    			add_location(div3, file$1, 100, 0, 2201);
+    			add_location(div3, file$1, 111, 0, 2460);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2653,7 +2679,7 @@ var app = (function () {
     				}
     			}
 
-    			if (dirty & /*deleteItem, items, cat*/ 134) {
+    			if (dirty & /*deleteItem, items, moveItemDown, cat*/ 390) {
     				each_value = /*items*/ ctx[2];
     				validate_each_argument(each_value);
     				let i;
@@ -2760,8 +2786,17 @@ var app = (function () {
 
     		if (result) {
     			$$invalidate(0, data[cat] = data[cat].filter(x => x.id !== id), data);
-    			(($$invalidate(0, data), $$invalidate(9, params)), $$invalidate(1, cat));
+    			(($$invalidate(0, data), $$invalidate(10, params)), $$invalidate(1, cat));
     		}
+    	}
+
+    	function moveItemDown(id) {
+    		let fromIndex = data[cat].findIndex(x => x.id == id);
+    		let toIndex = fromIndex + 1;
+    		var element = data[cat][fromIndex];
+    		data[cat].splice(fromIndex, 1);
+    		data[cat].splice(toIndex, 0, element);
+    		(($$invalidate(0, data), $$invalidate(10, params)), $$invalidate(1, cat));
     	}
 
     	function saveCollection() {
@@ -2791,11 +2826,12 @@ var app = (function () {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<List> was created with unknown prop '${key}'`);
     	});
 
-    	const click_handler = item => deleteItem(item.id);
-    	const click_handler_1 = () => $$invalidate(3, addColl = false);
+    	const click_handler = item => moveItemDown(item.id);
+    	const click_handler_1 = item => deleteItem(item.id);
+    	const click_handler_2 = () => $$invalidate(3, addColl = false);
 
     	$$self.$$set = $$props => {
-    		if ("params" in $$props) $$invalidate(9, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(10, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     	};
 
@@ -2809,12 +2845,13 @@ var app = (function () {
     		coll_title,
     		addItem,
     		deleteItem,
+    		moveItemDown,
     		saveCollection,
     		slugifyTitle
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("params" in $$props) $$invalidate(9, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(10, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     		if ("cat" in $$props) $$invalidate(1, cat = $$props.cat);
     		if ("items" in $$props) $$invalidate(2, items = $$props.items);
@@ -2828,7 +2865,7 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*params, cat, data*/ 515) {
+    		if ($$self.$$.dirty & /*params, cat, data*/ 1027) {
     			 if (params.cat) {
     				$$invalidate(1, cat = params.cat);
 
@@ -2856,17 +2893,19 @@ var app = (function () {
     		coll_title,
     		addItem,
     		deleteItem,
+    		moveItemDown,
     		saveCollection,
     		params,
     		click_handler,
-    		click_handler_1
+    		click_handler_1,
+    		click_handler_2
     	];
     }
 
     class List extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { params: 9, data: 0 });
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { params: 10, data: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -2878,7 +2917,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*params*/ ctx[9] === undefined && !("params" in props)) {
+    		if (/*params*/ ctx[10] === undefined && !("params" in props)) {
     			console.warn("<List> was created without expected prop 'params'");
     		}
 
