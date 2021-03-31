@@ -135,7 +135,7 @@ window.renderData = function(mydata){
 	<a href="/#/settings" class:selected="{current === 'settings'}"
 	on:click="{() => current = 'settings'}">settings</a>
 <br><br>
-
+<a on:click="{() => console.log(data)}">Debug</a>
 	<a href="/logout" id="logout">Log Out</a>
 </div>
 

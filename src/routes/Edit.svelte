@@ -18,8 +18,12 @@ cat = params.cat;
 id = params.id;
 item = data[cat].filter(x => x.id == id)[0];
 index = data[cat].findIndex(x => x.id == id);
-collection = data.collections.filter(x => x.slug == cat)[0];
-
+if(cat !== 'categories'){
+  collection = data.collections.filter(x => x.slug == cat)[0];
+}else{
+  collection = {};
+  collection.fields = [];
+}
 }
 
 function save(){
@@ -118,7 +122,7 @@ function slugifyTitle()
   {/each}
   </select>
   {/if}
-  
+
 
   {/each}
 

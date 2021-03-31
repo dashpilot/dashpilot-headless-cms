@@ -74,7 +74,7 @@ function slugify(text)
   <div class="row">
   <div class="col-6 text-truncate d-flex align-items-center">
 
-{item.title}
+<a href="/#/edit/categories/{item.id}">{item.title}<a>
 
   </div>
   <div class="col-6 text-right">
