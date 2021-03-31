@@ -134,6 +134,19 @@ b{
 	color: black;
 }
 
+.categories-list{
+	border: 1px solid #DDD;
+}
+
+.categories-list a{
+	cursor: pointer;
+}
+
+.categories-list a.selected{
+	background-color: #5679FE;
+	color: white;
+}
+
 .btn-dark{
 	min-width: 100px;
 }
