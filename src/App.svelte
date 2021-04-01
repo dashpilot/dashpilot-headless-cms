@@ -120,7 +120,7 @@ window.renderData = function(mydata){
 	{#each data.collections as item}
 
 	<a href="/#/list/{item.slug}" class:selected="{current === item.title}"
-	on:click="{() => current = item.title}">{item.title}</a>
+	on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
 
 	{/each}
 </div>

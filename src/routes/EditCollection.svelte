@@ -75,10 +75,10 @@ function slugifyFieldTitle(i)
 
 
 <div class="row topnav">
-<div class="col-6">
-<h4><span class="medium-hide">Edit Collection:</span> {data.collections[index].title}</h4>
+<div class="col-9">
+<h4 class="text-truncate"><span class="medium-hide">Edit Collection:</span> {data.collections[index].title}</h4>
 </div>
-<div class="col-6 text-right">
+<div class="col-3 text-right">
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
 </div>
 </div>

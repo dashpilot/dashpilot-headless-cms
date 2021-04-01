@@ -30,7 +30,7 @@ curCat = data.collections.filter(x => x.slug == cat)[0];
 hasCat = curCat.fields.filter(x => x.type == 'cat');
 
 if(hasCat[0]){
-  colW = 'col-md-8';
+  colW = 'col-md-9';
 }else{
   colW = 'col-md-12';
 }
@@ -137,12 +137,12 @@ function slugifyTitle()
 <div class="row">
 {#if hasCat[0]}
 
-<div class="col-md-4">
+<div class="col-md-3">
 
 <div class="list-group list-group-flush categories-list">
   <a class="list-group-item list-group-item-action" class:selected="{filterBy === ''}" on:click="{() => filterBy = ''}">All</a>
   {#each data.categories as cat}
-  <a class="list-group-item list-group-item-action" class:selected="{filterBy === cat.slug}" on:click="{() => filterBy = cat.slug}">{cat.title}</a>
+  <a class="list-group-item list-group-item-action text-truncate" class:selected="{filterBy === cat.slug}" on:click="{() => filterBy = cat.slug}">{cat.title}</a>
   {/each}
 </div>
 
@@ -159,9 +159,9 @@ function slugifyTitle()
   <div class="row">
   <div class="col-6 text-truncate d-flex align-items-center">
   {#if cat == 'collections'}
-  <a href="/#/collections/{item.id}">{item.title}</a>
+  <a href="/#/collections/{item.id}" class="text-truncate">{item.title}</a>
   {:else}
-  <a href="/#/edit/{cat}/{item.id}">{#if item.title==''}Untitled{:else}{item.title}{/if}</a>
+  <a href="/#/edit/{cat}/{item.id}" class="text-truncate">{#if item.title==''}Untitled{:else}{item.title}{/if}</a>
   {/if}
   </div>
   <div class="col-6 text-right">

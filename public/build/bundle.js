@@ -2072,7 +2072,7 @@ var app = (function () {
     			add_location(a, file$1, 142, 2, 2965);
     			attr_dev(div0, "class", "list-group list-group-flush categories-list");
     			add_location(div0, file$1, 141, 0, 2905);
-    			attr_dev(div1, "class", "col-md-4");
+    			attr_dev(div1, "class", "col-md-3");
     			add_location(div1, file$1, 139, 0, 2881);
     		},
     		m: function mount(target, anchor) {
@@ -2154,7 +2154,7 @@ var app = (function () {
     		c: function create() {
     			a = element("a");
     			t = text(t_value);
-    			attr_dev(a, "class", "list-group-item list-group-item-action");
+    			attr_dev(a, "class", "list-group-item list-group-item-action text-truncate");
     			toggle_class(a, "selected", /*filterBy*/ ctx[4] === /*cat*/ ctx[5].slug);
     			add_location(a, file$1, 144, 2, 3126);
     		},
@@ -2211,7 +2211,8 @@ var app = (function () {
     			a = element("a");
     			if_block.c();
     			attr_dev(a, "href", a_href_value = "/#/edit/" + /*cat*/ ctx[5] + "/" + /*item*/ ctx[21].id);
-    			add_location(a, file$1, 163, 2, 3597);
+    			attr_dev(a, "class", "text-truncate");
+    			add_location(a, file$1, 163, 2, 3633);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2263,7 +2264,8 @@ var app = (function () {
     			a = element("a");
     			t = text(t_value);
     			attr_dev(a, "href", a_href_value = "/#/collections/" + /*item*/ ctx[21].id);
-    			add_location(a, file$1, 161, 2, 3533);
+    			attr_dev(a, "class", "text-truncate");
+    			add_location(a, file$1, 161, 2, 3547);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
@@ -2292,7 +2294,7 @@ var app = (function () {
     	return block;
     }
 
-    // (164:64) {:else}
+    // (164:86) {:else}
     function create_else_block_1(ctx) {
     	let t_value = /*item*/ ctx[21].title + "";
     	let t;
@@ -2316,14 +2318,14 @@ var app = (function () {
     		block,
     		id: create_else_block_1.name,
     		type: "else",
-    		source: "(164:64) {:else}",
+    		source: "(164:86) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (164:36) {#if item.title==''}
+    // (164:58) {#if item.title==''}
     function create_if_block_4(ctx) {
     	let t;
 
@@ -2344,7 +2346,7 @@ var app = (function () {
     		block,
     		id: create_if_block_4.name,
     		type: "if",
-    		source: "(164:36) {#if item.title==''}",
+    		source: "(164:58) {#if item.title==''}",
     		ctx
     	});
 
@@ -2379,15 +2381,15 @@ var app = (function () {
     			button1 = element("button");
     			i1 = element("i");
     			attr_dev(i0, "class", "bi bi-caret-down");
-    			add_location(i0, file$1, 169, 90, 3882);
+    			add_location(i0, file$1, 169, 90, 3940);
     			attr_dev(button0, "class", "btn btn-outline-secondary w-50");
-    			add_location(button0, file$1, 169, 2, 3794);
+    			add_location(button0, file$1, 169, 2, 3852);
     			attr_dev(i1, "class", "bi bi-trash");
-    			add_location(i1, file$1, 170, 88, 4012);
+    			add_location(i1, file$1, 170, 88, 4070);
     			attr_dev(button1, "class", "btn btn-outline-secondary w-50");
-    			add_location(button1, file$1, 170, 2, 3926);
+    			add_location(button1, file$1, 170, 2, 3984);
     			attr_dev(div, "class", "btn-group");
-    			add_location(div, file$1, 168, 0, 3768);
+    			add_location(div, file$1, 168, 0, 3826);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2456,13 +2458,13 @@ var app = (function () {
     			if (if_block1) if_block1.c();
     			t1 = space();
     			attr_dev(div0, "class", "col-6 text-truncate d-flex align-items-center");
-    			add_location(div0, file$1, 159, 2, 3442);
+    			add_location(div0, file$1, 159, 2, 3456);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$1, 166, 2, 3707);
+    			add_location(div1, file$1, 166, 2, 3765);
     			attr_dev(div2, "class", "row");
-    			add_location(div2, file$1, 158, 2, 3422);
+    			add_location(div2, file$1, 158, 2, 3436);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$1, 157, 2, 3391);
+    			add_location(li, file$1, 157, 2, 3405);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2572,41 +2574,41 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Add Collection";
     			attr_dev(h4, "class", "modal-title");
-    			add_location(h4, file$1, 190, 8, 4333);
+    			add_location(h4, file$1, 190, 8, 4391);
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$1, 192, 10, 4472);
+    			add_location(span, file$1, 192, 10, 4530);
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "close");
     			attr_dev(button0, "data-dismiss", "modal");
     			attr_dev(button0, "aria-label", "Close");
-    			add_location(button0, file$1, 191, 8, 4385);
+    			add_location(button0, file$1, 191, 8, 4443);
     			attr_dev(div0, "class", "modal-header");
-    			add_location(div0, file$1, 189, 6, 4298);
-    			add_location(b, file$1, 202, 2, 4678);
+    			add_location(div0, file$1, 189, 6, 4356);
+    			add_location(b, file$1, 202, 2, 4736);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
     			attr_dev(input, "id", "coll-title");
-    			add_location(input, file$1, 203, 6, 4707);
+    			add_location(input, file$1, 203, 6, 4765);
     			attr_dev(div1, "class", "description-sub");
-    			add_location(div1, file$1, 204, 10, 4776);
+    			add_location(div1, file$1, 204, 10, 4834);
     			attr_dev(div2, "class", "modal-body");
-    			add_location(div2, file$1, 195, 6, 4584);
+    			add_location(div2, file$1, 195, 6, 4642);
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary");
-    			add_location(button1, file$1, 207, 8, 4866);
+    			add_location(button1, file$1, 207, 8, 4924);
     			attr_dev(div3, "class", "modal-footer");
-    			add_location(div3, file$1, 206, 6, 4831);
+    			add_location(div3, file$1, 206, 6, 4889);
     			attr_dev(div4, "class", "modal-content");
-    			add_location(div4, file$1, 188, 4, 4264);
+    			add_location(div4, file$1, 188, 4, 4322);
     			attr_dev(div5, "class", "modal-dialog");
     			attr_dev(div5, "role", "document");
-    			add_location(div5, file$1, 187, 2, 4217);
+    			add_location(div5, file$1, 187, 2, 4275);
     			attr_dev(div6, "class", "modal");
     			attr_dev(div6, "tabindex", "-1");
     			attr_dev(div6, "role", "dialog");
-    			add_location(div6, file$1, 186, 0, 4167);
+    			add_location(div6, file$1, 186, 0, 4225);
     			attr_dev(div7, "class", "backdrop");
-    			add_location(div7, file$1, 184, 0, 4143);
+    			add_location(div7, file$1, 184, 0, 4201);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div7, anchor);
@@ -2683,7 +2685,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[7]);
     			attr_dev(div, "class", "alert alert-danger");
-    			add_location(div, file$1, 198, 0, 4622);
+    			add_location(div, file$1, 198, 0, 4680);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2776,9 +2778,9 @@ var app = (function () {
     			attr_dev(div2, "class", "row topnav");
     			add_location(div2, file$1, 120, 0, 2569);
     			attr_dev(ul, "class", "list-group entries-list");
-    			add_location(ul, file$1, 155, 0, 3330);
+    			add_location(ul, file$1, 155, 0, 3344);
     			attr_dev(div3, "class", /*colW*/ ctx[8]);
-    			add_location(div3, file$1, 153, 0, 3308);
+    			add_location(div3, file$1, 153, 0, 3322);
     			attr_dev(div4, "class", "row");
     			add_location(div4, file$1, 136, 0, 2846);
     			attr_dev(div5, "class", "content");
@@ -3069,7 +3071,7 @@ var app = (function () {
     					$$invalidate(3, hasCat = curCat.fields.filter(x => x.type == "cat"));
 
     					if (hasCat[0]) {
-    						$$invalidate(8, colW = "col-md-8");
+    						$$invalidate(8, colW = "col-md-9");
     					} else {
     						$$invalidate(8, colW = "col-md-12");
     					}
@@ -5691,7 +5693,7 @@ var app = (function () {
     			attr_dev(span, "class", "spinner-border spinner-border-sm");
     			attr_dev(span, "role", "status");
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$7, 81, 68, 2020);
+    			add_location(span, file$7, 81, 68, 2042);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -5752,19 +5754,19 @@ var app = (function () {
     			attr_dev(input, "class", "form-control mb-0");
     			input.value = "title";
     			input.readOnly = true;
-    			add_location(input, file$7, 106, 23, 2638);
+    			add_location(input, file$7, 106, 23, 2660);
     			attr_dev(div0, "class", "col-4");
-    			add_location(div0, file$7, 106, 4, 2619);
+    			add_location(div0, file$7, 106, 4, 2641);
     			attr_dev(div1, "class", "description mt-2");
-    			add_location(div1, file$7, 107, 23, 2738);
+    			add_location(div1, file$7, 107, 23, 2760);
     			attr_dev(div2, "class", "col-8");
-    			add_location(div2, file$7, 107, 4, 2719);
+    			add_location(div2, file$7, 107, 4, 2741);
     			attr_dev(div3, "class", "row");
-    			add_location(div3, file$7, 105, 4, 2597);
+    			add_location(div3, file$7, 105, 4, 2619);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$7, 104, 4, 2564);
+    			add_location(li, file$7, 104, 4, 2586);
     			attr_dev(ul, "class", "list-group");
-    			add_location(ul, file$7, 101, 4, 2534);
+    			add_location(ul, file$7, 101, 4, 2556);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -5901,48 +5903,48 @@ var app = (function () {
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control mb-0");
     			attr_dev(input0, "placeholder", "field name");
-    			add_location(input0, file$7, 116, 25, 2977);
+    			add_location(input0, file$7, 116, 25, 2999);
     			attr_dev(div0, "class", "col-4");
-    			add_location(div0, file$7, 116, 6, 2958);
+    			add_location(div0, file$7, 116, 6, 2980);
     			attr_dev(input1, "type", "text");
     			attr_dev(input1, "class", "form-control mb-0");
     			attr_dev(input1, "placeholder", "field description (optional)");
-    			add_location(input1, file$7, 117, 25, 3148);
+    			add_location(input1, file$7, 117, 25, 3170);
     			attr_dev(div1, "class", "col-3");
-    			add_location(div1, file$7, 117, 6, 3129);
+    			add_location(div1, file$7, 117, 6, 3151);
     			option0.__value = "txt";
     			option0.value = option0.__value;
-    			add_location(option0, file$7, 120, 6, 3377);
+    			add_location(option0, file$7, 120, 6, 3399);
     			option1.__value = "txta";
     			option1.value = option1.__value;
-    			add_location(option1, file$7, 121, 6, 3417);
+    			add_location(option1, file$7, 121, 6, 3439);
     			option2.__value = "mde";
     			option2.value = option2.__value;
-    			add_location(option2, file$7, 122, 6, 3462);
+    			add_location(option2, file$7, 122, 6, 3484);
     			option3.__value = "rte";
     			option3.value = option3.__value;
-    			add_location(option3, file$7, 123, 6, 3513);
+    			add_location(option3, file$7, 123, 6, 3535);
     			option4.__value = "gal";
     			option4.value = option4.__value;
-    			add_location(option4, file$7, 124, 6, 3565);
+    			add_location(option4, file$7, 124, 6, 3587);
     			option5.__value = "cat";
     			option5.value = option5.__value;
-    			add_location(option5, file$7, 125, 6, 3608);
+    			add_location(option5, file$7, 125, 6, 3630);
     			attr_dev(select, "class", "form-control mb-0");
     			if (/*field*/ ctx[19].type === void 0) add_render_callback(select_change_handler);
-    			add_location(select, file$7, 119, 6, 3310);
+    			add_location(select, file$7, 119, 6, 3332);
     			attr_dev(div2, "class", "col-3");
-    			add_location(div2, file$7, 118, 6, 3284);
+    			add_location(div2, file$7, 118, 6, 3306);
     			attr_dev(i_1, "class", "bi bi-trash");
-    			add_location(i_1, file$7, 131, 6, 3820);
+    			add_location(i_1, file$7, 131, 6, 3842);
     			attr_dev(button, "class", "btn btn-outline-secondary");
-    			add_location(button, file$7, 130, 6, 3727);
+    			add_location(button, file$7, 130, 6, 3749);
     			attr_dev(div3, "class", "col-2 text-right");
-    			add_location(div3, file$7, 129, 6, 3690);
+    			add_location(div3, file$7, 129, 6, 3712);
     			attr_dev(div4, "class", "row");
-    			add_location(div4, file$7, 115, 6, 2934);
+    			add_location(div4, file$7, 115, 6, 2956);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$7, 114, 6, 2899);
+    			add_location(li, file$7, 114, 6, 2921);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -6076,31 +6078,32 @@ var app = (function () {
     			t11 = space();
     			if (if_block1) if_block1.c();
     			attr_dev(span, "class", "medium-hide");
-    			add_location(span, file$7, 78, 4, 1827);
+    			add_location(span, file$7, 78, 26, 1849);
+    			attr_dev(h4, "class", "text-truncate");
     			add_location(h4, file$7, 78, 0, 1823);
-    			attr_dev(div0, "class", "col-6");
+    			attr_dev(div0, "class", "col-9");
     			add_location(div0, file$7, 77, 0, 1803);
     			attr_dev(button0, "class", "btn btn-dark btn-add");
-    			add_location(button0, file$7, 81, 0, 1952);
-    			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$7, 80, 0, 1921);
+    			add_location(button0, file$7, 81, 0, 1974);
+    			attr_dev(div1, "class", "col-3 text-right");
+    			add_location(div1, file$7, 80, 0, 1943);
     			attr_dev(div2, "class", "row topnav");
     			add_location(div2, file$7, 76, 0, 1778);
-    			add_location(b, file$7, 91, 4, 2218);
+    			add_location(b, file$7, 91, 4, 2240);
     			attr_dev(div3, "class", "description");
-    			add_location(div3, file$7, 92, 4, 2236);
+    			add_location(div3, file$7, 92, 4, 2258);
     			attr_dev(div4, "class", "col-6");
-    			add_location(div4, file$7, 90, 2, 2194);
+    			add_location(div4, file$7, 90, 2, 2216);
     			attr_dev(i, "class", "bi bi-plus-circle");
-    			add_location(i, file$7, 95, 83, 2418);
+    			add_location(i, file$7, 95, 83, 2440);
     			attr_dev(button1, "class", "btn btn-outline-dark btn-add float-right");
-    			add_location(button1, file$7, 95, 4, 2339);
+    			add_location(button1, file$7, 95, 4, 2361);
     			attr_dev(div5, "class", "col-6 text-right");
-    			add_location(div5, file$7, 94, 2, 2304);
+    			add_location(div5, file$7, 94, 2, 2326);
     			attr_dev(div6, "class", "row");
-    			add_location(div6, file$7, 89, 0, 2174);
+    			add_location(div6, file$7, 89, 0, 2196);
     			attr_dev(div7, "class", "content");
-    			add_location(div7, file$7, 85, 0, 2149);
+    			add_location(div7, file$7, 85, 0, 2171);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -7372,21 +7375,21 @@ var app = (function () {
     			i1 = element("i");
     			t3 = text(" Sign In with Twitter");
     			if (img.src !== (img_src_value = "assets/img/rocket-planet.png")) attr_dev(img, "src", img_src_value);
-    			add_location(img, file$a, 155, 3, 3599);
+    			add_location(img, file$a, 155, 3, 3621);
     			attr_dev(i0, "class", "bi bi-google");
-    			add_location(i0, file$a, 156, 103, 3745);
+    			add_location(i0, file$a, 156, 103, 3767);
     			attr_dev(button0, "id", "google-signin");
     			attr_dev(button0, "onclick", "login('google');");
     			attr_dev(button0, "class", "btn btn-outline-dark w-100 btn-signin");
-    			add_location(button0, file$a, 156, 3, 3645);
+    			add_location(button0, file$a, 156, 3, 3667);
     			attr_dev(i1, "class", "bi bi-twitter");
-    			add_location(i1, file$a, 157, 109, 3912);
+    			add_location(i1, file$a, 157, 109, 3934);
     			attr_dev(button1, "id", "twitter-signin");
     			attr_dev(button1, "onclick", "login('twitter');");
     			attr_dev(button1, "class", "btn btn-outline-dark w-100 mt-2 btn-signin");
-    			add_location(button1, file$a, 157, 2, 3805);
+    			add_location(button1, file$a, 157, 2, 3827);
     			attr_dev(div, "id", "log-in-screen");
-    			add_location(div, file$a, 154, 1, 3571);
+    			add_location(div, file$a, 154, 1, 3593);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -7520,22 +7523,22 @@ var app = (function () {
     			add_location(h50, file$a, 117, 0, 2721);
     			attr_dev(div0, "id", "collections-nav");
     			add_location(div0, file$a, 118, 0, 2738);
-    			add_location(h51, file$a, 127, 0, 2949);
+    			add_location(h51, file$a, 127, 0, 2971);
     			attr_dev(a1, "href", "/#/list/collections");
     			toggle_class(a1, "selected", /*current*/ ctx[2] === "collections");
-    			add_location(a1, file$a, 130, 1, 2968);
+    			add_location(a1, file$a, 130, 1, 2990);
     			attr_dev(a2, "href", "/#/categories");
     			toggle_class(a2, "selected", /*current*/ ctx[2] === "categories");
-    			add_location(a2, file$a, 132, 1, 3104);
+    			add_location(a2, file$a, 132, 1, 3126);
     			attr_dev(a3, "href", "/#/settings");
     			toggle_class(a3, "selected", /*current*/ ctx[2] === "settings");
-    			add_location(a3, file$a, 134, 1, 3231);
-    			add_location(br0, file$a, 136, 0, 3349);
-    			add_location(br1, file$a, 136, 4, 3353);
-    			add_location(a4, file$a, 137, 0, 3358);
+    			add_location(a3, file$a, 134, 1, 3253);
+    			add_location(br0, file$a, 136, 0, 3371);
+    			add_location(br1, file$a, 136, 4, 3375);
+    			add_location(a4, file$a, 137, 0, 3380);
     			attr_dev(a5, "href", "/logout");
     			attr_dev(a5, "id", "logout");
-    			add_location(a5, file$a, 138, 1, 3409);
+    			add_location(a5, file$a, 138, 1, 3431);
     			attr_dev(div1, "class", "side-nav");
     			add_location(div1, file$a, 116, 0, 2698);
     			attr_dev(div2, "class", "side");
@@ -7543,9 +7546,9 @@ var app = (function () {
     			attr_dev(div3, "class", "col-md-2");
     			add_location(div3, file$a, 111, 0, 2514);
     			attr_dev(div4, "class", "main");
-    			add_location(div4, file$a, 146, 0, 3499);
+    			add_location(div4, file$a, 146, 0, 3521);
     			attr_dev(div5, "class", "col-md-10");
-    			add_location(div5, file$a, 144, 0, 3474);
+    			add_location(div5, file$a, 144, 0, 3496);
     			attr_dev(div6, "class", "row no-gutters page");
     			add_location(div6, file$a, 110, 0, 2464);
     		},
@@ -7761,6 +7764,7 @@ var app = (function () {
     			a = element("a");
     			t = text(t_value);
     			attr_dev(a, "href", a_href_value = "/#/list/" + /*item*/ ctx[11].slug);
+    			attr_dev(a, "class", "text-truncate");
     			toggle_class(a, "selected", /*current*/ ctx[2] === /*item*/ ctx[11].title);
     			add_location(a, file$a, 121, 1, 2801);
     		},
