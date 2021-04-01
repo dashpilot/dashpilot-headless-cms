@@ -12,6 +12,7 @@ let index = false;
 let collection = false;
 let fields = {};
 let loading = false;
+let hasCat = [];
 
 $: if (params.cat && params.id) {
 cat = params.cat;
@@ -24,6 +25,7 @@ if(cat !== 'categories'){
   collection = {};
   collection.fields = [];
 }
+hasCat = collection.fields.filter(x => x.type == 'cat');
 }
 
 function save(){
@@ -81,14 +83,33 @@ function slugifyTitle()
 <div class="content">
 
 
+<div class="row">
+<div class="col-md-8">
+
 <b>Title</b>
 <input type="text" class="form-control" bind:value="{data[cat][index].title}" />
 
+</div>
+<div class="col-md-4">
+
+{#if hasCat[0]}
+<b>Category</b>
+<select bind:value="{data[cat][index].category}" class="form-control w-100">
+{#each data.categories as cat}
+<option value="{cat.slug}">{cat.title}</option>
+{/each}
+</select>
+{/if}
+
+</div>
+</div>
 
   {#each collection.fields as field}
 
-
+{#if field.type !== 'cat'}
   <b>{field.title}</b>
+{/if}
+
   {#if field.description}
   <div class="description">{field.description}</div>
   {/if}
@@ -115,13 +136,7 @@ function slugifyTitle()
   {/if}
 
 
-  {#if field.type=='cat'}
-  <select bind:value="{data[cat][index].category}" class="form-control w-25">
-  {#each data.categories as cat}
-  <option value="{cat.slug}">{cat.title}</option>
-  {/each}
-  </select>
-  {/if}
+
 
 
   {/each}

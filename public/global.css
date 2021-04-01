@@ -210,7 +210,8 @@ i.bi{
 
 #logout{
 	position: absolute;
-	bottom: 10px;
+	bottom: 0px;
+	padding-bottom: 20px;
 	width: 110px;
 	background-color: #333;
 }

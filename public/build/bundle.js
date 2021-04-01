@@ -4301,19 +4301,19 @@ var app = (function () {
 
     function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[21] = list[i];
-    	child_ctx[22] = list;
-    	child_ctx[23] = i;
+    	child_ctx[22] = list[i];
+    	child_ctx[23] = list;
+    	child_ctx[24] = i;
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[1] = list[i];
+    	child_ctx[2] = list[i];
     	return child_ctx;
     }
 
-    // (69:0) {#if collection}
+    // (71:0) {#if collection}
     function create_if_block$3(ctx) {
     	let div2;
     	let div0;
@@ -4323,16 +4323,21 @@ var app = (function () {
     	let button;
     	let t2;
     	let t3;
+    	let div6;
+    	let div5;
     	let div3;
     	let b;
     	let t5;
     	let input;
     	let t6;
+    	let div4;
+    	let t7;
     	let current;
     	let mounted;
     	let dispose;
-    	let if_block = /*loading*/ ctx[4] && create_if_block_8(ctx);
-    	let each_value = /*collection*/ ctx[3].fields;
+    	let if_block0 = /*loading*/ ctx[4] && create_if_block_9(ctx);
+    	let if_block1 = /*hasCat*/ ctx[5][0] && create_if_block_8(ctx);
+    	let each_value = /*collection*/ ctx[1].fields;
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -4353,35 +4358,46 @@ var app = (function () {
     			t1 = space();
     			div1 = element("div");
     			button = element("button");
-    			if (if_block) if_block.c();
+    			if (if_block0) if_block0.c();
     			t2 = text("  Save");
     			t3 = space();
+    			div6 = element("div");
+    			div5 = element("div");
     			div3 = element("div");
     			b = element("b");
     			b.textContent = "Title";
     			t5 = space();
     			input = element("input");
     			t6 = space();
+    			div4 = element("div");
+    			if (if_block1) if_block1.c();
+    			t7 = space();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			add_location(h4, file$6, 73, 0, 1744);
+    			add_location(h4, file$6, 75, 0, 1818);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$6, 72, 0, 1724);
+    			add_location(div0, file$6, 74, 0, 1798);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$6, 76, 0, 1796);
+    			add_location(button, file$6, 78, 0, 1870);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$6, 75, 0, 1765);
+    			add_location(div1, file$6, 77, 0, 1839);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$6, 71, 0, 1699);
-    			add_location(b, file$6, 83, 0, 2017);
+    			add_location(div2, file$6, 73, 0, 1773);
+    			add_location(b, file$6, 88, 0, 2133);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$6, 84, 0, 2030);
-    			attr_dev(div3, "class", "content");
-    			add_location(div3, file$6, 80, 0, 1993);
+    			add_location(input, file$6, 89, 0, 2146);
+    			attr_dev(div3, "class", "col-md-8");
+    			add_location(div3, file$6, 86, 0, 2109);
+    			attr_dev(div4, "class", "col-md-4");
+    			add_location(div4, file$6, 92, 0, 2235);
+    			attr_dev(div5, "class", "row");
+    			add_location(div5, file$6, 85, 0, 2091);
+    			attr_dev(div6, "class", "content");
+    			add_location(div6, file$6, 82, 0, 2067);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
@@ -4390,26 +4406,31 @@ var app = (function () {
     			append_dev(div2, t1);
     			append_dev(div2, div1);
     			append_dev(div1, button);
-    			if (if_block) if_block.m(button, null);
+    			if (if_block0) if_block0.m(button, null);
     			append_dev(button, t2);
     			insert_dev(target, t3, anchor);
-    			insert_dev(target, div3, anchor);
+    			insert_dev(target, div6, anchor);
+    			append_dev(div6, div5);
+    			append_dev(div5, div3);
     			append_dev(div3, b);
     			append_dev(div3, t5);
     			append_dev(div3, input);
-    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].title);
-    			append_dev(div3, t6);
+    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].title);
+    			append_dev(div5, t6);
+    			append_dev(div5, div4);
+    			if (if_block1) if_block1.m(div4, null);
+    			append_dev(div6, t7);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
-    				each_blocks[i].m(div3, null);
+    				each_blocks[i].m(div6, null);
     			}
 
     			current = true;
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button, "click", /*save*/ ctx[5], false, false, false),
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[8])
+    					listen_dev(button, "click", /*save*/ ctx[6], false, false, false),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[9])
     				];
 
     				mounted = true;
@@ -4417,22 +4438,35 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			if (/*loading*/ ctx[4]) {
-    				if (if_block) ; else {
-    					if_block = create_if_block_8(ctx);
-    					if_block.c();
-    					if_block.m(button, t2);
+    				if (if_block0) ; else {
+    					if_block0 = create_if_block_9(ctx);
+    					if_block0.c();
+    					if_block0.m(button, t2);
     				}
-    			} else if (if_block) {
-    				if_block.d(1);
-    				if_block = null;
+    			} else if (if_block0) {
+    				if_block0.d(1);
+    				if_block0 = null;
     			}
 
-    			if (dirty & /*data, cat, index*/ 7 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].title) {
-    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].title);
+    			if (dirty & /*data, cat, index*/ 13 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].title) {
+    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].title);
     			}
 
-    			if (dirty & /*data, cat, index, collection*/ 15) {
-    				each_value = /*collection*/ ctx[3].fields;
+    			if (/*hasCat*/ ctx[5][0]) {
+    				if (if_block1) {
+    					if_block1.p(ctx, dirty);
+    				} else {
+    					if_block1 = create_if_block_8(ctx);
+    					if_block1.c();
+    					if_block1.m(div4, null);
+    				}
+    			} else if (if_block1) {
+    				if_block1.d(1);
+    				if_block1 = null;
+    			}
+
+    			if (dirty & /*collection, data, cat, index*/ 15) {
+    				each_value = /*collection*/ ctx[1].fields;
     				validate_each_argument(each_value);
     				let i;
 
@@ -4446,7 +4480,7 @@ var app = (function () {
     						each_blocks[i] = create_each_block$2(child_ctx);
     						each_blocks[i].c();
     						transition_in(each_blocks[i], 1);
-    						each_blocks[i].m(div3, null);
+    						each_blocks[i].m(div6, null);
     					}
     				}
 
@@ -4479,9 +4513,10 @@ var app = (function () {
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div2);
-    			if (if_block) if_block.d();
+    			if (if_block0) if_block0.d();
     			if (detaching) detach_dev(t3);
-    			if (detaching) detach_dev(div3);
+    			if (detaching) detach_dev(div6);
+    			if (if_block1) if_block1.d();
     			destroy_each(each_blocks, detaching);
     			mounted = false;
     			run_all(dispose);
@@ -4492,15 +4527,15 @@ var app = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(69:0) {#if collection}",
+    		source: "(71:0) {#if collection}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (77:55) {#if loading}
-    function create_if_block_8(ctx) {
+    // (79:55) {#if loading}
+    function create_if_block_9(ctx) {
     	let span;
 
     	const block = {
@@ -4509,7 +4544,7 @@ var app = (function () {
     			attr_dev(span, "class", "spinner-border spinner-border-sm");
     			attr_dev(span, "role", "status");
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$6, 76, 68, 1864);
+    			add_location(span, file$6, 78, 68, 1938);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -4521,408 +4556,19 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_8.name,
+    		id: create_if_block_9.name,
     		type: "if",
-    		source: "(77:55) {#if loading}",
+    		source: "(79:55) {#if loading}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (92:2) {#if field.description}
-    function create_if_block_7(ctx) {
-    	let div;
-    	let t_value = /*field*/ ctx[21].description + "";
-    	let t;
-
-    	const block = {
-    		c: function create() {
-    			div = element("div");
-    			t = text(t_value);
-    			attr_dev(div, "class", "description");
-    			add_location(div, file$6, 92, 2, 2203);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, div, anchor);
-    			append_dev(div, t);
-    		},
-    		p: function update(ctx, dirty) {
-    			if (dirty & /*collection*/ 8 && t_value !== (t_value = /*field*/ ctx[21].description + "")) set_data_dev(t, t_value);
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(div);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_7.name,
-    		type: "if",
-    		source: "(92:2) {#if field.description}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (96:2) {#if field.type=='txt'}
-    function create_if_block_6$1(ctx) {
-    	let input;
-    	let mounted;
-    	let dispose;
-
-    	function input_input_handler_1() {
-    		/*input_input_handler_1*/ ctx[9].call(input, /*field*/ ctx[21]);
-    	}
-
-    	const block = {
-    		c: function create() {
-    			input = element("input");
-    			attr_dev(input, "type", "text");
-    			attr_dev(input, "class", "form-control");
-    			add_location(input, file$6, 96, 2, 2291);
-    		},
-    		m: function mount(target, anchor) {
-    			insert_dev(target, input, anchor);
-    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title]);
-
-    			if (!mounted) {
-    				dispose = listen_dev(input, "input", input_input_handler_1);
-    				mounted = true;
-    			}
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-
-    			if (dirty & /*data, cat, index, collection*/ 15 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title]) {
-    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title]);
-    			}
-    		},
-    		d: function destroy(detaching) {
-    			if (detaching) detach_dev(input);
-    			mounted = false;
-    			dispose();
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_6$1.name,
-    		type: "if",
-    		source: "(96:2) {#if field.type=='txt'}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (100:2) {#if field.type=='txta'}
-    function create_if_block_5$1(ctx) {
-    	let textarea;
-    	let updating_val;
-    	let current;
-
-    	function textarea_val_binding(value) {
-    		/*textarea_val_binding*/ ctx[10].call(null, value, /*field*/ ctx[21]);
-    	}
-
-    	let textarea_props = {};
-
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title] !== void 0) {
-    		textarea_props.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
-    	}
-
-    	textarea = new Textarea({ props: textarea_props, $$inline: true });
-    	binding_callbacks.push(() => bind(textarea, "val", textarea_val_binding));
-
-    	const block = {
-    		c: function create() {
-    			create_component(textarea.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(textarea, target, anchor);
-    			current = true;
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-    			const textarea_changes = {};
-
-    			if (!updating_val && dirty & /*data, cat, index, collection*/ 15) {
-    				updating_val = true;
-    				textarea_changes.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
-    				add_flush_callback(() => updating_val = false);
-    			}
-
-    			textarea.$set(textarea_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(textarea.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(textarea.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(textarea, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_5$1.name,
-    		type: "if",
-    		source: "(100:2) {#if field.type=='txta'}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (104:2) {#if field.type=='mde'}
-    function create_if_block_4$1(ctx) {
-    	let markdown;
-    	let updating_key;
-    	let updating_html;
-    	let current;
-
-    	function markdown_key_binding(value) {
-    		/*markdown_key_binding*/ ctx[11].call(null, value, /*field*/ ctx[21]);
-    	}
-
-    	function markdown_html_binding(value) {
-    		/*markdown_html_binding*/ ctx[12].call(null, value, /*field*/ ctx[21]);
-    	}
-
-    	let markdown_props = {};
-
-    	if (/*field*/ ctx[21].title !== void 0) {
-    		markdown_props.key = /*field*/ ctx[21].title;
-    	}
-
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title] !== void 0) {
-    		markdown_props.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
-    	}
-
-    	markdown = new Markdown({ props: markdown_props, $$inline: true });
-    	binding_callbacks.push(() => bind(markdown, "key", markdown_key_binding));
-    	binding_callbacks.push(() => bind(markdown, "html", markdown_html_binding));
-
-    	const block = {
-    		c: function create() {
-    			create_component(markdown.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(markdown, target, anchor);
-    			current = true;
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-    			const markdown_changes = {};
-
-    			if (!updating_key && dirty & /*collection*/ 8) {
-    				updating_key = true;
-    				markdown_changes.key = /*field*/ ctx[21].title;
-    				add_flush_callback(() => updating_key = false);
-    			}
-
-    			if (!updating_html && dirty & /*data, cat, index, collection*/ 15) {
-    				updating_html = true;
-    				markdown_changes.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
-    				add_flush_callback(() => updating_html = false);
-    			}
-
-    			markdown.$set(markdown_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(markdown.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(markdown.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(markdown, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_4$1.name,
-    		type: "if",
-    		source: "(104:2) {#if field.type=='mde'}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (108:2) {#if field.type=='rte'}
-    function create_if_block_3$1(ctx) {
-    	let texteditor;
-    	let updating_key;
-    	let updating_html;
-    	let current;
-
-    	function texteditor_key_binding(value) {
-    		/*texteditor_key_binding*/ ctx[13].call(null, value, /*field*/ ctx[21]);
-    	}
-
-    	function texteditor_html_binding(value) {
-    		/*texteditor_html_binding*/ ctx[14].call(null, value, /*field*/ ctx[21]);
-    	}
-
-    	let texteditor_props = {};
-
-    	if (/*field*/ ctx[21].title !== void 0) {
-    		texteditor_props.key = /*field*/ ctx[21].title;
-    	}
-
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title] !== void 0) {
-    		texteditor_props.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
-    	}
-
-    	texteditor = new TextEditor({ props: texteditor_props, $$inline: true });
-    	binding_callbacks.push(() => bind(texteditor, "key", texteditor_key_binding));
-    	binding_callbacks.push(() => bind(texteditor, "html", texteditor_html_binding));
-
-    	const block = {
-    		c: function create() {
-    			create_component(texteditor.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(texteditor, target, anchor);
-    			current = true;
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-    			const texteditor_changes = {};
-
-    			if (!updating_key && dirty & /*collection*/ 8) {
-    				updating_key = true;
-    				texteditor_changes.key = /*field*/ ctx[21].title;
-    				add_flush_callback(() => updating_key = false);
-    			}
-
-    			if (!updating_html && dirty & /*data, cat, index, collection*/ 15) {
-    				updating_html = true;
-    				texteditor_changes.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
-    				add_flush_callback(() => updating_html = false);
-    			}
-
-    			texteditor.$set(texteditor_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(texteditor.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(texteditor.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(texteditor, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_3$1.name,
-    		type: "if",
-    		source: "(108:2) {#if field.type=='rte'}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (113:2) {#if field.type=='gal'}
-    function create_if_block_2$2(ctx) {
-    	let gallery;
-    	let updating_key;
-    	let updating_item;
-    	let current;
-
-    	function gallery_key_binding(value) {
-    		/*gallery_key_binding*/ ctx[15].call(null, value, /*field*/ ctx[21]);
-    	}
-
-    	function gallery_item_binding(value) {
-    		/*gallery_item_binding*/ ctx[16].call(null, value);
-    	}
-
-    	let gallery_props = {};
-
-    	if (/*field*/ ctx[21].title !== void 0) {
-    		gallery_props.key = /*field*/ ctx[21].title;
-    	}
-
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]] !== void 0) {
-    		gallery_props.item = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]];
-    	}
-
-    	gallery = new Gallery({ props: gallery_props, $$inline: true });
-    	binding_callbacks.push(() => bind(gallery, "key", gallery_key_binding));
-    	binding_callbacks.push(() => bind(gallery, "item", gallery_item_binding));
-
-    	const block = {
-    		c: function create() {
-    			create_component(gallery.$$.fragment);
-    		},
-    		m: function mount(target, anchor) {
-    			mount_component(gallery, target, anchor);
-    			current = true;
-    		},
-    		p: function update(new_ctx, dirty) {
-    			ctx = new_ctx;
-    			const gallery_changes = {};
-
-    			if (!updating_key && dirty & /*collection*/ 8) {
-    				updating_key = true;
-    				gallery_changes.key = /*field*/ ctx[21].title;
-    				add_flush_callback(() => updating_key = false);
-    			}
-
-    			if (!updating_item && dirty & /*data, cat, index*/ 7) {
-    				updating_item = true;
-    				gallery_changes.item = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]];
-    				add_flush_callback(() => updating_item = false);
-    			}
-
-    			gallery.$set(gallery_changes);
-    		},
-    		i: function intro(local) {
-    			if (current) return;
-    			transition_in(gallery.$$.fragment, local);
-    			current = true;
-    		},
-    		o: function outro(local) {
-    			transition_out(gallery.$$.fragment, local);
-    			current = false;
-    		},
-    		d: function destroy(detaching) {
-    			destroy_component(gallery, detaching);
-    		}
-    	};
-
-    	dispatch_dev("SvelteRegisterBlock", {
-    		block,
-    		id: create_if_block_2$2.name,
-    		type: "if",
-    		source: "(113:2) {#if field.type=='gal'}",
-    		ctx
-    	});
-
-    	return block;
-    }
-
-    // (118:2) {#if field.type=='cat'}
-    function create_if_block_1$2(ctx) {
+    // (95:0) {#if hasCat[0]}
+    function create_if_block_8(ctx) {
+    	let b;
+    	let t1;
     	let select;
     	let mounted;
     	let dispose;
@@ -4936,27 +4582,33 @@ var app = (function () {
 
     	const block = {
     		c: function create() {
+    			b = element("b");
+    			b.textContent = "Category";
+    			t1 = space();
     			select = element("select");
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			attr_dev(select, "class", "form-control w-25");
-    			if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].category === void 0) add_render_callback(() => /*select_change_handler*/ ctx[17].call(select));
-    			add_location(select, file$6, 118, 2, 2843);
+    			add_location(b, file$6, 95, 0, 2275);
+    			attr_dev(select, "class", "form-control w-100");
+    			if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].category === void 0) add_render_callback(() => /*select_change_handler*/ ctx[10].call(select));
+    			add_location(select, file$6, 96, 0, 2291);
     		},
     		m: function mount(target, anchor) {
+    			insert_dev(target, b, anchor);
+    			insert_dev(target, t1, anchor);
     			insert_dev(target, select, anchor);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(select, null);
     			}
 
-    			select_option(select, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].category);
+    			select_option(select, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].category);
 
     			if (!mounted) {
-    				dispose = listen_dev(select, "change", /*select_change_handler*/ ctx[17]);
+    				dispose = listen_dev(select, "change", /*select_change_handler*/ ctx[10]);
     				mounted = true;
     			}
     		},
@@ -4985,11 +4637,13 @@ var app = (function () {
     				each_blocks.length = each_value_1.length;
     			}
 
-    			if (dirty & /*data, cat, index*/ 7) {
-    				select_option(select, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].category);
+    			if (dirty & /*data, cat, index*/ 13) {
+    				select_option(select, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].category);
     			}
     		},
     		d: function destroy(detaching) {
+    			if (detaching) detach_dev(b);
+    			if (detaching) detach_dev(t1);
     			if (detaching) detach_dev(select);
     			destroy_each(each_blocks, detaching);
     			mounted = false;
@@ -4999,19 +4653,19 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_1$2.name,
+    		id: create_if_block_8.name,
     		type: "if",
-    		source: "(118:2) {#if field.type=='cat'}",
+    		source: "(95:0) {#if hasCat[0]}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (120:2) {#each data.categories as cat}
+    // (98:0) {#each data.categories as cat}
     function create_each_block_1$1(ctx) {
     	let option;
-    	let t_value = /*cat*/ ctx[1].title + "";
+    	let t_value = /*cat*/ ctx[2].title + "";
     	let t;
     	let option_value_value;
 
@@ -5019,18 +4673,18 @@ var app = (function () {
     		c: function create() {
     			option = element("option");
     			t = text(t_value);
-    			option.__value = option_value_value = /*cat*/ ctx[1].slug;
+    			option.__value = option_value_value = /*cat*/ ctx[2].slug;
     			option.value = option.__value;
-    			add_location(option, file$6, 120, 2, 2954);
+    			add_location(option, file$6, 98, 0, 2399);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
     			append_dev(option, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*data*/ 1 && t_value !== (t_value = /*cat*/ ctx[1].title + "")) set_data_dev(t, t_value);
+    			if (dirty & /*data*/ 1 && t_value !== (t_value = /*cat*/ ctx[2].title + "")) set_data_dev(t, t_value);
 
-    			if (dirty & /*data*/ 1 && option_value_value !== (option_value_value = /*cat*/ ctx[1].slug)) {
+    			if (dirty & /*data*/ 1 && option_value_value !== (option_value_value = /*cat*/ ctx[2].slug)) {
     				prop_dev(option, "__value", option_value_value);
     				option.value = option.__value;
     			}
@@ -5044,140 +4698,543 @@ var app = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(120:2) {#each data.categories as cat}",
+    		source: "(98:0) {#each data.categories as cat}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (88:2) {#each collection.fields as field}
-    function create_each_block$2(ctx) {
+    // (109:0) {#if field.type !== 'cat'}
+    function create_if_block_7(ctx) {
     	let b;
-    	let t0_value = /*field*/ ctx[21].title + "";
+    	let t_value = /*field*/ ctx[22].title + "";
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			b = element("b");
+    			t = text(t_value);
+    			add_location(b, file$6, 109, 2, 2554);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, b, anchor);
+    			append_dev(b, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*collection*/ 2 && t_value !== (t_value = /*field*/ ctx[22].title + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(b);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_7.name,
+    		type: "if",
+    		source: "(109:0) {#if field.type !== 'cat'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (113:2) {#if field.description}
+    function create_if_block_6$1(ctx) {
+    	let div;
+    	let t_value = /*field*/ ctx[22].description + "";
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			t = text(t_value);
+    			attr_dev(div, "class", "description");
+    			add_location(div, file$6, 113, 2, 2610);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    			append_dev(div, t);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*collection*/ 2 && t_value !== (t_value = /*field*/ ctx[22].description + "")) set_data_dev(t, t_value);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_6$1.name,
+    		type: "if",
+    		source: "(113:2) {#if field.description}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (117:2) {#if field.type=='txt'}
+    function create_if_block_5$1(ctx) {
+    	let input;
+    	let mounted;
+    	let dispose;
+
+    	function input_input_handler_1() {
+    		/*input_input_handler_1*/ ctx[11].call(input, /*field*/ ctx[22]);
+    	}
+
+    	const block = {
+    		c: function create() {
+    			input = element("input");
+    			attr_dev(input, "type", "text");
+    			attr_dev(input, "class", "form-control");
+    			add_location(input, file$6, 117, 2, 2698);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, input, anchor);
+    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title]);
+
+    			if (!mounted) {
+    				dispose = listen_dev(input, "input", input_input_handler_1);
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+
+    			if (dirty & /*data, cat, index, collection*/ 15 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title]) {
+    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title]);
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(input);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_5$1.name,
+    		type: "if",
+    		source: "(117:2) {#if field.type=='txt'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (121:2) {#if field.type=='txta'}
+    function create_if_block_4$1(ctx) {
+    	let textarea;
+    	let updating_val;
+    	let current;
+
+    	function textarea_val_binding(value) {
+    		/*textarea_val_binding*/ ctx[12].call(null, value, /*field*/ ctx[22]);
+    	}
+
+    	let textarea_props = {};
+
+    	if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title] !== void 0) {
+    		textarea_props.val = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
+    	}
+
+    	textarea = new Textarea({ props: textarea_props, $$inline: true });
+    	binding_callbacks.push(() => bind(textarea, "val", textarea_val_binding));
+
+    	const block = {
+    		c: function create() {
+    			create_component(textarea.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(textarea, target, anchor);
+    			current = true;
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			const textarea_changes = {};
+
+    			if (!updating_val && dirty & /*data, cat, index, collection*/ 15) {
+    				updating_val = true;
+    				textarea_changes.val = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
+    				add_flush_callback(() => updating_val = false);
+    			}
+
+    			textarea.$set(textarea_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(textarea.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(textarea.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(textarea, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_4$1.name,
+    		type: "if",
+    		source: "(121:2) {#if field.type=='txta'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (125:2) {#if field.type=='mde'}
+    function create_if_block_3$1(ctx) {
+    	let markdown;
+    	let updating_key;
+    	let updating_html;
+    	let current;
+
+    	function markdown_key_binding(value) {
+    		/*markdown_key_binding*/ ctx[13].call(null, value, /*field*/ ctx[22]);
+    	}
+
+    	function markdown_html_binding(value) {
+    		/*markdown_html_binding*/ ctx[14].call(null, value, /*field*/ ctx[22]);
+    	}
+
+    	let markdown_props = {};
+
+    	if (/*field*/ ctx[22].title !== void 0) {
+    		markdown_props.key = /*field*/ ctx[22].title;
+    	}
+
+    	if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title] !== void 0) {
+    		markdown_props.html = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
+    	}
+
+    	markdown = new Markdown({ props: markdown_props, $$inline: true });
+    	binding_callbacks.push(() => bind(markdown, "key", markdown_key_binding));
+    	binding_callbacks.push(() => bind(markdown, "html", markdown_html_binding));
+
+    	const block = {
+    		c: function create() {
+    			create_component(markdown.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(markdown, target, anchor);
+    			current = true;
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			const markdown_changes = {};
+
+    			if (!updating_key && dirty & /*collection*/ 2) {
+    				updating_key = true;
+    				markdown_changes.key = /*field*/ ctx[22].title;
+    				add_flush_callback(() => updating_key = false);
+    			}
+
+    			if (!updating_html && dirty & /*data, cat, index, collection*/ 15) {
+    				updating_html = true;
+    				markdown_changes.html = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
+    				add_flush_callback(() => updating_html = false);
+    			}
+
+    			markdown.$set(markdown_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(markdown.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(markdown.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(markdown, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_3$1.name,
+    		type: "if",
+    		source: "(125:2) {#if field.type=='mde'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (129:2) {#if field.type=='rte'}
+    function create_if_block_2$2(ctx) {
+    	let texteditor;
+    	let updating_key;
+    	let updating_html;
+    	let current;
+
+    	function texteditor_key_binding(value) {
+    		/*texteditor_key_binding*/ ctx[15].call(null, value, /*field*/ ctx[22]);
+    	}
+
+    	function texteditor_html_binding(value) {
+    		/*texteditor_html_binding*/ ctx[16].call(null, value, /*field*/ ctx[22]);
+    	}
+
+    	let texteditor_props = {};
+
+    	if (/*field*/ ctx[22].title !== void 0) {
+    		texteditor_props.key = /*field*/ ctx[22].title;
+    	}
+
+    	if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title] !== void 0) {
+    		texteditor_props.html = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
+    	}
+
+    	texteditor = new TextEditor({ props: texteditor_props, $$inline: true });
+    	binding_callbacks.push(() => bind(texteditor, "key", texteditor_key_binding));
+    	binding_callbacks.push(() => bind(texteditor, "html", texteditor_html_binding));
+
+    	const block = {
+    		c: function create() {
+    			create_component(texteditor.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(texteditor, target, anchor);
+    			current = true;
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			const texteditor_changes = {};
+
+    			if (!updating_key && dirty & /*collection*/ 2) {
+    				updating_key = true;
+    				texteditor_changes.key = /*field*/ ctx[22].title;
+    				add_flush_callback(() => updating_key = false);
+    			}
+
+    			if (!updating_html && dirty & /*data, cat, index, collection*/ 15) {
+    				updating_html = true;
+    				texteditor_changes.html = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
+    				add_flush_callback(() => updating_html = false);
+    			}
+
+    			texteditor.$set(texteditor_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(texteditor.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(texteditor.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(texteditor, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2$2.name,
+    		type: "if",
+    		source: "(129:2) {#if field.type=='rte'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (134:2) {#if field.type=='gal'}
+    function create_if_block_1$2(ctx) {
+    	let gallery;
+    	let updating_key;
+    	let updating_item;
+    	let current;
+
+    	function gallery_key_binding(value) {
+    		/*gallery_key_binding*/ ctx[17].call(null, value, /*field*/ ctx[22]);
+    	}
+
+    	function gallery_item_binding(value) {
+    		/*gallery_item_binding*/ ctx[18].call(null, value);
+    	}
+
+    	let gallery_props = {};
+
+    	if (/*field*/ ctx[22].title !== void 0) {
+    		gallery_props.key = /*field*/ ctx[22].title;
+    	}
+
+    	if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]] !== void 0) {
+    		gallery_props.item = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]];
+    	}
+
+    	gallery = new Gallery({ props: gallery_props, $$inline: true });
+    	binding_callbacks.push(() => bind(gallery, "key", gallery_key_binding));
+    	binding_callbacks.push(() => bind(gallery, "item", gallery_item_binding));
+
+    	const block = {
+    		c: function create() {
+    			create_component(gallery.$$.fragment);
+    		},
+    		m: function mount(target, anchor) {
+    			mount_component(gallery, target, anchor);
+    			current = true;
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    			const gallery_changes = {};
+
+    			if (!updating_key && dirty & /*collection*/ 2) {
+    				updating_key = true;
+    				gallery_changes.key = /*field*/ ctx[22].title;
+    				add_flush_callback(() => updating_key = false);
+    			}
+
+    			if (!updating_item && dirty & /*data, cat, index*/ 13) {
+    				updating_item = true;
+    				gallery_changes.item = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]];
+    				add_flush_callback(() => updating_item = false);
+    			}
+
+    			gallery.$set(gallery_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(gallery.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(gallery.$$.fragment, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			destroy_component(gallery, detaching);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_1$2.name,
+    		type: "if",
+    		source: "(134:2) {#if field.type=='gal'}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (107:2) {#each collection.fields as field}
+    function create_each_block$2(ctx) {
     	let t0;
     	let t1;
     	let t2;
     	let t3;
     	let t4;
     	let t5;
-    	let t6;
-    	let t7;
     	let if_block6_anchor;
     	let current;
-    	let if_block0 = /*field*/ ctx[21].description && create_if_block_7(ctx);
-    	let if_block1 = /*field*/ ctx[21].type == "txt" && create_if_block_6$1(ctx);
-    	let if_block2 = /*field*/ ctx[21].type == "txta" && create_if_block_5$1(ctx);
-    	let if_block3 = /*field*/ ctx[21].type == "mde" && create_if_block_4$1(ctx);
-    	let if_block4 = /*field*/ ctx[21].type == "rte" && create_if_block_3$1(ctx);
-    	let if_block5 = /*field*/ ctx[21].type == "gal" && create_if_block_2$2(ctx);
-    	let if_block6 = /*field*/ ctx[21].type == "cat" && create_if_block_1$2(ctx);
+    	let if_block0 = /*field*/ ctx[22].type !== "cat" && create_if_block_7(ctx);
+    	let if_block1 = /*field*/ ctx[22].description && create_if_block_6$1(ctx);
+    	let if_block2 = /*field*/ ctx[22].type == "txt" && create_if_block_5$1(ctx);
+    	let if_block3 = /*field*/ ctx[22].type == "txta" && create_if_block_4$1(ctx);
+    	let if_block4 = /*field*/ ctx[22].type == "mde" && create_if_block_3$1(ctx);
+    	let if_block5 = /*field*/ ctx[22].type == "rte" && create_if_block_2$2(ctx);
+    	let if_block6 = /*field*/ ctx[22].type == "gal" && create_if_block_1$2(ctx);
 
     	const block = {
     		c: function create() {
-    			b = element("b");
-    			t0 = text(t0_value);
-    			t1 = space();
     			if (if_block0) if_block0.c();
-    			t2 = space();
+    			t0 = space();
     			if (if_block1) if_block1.c();
-    			t3 = space();
+    			t1 = space();
     			if (if_block2) if_block2.c();
-    			t4 = space();
+    			t2 = space();
     			if (if_block3) if_block3.c();
-    			t5 = space();
+    			t3 = space();
     			if (if_block4) if_block4.c();
-    			t6 = space();
+    			t4 = space();
     			if (if_block5) if_block5.c();
-    			t7 = space();
+    			t5 = space();
     			if (if_block6) if_block6.c();
     			if_block6_anchor = empty();
-    			add_location(b, file$6, 90, 2, 2154);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, b, anchor);
-    			append_dev(b, t0);
-    			insert_dev(target, t1, anchor);
     			if (if_block0) if_block0.m(target, anchor);
-    			insert_dev(target, t2, anchor);
+    			insert_dev(target, t0, anchor);
     			if (if_block1) if_block1.m(target, anchor);
-    			insert_dev(target, t3, anchor);
+    			insert_dev(target, t1, anchor);
     			if (if_block2) if_block2.m(target, anchor);
-    			insert_dev(target, t4, anchor);
+    			insert_dev(target, t2, anchor);
     			if (if_block3) if_block3.m(target, anchor);
-    			insert_dev(target, t5, anchor);
+    			insert_dev(target, t3, anchor);
     			if (if_block4) if_block4.m(target, anchor);
-    			insert_dev(target, t6, anchor);
+    			insert_dev(target, t4, anchor);
     			if (if_block5) if_block5.m(target, anchor);
-    			insert_dev(target, t7, anchor);
+    			insert_dev(target, t5, anchor);
     			if (if_block6) if_block6.m(target, anchor);
     			insert_dev(target, if_block6_anchor, anchor);
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if ((!current || dirty & /*collection*/ 8) && t0_value !== (t0_value = /*field*/ ctx[21].title + "")) set_data_dev(t0, t0_value);
-
-    			if (/*field*/ ctx[21].description) {
+    			if (/*field*/ ctx[22].type !== "cat") {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
     					if_block0 = create_if_block_7(ctx);
     					if_block0.c();
-    					if_block0.m(t2.parentNode, t2);
+    					if_block0.m(t0.parentNode, t0);
     				}
     			} else if (if_block0) {
     				if_block0.d(1);
     				if_block0 = null;
     			}
 
-    			if (/*field*/ ctx[21].type == "txt") {
+    			if (/*field*/ ctx[22].description) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
     					if_block1 = create_if_block_6$1(ctx);
     					if_block1.c();
-    					if_block1.m(t3.parentNode, t3);
+    					if_block1.m(t1.parentNode, t1);
     				}
     			} else if (if_block1) {
     				if_block1.d(1);
     				if_block1 = null;
     			}
 
-    			if (/*field*/ ctx[21].type == "txta") {
+    			if (/*field*/ ctx[22].type == "txt") {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
-
-    					if (dirty & /*collection*/ 8) {
-    						transition_in(if_block2, 1);
-    					}
     				} else {
     					if_block2 = create_if_block_5$1(ctx);
     					if_block2.c();
-    					transition_in(if_block2, 1);
-    					if_block2.m(t4.parentNode, t4);
+    					if_block2.m(t2.parentNode, t2);
     				}
     			} else if (if_block2) {
-    				group_outros();
-
-    				transition_out(if_block2, 1, 1, () => {
-    					if_block2 = null;
-    				});
-
-    				check_outros();
+    				if_block2.d(1);
+    				if_block2 = null;
     			}
 
-    			if (/*field*/ ctx[21].type == "mde") {
+    			if (/*field*/ ctx[22].type == "txta") {
     				if (if_block3) {
     					if_block3.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block3, 1);
     					}
     				} else {
     					if_block3 = create_if_block_4$1(ctx);
     					if_block3.c();
     					transition_in(if_block3, 1);
-    					if_block3.m(t5.parentNode, t5);
+    					if_block3.m(t3.parentNode, t3);
     				}
     			} else if (if_block3) {
     				group_outros();
@@ -5189,18 +5246,18 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*field*/ ctx[21].type == "rte") {
+    			if (/*field*/ ctx[22].type == "mde") {
     				if (if_block4) {
     					if_block4.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block4, 1);
     					}
     				} else {
     					if_block4 = create_if_block_3$1(ctx);
     					if_block4.c();
     					transition_in(if_block4, 1);
-    					if_block4.m(t6.parentNode, t6);
+    					if_block4.m(t4.parentNode, t4);
     				}
     			} else if (if_block4) {
     				group_outros();
@@ -5212,18 +5269,18 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*field*/ ctx[21].type == "gal") {
+    			if (/*field*/ ctx[22].type == "rte") {
     				if (if_block5) {
     					if_block5.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block5, 1);
     					}
     				} else {
     					if_block5 = create_if_block_2$2(ctx);
     					if_block5.c();
     					transition_in(if_block5, 1);
-    					if_block5.m(t7.parentNode, t7);
+    					if_block5.m(t5.parentNode, t5);
     				}
     			} else if (if_block5) {
     				group_outros();
@@ -5235,49 +5292,57 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*field*/ ctx[21].type == "cat") {
+    			if (/*field*/ ctx[22].type == "gal") {
     				if (if_block6) {
     					if_block6.p(ctx, dirty);
+
+    					if (dirty & /*collection*/ 2) {
+    						transition_in(if_block6, 1);
+    					}
     				} else {
     					if_block6 = create_if_block_1$2(ctx);
     					if_block6.c();
+    					transition_in(if_block6, 1);
     					if_block6.m(if_block6_anchor.parentNode, if_block6_anchor);
     				}
     			} else if (if_block6) {
-    				if_block6.d(1);
-    				if_block6 = null;
+    				group_outros();
+
+    				transition_out(if_block6, 1, 1, () => {
+    					if_block6 = null;
+    				});
+
+    				check_outros();
     			}
     		},
     		i: function intro(local) {
     			if (current) return;
-    			transition_in(if_block2);
     			transition_in(if_block3);
     			transition_in(if_block4);
     			transition_in(if_block5);
+    			transition_in(if_block6);
     			current = true;
     		},
     		o: function outro(local) {
-    			transition_out(if_block2);
     			transition_out(if_block3);
     			transition_out(if_block4);
     			transition_out(if_block5);
+    			transition_out(if_block6);
     			current = false;
     		},
     		d: function destroy(detaching) {
-    			if (detaching) detach_dev(b);
-    			if (detaching) detach_dev(t1);
     			if (if_block0) if_block0.d(detaching);
-    			if (detaching) detach_dev(t2);
+    			if (detaching) detach_dev(t0);
     			if (if_block1) if_block1.d(detaching);
-    			if (detaching) detach_dev(t3);
+    			if (detaching) detach_dev(t1);
     			if (if_block2) if_block2.d(detaching);
-    			if (detaching) detach_dev(t4);
+    			if (detaching) detach_dev(t2);
     			if (if_block3) if_block3.d(detaching);
-    			if (detaching) detach_dev(t5);
+    			if (detaching) detach_dev(t3);
     			if (if_block4) if_block4.d(detaching);
-    			if (detaching) detach_dev(t6);
+    			if (detaching) detach_dev(t4);
     			if (if_block5) if_block5.d(detaching);
-    			if (detaching) detach_dev(t7);
+    			if (detaching) detach_dev(t5);
     			if (if_block6) if_block6.d(detaching);
     			if (detaching) detach_dev(if_block6_anchor);
     		}
@@ -5287,7 +5352,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(88:2) {#each collection.fields as field}",
+    		source: "(107:2) {#each collection.fields as field}",
     		ctx
     	});
 
@@ -5297,7 +5362,7 @@ var app = (function () {
     function create_fragment$7(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = /*collection*/ ctx[3] && create_if_block$3(ctx);
+    	let if_block = /*collection*/ ctx[1] && create_if_block$3(ctx);
 
     	const block = {
     		c: function create() {
@@ -5313,11 +5378,11 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (/*collection*/ ctx[3]) {
+    			if (/*collection*/ ctx[1]) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block, 1);
     					}
     				} else {
@@ -5374,6 +5439,7 @@ var app = (function () {
     	let collection = false;
     	let fields = {};
     	let loading = false;
+    	let hasCat = [];
 
     	function save() {
     		if (typeof data[cat][index].slug === "undefined" || data[cat][index].slug == "") {
@@ -5423,16 +5489,23 @@ var app = (function () {
     	function input_input_handler() {
     		data[cat][index].title = this.value;
     		$$invalidate(0, data);
-    		((($$invalidate(1, cat), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(7, id));
-    		(((($$invalidate(2, index), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
+    		(((($$invalidate(2, cat), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(8, id)), $$invalidate(1, collection));
+    		((((($$invalidate(3, index), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(1, collection));
+    	}
+
+    	function select_change_handler() {
+    		data[cat][index].category = select_value(this);
+    		$$invalidate(0, data);
+    		(((($$invalidate(2, cat), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(8, id)), $$invalidate(1, collection));
+    		((((($$invalidate(3, index), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(1, collection));
     	}
 
     	function input_input_handler_1(field) {
     		data[cat][index][field.title] = this.value;
     		$$invalidate(0, data);
-    		((($$invalidate(1, cat), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(7, id));
-    		(((($$invalidate(2, index), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
-    		(((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
+    		(((($$invalidate(2, cat), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(8, id)), $$invalidate(1, collection));
+    		((((($$invalidate(3, index), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(1, collection));
+    		(((($$invalidate(1, collection), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id));
     	}
 
     	function textarea_val_binding(value, field) {
@@ -5442,7 +5515,7 @@ var app = (function () {
 
     	function markdown_key_binding(value, field) {
     		field.title = value;
-    		(((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
+    		(((($$invalidate(1, collection), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id));
     	}
 
     	function markdown_html_binding(value, field) {
@@ -5452,7 +5525,7 @@ var app = (function () {
 
     	function texteditor_key_binding(value, field) {
     		field.title = value;
-    		(((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
+    		(((($$invalidate(1, collection), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id));
     	}
 
     	function texteditor_html_binding(value, field) {
@@ -5462,7 +5535,7 @@ var app = (function () {
 
     	function gallery_key_binding(value, field) {
     		field.title = value;
-    		(((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
+    		(((($$invalidate(1, collection), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id));
     	}
 
     	function gallery_item_binding(value) {
@@ -5470,15 +5543,8 @@ var app = (function () {
     		$$invalidate(0, data);
     	}
 
-    	function select_change_handler() {
-    		data[cat][index].category = select_value(this);
-    		$$invalidate(0, data);
-    		((($$invalidate(1, cat), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(7, id));
-    		(((($$invalidate(2, index), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id));
-    	}
-
     	$$self.$$set = $$props => {
-    		if ("params" in $$props) $$invalidate(6, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(7, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     	};
 
@@ -5496,20 +5562,22 @@ var app = (function () {
     		collection,
     		fields,
     		loading,
+    		hasCat,
     		save,
     		slugifyTitle
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("params" in $$props) $$invalidate(6, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(7, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
-    		if ("cat" in $$props) $$invalidate(1, cat = $$props.cat);
-    		if ("id" in $$props) $$invalidate(7, id = $$props.id);
+    		if ("cat" in $$props) $$invalidate(2, cat = $$props.cat);
+    		if ("id" in $$props) $$invalidate(8, id = $$props.id);
     		if ("item" in $$props) item = $$props.item;
-    		if ("index" in $$props) $$invalidate(2, index = $$props.index);
-    		if ("collection" in $$props) $$invalidate(3, collection = $$props.collection);
+    		if ("index" in $$props) $$invalidate(3, index = $$props.index);
+    		if ("collection" in $$props) $$invalidate(1, collection = $$props.collection);
     		if ("fields" in $$props) fields = $$props.fields;
     		if ("loading" in $$props) $$invalidate(4, loading = $$props.loading);
+    		if ("hasCat" in $$props) $$invalidate(5, hasCat = $$props.hasCat);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -5517,33 +5585,37 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*params, data, cat, id*/ 195) {
+    		if ($$self.$$.dirty & /*params, data, cat, id, collection*/ 391) {
     			 if (params.cat && params.id) {
-    				$$invalidate(1, cat = params.cat);
-    				$$invalidate(7, id = params.id);
+    				$$invalidate(2, cat = params.cat);
+    				$$invalidate(8, id = params.id);
     				item = data[cat].filter(x => x.id == id)[0];
-    				$$invalidate(2, index = data[cat].findIndex(x => x.id == id));
+    				$$invalidate(3, index = data[cat].findIndex(x => x.id == id));
 
     				if (cat !== "categories") {
-    					$$invalidate(3, collection = data.collections.filter(x => x.slug == cat)[0]);
+    					$$invalidate(1, collection = data.collections.filter(x => x.slug == cat)[0]);
     				} else {
-    					$$invalidate(3, collection = {});
-    					$$invalidate(3, collection.fields = [], collection);
+    					$$invalidate(1, collection = {});
+    					$$invalidate(1, collection.fields = [], collection);
     				}
+
+    				$$invalidate(5, hasCat = collection.fields.filter(x => x.type == "cat"));
     			}
     		}
     	};
 
     	return [
     		data,
+    		collection,
     		cat,
     		index,
-    		collection,
     		loading,
+    		hasCat,
     		save,
     		params,
     		id,
     		input_input_handler,
+    		select_change_handler,
     		input_input_handler_1,
     		textarea_val_binding,
     		markdown_key_binding,
@@ -5551,15 +5623,14 @@ var app = (function () {
     		texteditor_key_binding,
     		texteditor_html_binding,
     		gallery_key_binding,
-    		gallery_item_binding,
-    		select_change_handler
+    		gallery_item_binding
     	];
     }
 
     class Edit extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$7, create_fragment$7, safe_not_equal, { params: 6, data: 0 });
+    		init(this, options, instance$7, create_fragment$7, safe_not_equal, { params: 7, data: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -5571,7 +5642,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*params*/ ctx[6] === undefined && !("params" in props)) {
+    		if (/*params*/ ctx[7] === undefined && !("params" in props)) {
     			console_1$2.warn("<Edit> was created without expected prop 'params'");
     		}
 
@@ -6945,7 +7016,7 @@ var app = (function () {
     			input = element("input");
     			add_location(b, file$9, 41, 0, 812);
     			attr_dev(input, "type", "text");
-    			attr_dev(input, "class", "form-control w-25");
+    			attr_dev(input, "class", "form-control w-50");
     			add_location(input, file$9, 42, 0, 846);
     		},
     		m: function mount(target, anchor) {

@@ -40,7 +40,7 @@ function save(){
 {#each Object.entries(data.settings) as [key, value]}
 
 <b>{key.replaceAll('_', ' ')}</b>
-<input type="text" class="form-control w-25" bind:value="{data.settings[key]}" />
+<input type="text" class="form-control w-50" bind:value="{data.settings[key]}" />
 
 {/each}
 
