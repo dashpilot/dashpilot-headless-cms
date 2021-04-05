@@ -216,6 +216,11 @@ i.bi{
 	background-color: #333;
 }
 
+.list-group-flush{
+	border: 1px solid #DDD;
+	cursor: pointer;
+}
+
 @media only screen and (max-width: 767px) {
 	.content{
 		padding: 0;

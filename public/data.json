@@ -3,26 +3,29 @@
     "id": "1",
     "title": "Hello World",
     "body": "Lorem ipsum dolor site amet",
-    "category": "home"
+    "category": "home",
+    "type": "post"
   }, {
     "id": "2",
-    "title": "Second Post",
+    "title": "A news item",
     "body": "Lorem ipsum dolor site amet",
-    "category": "about"
+    "category": "about",
+    "type": "newsitem"
   }, {
     "id": "3",
     "title": "Third post",
     "body": "Lorem ipsum dolor site amet",
-    "category": "home"
+    "category": "home",
+    "type": "post"
   }],
   "collections": [{
     "id": "1",
-    "title": "posts",
-    "slug": "posts",
+    "title": "Post",
+    "slug": "post",
     "fields": [{
       "title": "body",
-      "description": "This editor uses Markdown",
-      "type": "mde"
+      "description": "",
+      "type": "rte"
     }, {
       "title": "Gallery",
       "description": "",
@@ -34,8 +37,8 @@
     }]
   }, {
     "id": "2",
-    "title": "News",
-    "slug": "news",
+    "title": "News item",
+    "slug": "newsitem",
     "fields": [{
       "title": "body",
       "description": "",

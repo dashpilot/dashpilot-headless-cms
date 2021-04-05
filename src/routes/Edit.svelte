@@ -12,20 +12,23 @@ let index = false;
 let collection = false;
 let fields = {};
 let loading = false;
-let hasCat = [];
+
 
 $: if (params.cat && params.id) {
 cat = params.cat;
 id = params.id;
 item = data[cat].filter(x => x.id == id)[0];
 index = data[cat].findIndex(x => x.id == id);
-if(cat !== 'categories'){
+
+if(cat=='posts'){
+  collection = data.collections.filter(x => x.slug == item.type)[0];
+}else if(cat !== 'categories'){
   collection = data.collections.filter(x => x.slug == cat)[0];
 }else{
   collection = {};
   collection.fields = [];
 }
-hasCat = collection.fields.filter(x => x.type == 'cat');
+
 }
 
 function save(){
@@ -92,14 +95,14 @@ function slugifyTitle()
 </div>
 <div class="col-md-4">
 
-{#if hasCat[0]}
+
 <b>Category</b>
 <select bind:value="{data[cat][index].category}" class="form-control w-100">
 {#each data.categories as cat}
 <option value="{cat.slug}">{cat.title}</option>
 {/each}
 </select>
-{/if}
+
 
 </div>
 </div>
@@ -134,9 +137,6 @@ function slugifyTitle()
   {#if field.type=='gal'}
   <Gallery bind:key={field.title} bind:item={data[cat][index]} />
   {/if}
-
-
-
 
 
   {/each}

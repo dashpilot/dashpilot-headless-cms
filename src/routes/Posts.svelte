@@ -4,6 +4,7 @@ export let data;
 let cat = false;
 let items = false;
 let curCat = false;
+let addPost = false;
 
 
 $: if (params.cat) {
@@ -12,13 +13,14 @@ $: if (params.cat) {
   items = data.posts.filter(x => x.category == cat);
 }
 
-function addItem(){
+function addItem(type){
 
   let newItem = {}
   newItem.id = Date.now();
   newItem.title = "";
   newItem.slug = "";
   newItem.category = cat;
+  newItem.type = type;
 
   data.posts.unshift(newItem);
   window.location = "/#/edit/posts/"+newItem.id;
@@ -51,7 +53,7 @@ function moveItemDown(id) {
 <h4>{curCat.title}</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-dark btn-add" on:click="{addItem}">Add Post</button>
+<button class="btn btn-dark btn-add" on:click="{() => addPost = true}">Add Post</button>
 </div>
 </div>
 
@@ -80,3 +82,35 @@ function moveItemDown(id) {
 {/each}
 </ul>
 </div>
+
+
+{#if addPost}
+<div class="backdrop">
+
+<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Post</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" on:click="{() => addCat = false}">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+<b>Type of post:</b>
+<div class="list-group list-group-flush">
+  {#each data.collections as item}
+  <div on:click="{() => addItem(item.slug)}" class="list-group-item list-group-item-action text-capitalize">{item.title}</div>
+  {/each}
+</div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div>
+{/if}

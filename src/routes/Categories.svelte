@@ -60,7 +60,7 @@ function slugify(text)
 <h4>Categories</h4>
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-dark btn-add" on:click="{() => addCat = true}">Add</button>
+<button class="btn btn-dark btn-add" on:click="{() => addCat = true}">Add Category</button>
 </div>
 </div>
 
