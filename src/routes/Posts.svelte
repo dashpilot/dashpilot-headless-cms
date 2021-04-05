@@ -23,7 +23,9 @@ function handleDndConsider(e) {
 }
 function handleDndFinalize(e) {
   items = e.detail.items;
-  data.posts = items;
+  // get items not in this cat
+  let nothere = data.posts.filter(x => x.category !== cat)
+  data.posts = items.concat(nothere);
 }
 
 function addItem(type){
@@ -47,24 +49,6 @@ function deleteItem(id){
     data = data;
   }
 }
-
-/*
-function moveItemDown(id) {
-
-    document.querySelectorAll('.movable-item').forEach(function(e){
-      e.classList.remove('movable-item');
-    })
-    document.querySelector('#item-'+id).nextSibling.classList.add('movable-item');
-
-    let fromIndex = data.posts.findIndex(x => x.id == id);
-    let toIndex = fromIndex + 1;
-    var element = data.posts[fromIndex];
-    data.posts.splice(fromIndex, 1);
-    data.posts.splice(toIndex, 0, element);
-    data = data
-
-}
-*/
 
 </script>
 

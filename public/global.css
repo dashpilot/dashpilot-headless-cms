@@ -221,8 +221,8 @@ i.bi{
 	cursor: pointer;
 }
 
-.movable-item{
-	background-color: #fcf8e3;
+.list-group{
+	min-height: 400px;
 }
 
 @media only screen and (max-width: 767px) {
