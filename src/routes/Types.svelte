@@ -3,64 +3,12 @@ export let params;
 export let data;
 let cat = false;
 let items = false;
-let addColl = false;
+let addType = false;
 let error = false;
 let coll_title = false;
-let curCat = false;
-let hasCat = [];
-let filterBy = '';
-let selected = false;
-let colW = 'col-md-12';
-
-$: if (params.cat) {
-cat = params.cat;
-
-// check if object key exists, else create empty array
-if(cat in data){
-  items = data[cat];
-}else{
-  data[cat] = [];
-  items = data[cat];
-}
-
-
-if(cat!=='collections'){
-curCat = data.collections.filter(x => x.slug == cat)[0];
-// check if this collection has a category dropdown
-hasCat = curCat.fields.filter(x => x.type == 'cat');
-
-if(hasCat[0]){
-  colW = 'col-md-9';
-}else{
-  colW = 'col-md-12';
-}
-
-if(hasCat[0] && filterBy){
-  items = items.filter(x => x.category == filterBy)
-}
-
-}
 
 
 
-}
-
-function addItem(){
-  if(cat=='collections'){
-    addColl = true;
-  }else{
-  let newItem = {}
-  newItem.id = Date.now();
-  newItem.title = "";
-  newItem.slug = "";
-  newItem.category = filterBy;
-
-  data[cat].unshift(newItem);
-  window.location = "/#/edit/"+cat+"/"+newItem.id;
-
-  }
-
-}
 
 function deleteItem(id){
   let result = confirm("Are you sure you want to delete this item?");
@@ -96,10 +44,10 @@ function saveCollection(){
     newItem.title = val;
     newItem.slug = slug;
     newItem.fields = [];
-    data.collections.push(newItem);
+    data.types.push(newItem);
     data[val] = [];
     window.renderData(data);
-    window.location = "/#/collections/"+newItem.id;
+    window.location = "/#/type/"+newItem.id;
   }
 }
 
@@ -120,57 +68,31 @@ function slugifyTitle()
 
 <div class="row topnav">
 <div class="col-6">
-{#if cat=='collections'}
-<h4>Collections</h4>
-{:else}
-<h4>{curCat.title}</h4>
-{/if}
+
+<h4>Post Types</h4>
+
 
 </div>
 <div class="col-6 text-right">
-<button class="btn btn-dark btn-add" on:click="{addItem}">Add</button>
+<button class="btn btn-dark btn-add" on:click="{() => addType = true}">Add Post Type</button>
 </div>
 </div>
 
 <div class="content">
 
-<div class="row">
-{#if hasCat[0]}
 
-<div class="col-md-3">
-
-<div class="list-group list-group-flush categories-list">
-  <a class="list-group-item list-group-item-action" class:selected="{filterBy === ''}" on:click="{() => filterBy = ''}">All</a>
-  {#each data.categories as cat}
-  <a class="list-group-item list-group-item-action text-truncate" class:selected="{filterBy === cat.slug}" on:click="{() => filterBy = cat.slug}">{cat.title}</a>
-  {/each}
-</div>
-
-
-  </div>
-
-{/if}
-
-<div class="{colW}">
 
 <ul class="list-group entries-list">
-{#each items as item}
+{#each data.types as item}
   <li class="list-group-item">
   <div class="row">
   <div class="col-6 text-truncate d-flex align-items-center">
-  {#if cat == 'collections'}
-  <a href="/#/collections/{item.id}" class="text-truncate">{item.title}</a>
-  {:else}
-  <a href="/#/edit/{cat}/{item.id}" class="text-truncate">{#if item.title==''}Untitled{:else}{item.title}{/if}</a>
-  {/if}
+
+  <a href="/#/type/{item.id}" class="text-truncate">{item.title}</a>
+
   </div>
   <div class="col-6 text-right">
-  {#if cat !== 'collections'}
-<div class="btn-group">
-  <button class="btn btn-outline-secondary w-50" on:click="{() => moveItemDown(item.id)}"><i class="bi bi-caret-down"></i></button>
-  <button class="btn btn-outline-secondary w-50" on:click="{() => deleteItem(item.id)}"><i class="bi bi-trash"></i></button>
-  </div>
-  {/if}
+
   </div>
   </div>
   </li>
@@ -178,17 +100,15 @@ function slugifyTitle()
 </ul>
 </div>
 
-</div>
-</div>
 
-{#if addColl}
+{#if addType}
 <div class="backdrop">
 
 <div class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Add Collection</h4>
+        <h4 class="modal-title">Add Post Type</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true" on:click="{() => addColl = false}">&times;</span>
         </button>
@@ -200,12 +120,12 @@ function slugifyTitle()
 {/if}
 
 
-  <b>Collection Name</b>
+  <b>Name</b>
       <input type="text" class="form-control" id="coll-title" />
           <div class="description-sub"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" on:click="{saveCollection}">Add Collection</button>
+        <button type="button" class="btn btn-primary" on:click="{saveCollection}">Add Post Type</button>
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 <script>
 export let params;
 export let data;
-let cat = false;
+let cat = 'types';
 let id = false;
 let item = false;
 let index = false;
@@ -11,12 +11,11 @@ let title = '';
 let loading = false;
 
 $: if (params.id) {
-  cat = 'collections';
   id = params.id;
-  item = data[cat].filter(x => x.id == id)[0];
-  index = data[cat].findIndex(x => x.id == id);
-  collection = data.collections.filter(x => x.title == cat)[0];
-  title = data.collections[index].title;
+  item = data.types.filter(x => x.id == id)[0];
+  index = data.types.findIndex(x => x.id == id);
+  //collection = data.collections.filter(x => x.title == cat)[0];
+  //title = data.collections[index].title;
 }
 
 function save(){
@@ -46,28 +45,28 @@ function addField(){
   newField.title = '';
   newField.description = '';
   newField.type = 'txt';
-  data.collections[index].fields.push(newField);
+  data.types[index].fields.push(newField);
   data = data;
 }
 
 function deleteField(title){
   let result = confirm("Are you sure you want to delete this field?");
   if(result){
-    data.collections[index].fields = data.collections[index].fields.filter(x => x.title !== title)
+    data.types[index].fields = data.types[index].fields.filter(x => x.title !== title)
     data = data;
   }
 }
 
 function slugifyFieldTitle(i)
 {
-  let slug = data.collections[index].fields[i].title.toString().toLowerCase()
+  let slug = data.types[index].fields[i].title.toString().toLowerCase()
     .replace(/\s+/g, '_')           // Replace spaces with -
     .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
     .replace(/\-\-+/g, '_')         // Replace multiple - with single -
     .replace(/^-+/, '')             // Trim - from start of text
     .replace(/-+$/, '');            // Trim - from end of text
 
-  data.collections[index].fields[i].title = slug;
+  data.types[index].fields[i].title = slug;
   data = data;
 }
 
@@ -76,7 +75,7 @@ function slugifyFieldTitle(i)
 
 <div class="row topnav">
 <div class="col-9">
-<h4 class="text-truncate"><span class="medium-hide">Edit Collection:</span> {data.collections[index].title}</h4>
+<h4 class="text-truncate"><span class="medium-hide">Edit Post Type:</span> {data.types[index].title}</h4>
 </div>
 <div class="col-3 text-right">
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
@@ -98,7 +97,7 @@ function slugifyFieldTitle(i)
 </div>
 
 
-    {#if data.collections[index].fields}
+    {#if data.types[index].fields}
     <ul class="list-group">
 
 
@@ -111,7 +110,7 @@ function slugifyFieldTitle(i)
 
 
 
-    {#each data.collections[index].fields as field, i}
+    {#each data.types[index].fields as field, i}
       <li class="list-group-item">
       <div class="row">
       <div class="col-4"><input type="text" class="form-control mb-0" bind:value="{field.title}" on:keyup="{() => slugifyFieldTitle(i)}" placeholder="field name" /></div>

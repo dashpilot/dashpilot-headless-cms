@@ -13,9 +13,9 @@ import Router from 'svelte-spa-router'
 import {wrap} from 'svelte-spa-router/wrap'
 
 import Home from './routes/Home.svelte'
-import List from './routes/List.svelte'
+import Types from './routes/Types.svelte'
 import Edit from './routes/Edit.svelte'
-import EditCollection from './routes/EditCollection.svelte'
+import EditType from './routes/EditType.svelte'
 import Categories from './routes/Categories.svelte'
 import Posts from './routes/Posts.svelte'
 import Settings from './routes/Settings.svelte'
@@ -42,13 +42,6 @@ onMount(async () => {
 								}
 						}),
 
-						'/list/:cat': wrap({
-								component: List,
-								props: {
-										data:data
-								}
-						}),
-
 						'/posts/:cat': wrap({
 								component: Posts,
 								props: {
@@ -63,8 +56,15 @@ onMount(async () => {
 								}
 						}),
 
-						'/collections/:id': wrap({
-								component: EditCollection,
+						'/types': wrap({
+								component: Types,
+								props: {
+										data:data
+								}
+						}),
+
+						'/type/:id': wrap({
+								component: EditType,
 								props: {
 										data:data
 								}
@@ -140,13 +140,20 @@ on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
 
 <h5>Manage</h5>
 
+{#if data.permissions.categories}
 <a href="/#/categories" class:selected="{current === 'categories'}"
 on:click="{() => current = 'categories'}">Categories</a>
-	<a href="/#/list/collections" class:selected="{current === 'collections'}"
-	on:click="{() => current = 'collections'}">Post Types</a>
+{/if}
 
+{#if data.permissions.types}
+<a href="/#/types" class:selected="{current === 'types'}"
+	on:click="{() => current = 'types'}">Post Types</a>
+{/if}
+
+{#if data.permissions.settings}
 	<a href="/#/settings" class:selected="{current === 'settings'}"
 	on:click="{() => current = 'settings'}">settings</a>
+{/if}
 <br><br>
 <a on:click="{() => console.log(data)}">Debug</a>
 	<a href="/logout" id="logout">Log Out</a>

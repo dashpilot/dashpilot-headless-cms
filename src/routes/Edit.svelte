@@ -22,7 +22,7 @@ item = data[cat].filter(x => x.id == id)[0];
 index = data[cat].findIndex(x => x.id == id);
 
 if(cat=='posts'){
-  collection = data.collections.filter(x => x.slug == item.type)[0];
+  collection = data.types.filter(x => x.slug == item.type)[0];
   title = collection.title;
 }else{
   collection = {};

@@ -18,7 +18,7 @@
     "category": "home",
     "type": "post"
   }],
-  "collections": [{
+  "types": [{
     "id": "1",
     "title": "Post",
     "slug": "post",
@@ -58,5 +58,10 @@
     "website_title": "My Website",
     "image_width": "800",
     "webhook": ""
+  },
+  "permissions": {
+    "categories": true,
+    "types": true,
+    "settings": true
   }
 }

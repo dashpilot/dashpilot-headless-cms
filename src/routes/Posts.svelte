@@ -93,14 +93,14 @@ function moveItemDown(id) {
       <div class="modal-header">
         <h4 class="modal-title">Add Post</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" on:click="{() => addCat = false}">&times;</span>
+          <span aria-hidden="true" on:click="{() => addPost = false}">&times;</span>
         </button>
       </div>
       <div class="modal-body">
 
 <b>Type of post:</b>
 <div class="list-group list-group-flush">
-  {#each data.collections as item}
+  {#each data.types as item}
   <div on:click="{() => addItem(item.slug)}" class="list-group-item list-group-item-action text-capitalize">{item.title}</div>
   {/each}
 </div>
