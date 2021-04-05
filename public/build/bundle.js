@@ -4303,40 +4303,42 @@ var app = (function () {
 
     function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[21] = list[i];
-    	child_ctx[22] = list;
-    	child_ctx[23] = i;
+    	child_ctx[22] = list[i];
+    	child_ctx[23] = list;
+    	child_ctx[24] = i;
     	return child_ctx;
     }
 
     function get_each_context_1$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[1] = list[i];
+    	child_ctx[2] = list[i];
     	return child_ctx;
     }
 
-    // (74:0) {#if collection}
+    // (75:0) {#if collection}
     function create_if_block$3(ctx) {
     	let div2;
     	let div0;
     	let h4;
+    	let t0;
     	let t1;
+    	let t2;
     	let div1;
     	let button;
-    	let t2;
     	let t3;
+    	let t4;
     	let div6;
     	let div5;
     	let div3;
     	let b0;
-    	let t5;
-    	let input;
     	let t6;
+    	let input;
+    	let t7;
     	let div4;
     	let b1;
-    	let t8;
-    	let select;
     	let t9;
+    	let select;
+    	let t10;
     	let current;
     	let mounted;
     	let dispose;
@@ -4349,7 +4351,7 @@ var app = (function () {
     		each_blocks_1[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
     	}
 
-    	let each_value = /*collection*/ ctx[3].fields;
+    	let each_value = /*collection*/ ctx[1].fields;
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -4366,92 +4368,95 @@ var app = (function () {
     			div2 = element("div");
     			div0 = element("div");
     			h4 = element("h4");
-    			h4.textContent = "Edit";
-    			t1 = space();
+    			t0 = text("Edit ");
+    			t1 = text(/*title*/ ctx[5]);
+    			t2 = space();
     			div1 = element("div");
     			button = element("button");
     			if (if_block) if_block.c();
-    			t2 = text("  Save");
-    			t3 = space();
+    			t3 = text("  Save");
+    			t4 = space();
     			div6 = element("div");
     			div5 = element("div");
     			div3 = element("div");
     			b0 = element("b");
     			b0.textContent = "Title";
-    			t5 = space();
-    			input = element("input");
     			t6 = space();
+    			input = element("input");
+    			t7 = space();
     			div4 = element("div");
     			b1 = element("b");
     			b1.textContent = "Category";
-    			t8 = space();
+    			t9 = space();
     			select = element("select");
 
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
     				each_blocks_1[i].c();
     			}
 
-    			t9 = space();
+    			t10 = space();
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].c();
     			}
 
-    			add_location(h4, file$6, 78, 0, 1840);
+    			add_location(h4, file$6, 79, 0, 1814);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$6, 77, 0, 1820);
+    			add_location(div0, file$6, 78, 0, 1794);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$6, 81, 0, 1892);
+    			add_location(button, file$6, 82, 0, 1874);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$6, 80, 0, 1861);
+    			add_location(div1, file$6, 81, 0, 1843);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$6, 76, 0, 1795);
-    			add_location(b0, file$6, 91, 0, 2155);
+    			add_location(div2, file$6, 77, 0, 1769);
+    			add_location(b0, file$6, 92, 0, 2137);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$6, 92, 0, 2168);
+    			add_location(input, file$6, 93, 0, 2150);
     			attr_dev(div3, "class", "col-md-8");
-    			add_location(div3, file$6, 89, 0, 2131);
-    			add_location(b1, file$6, 98, 0, 2282);
+    			add_location(div3, file$6, 90, 0, 2113);
+    			add_location(b1, file$6, 99, 0, 2264);
     			attr_dev(select, "class", "form-control w-100");
-    			if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].category === void 0) add_render_callback(() => /*select_change_handler*/ ctx[10].call(select));
-    			add_location(select, file$6, 99, 0, 2298);
+    			if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].category === void 0) add_render_callback(() => /*select_change_handler*/ ctx[11].call(select));
+    			add_location(select, file$6, 100, 0, 2280);
     			attr_dev(div4, "class", "col-md-4");
-    			add_location(div4, file$6, 95, 0, 2257);
+    			add_location(div4, file$6, 96, 0, 2239);
     			attr_dev(div5, "class", "row");
-    			add_location(div5, file$6, 88, 0, 2113);
+    			add_location(div5, file$6, 89, 0, 2095);
     			attr_dev(div6, "class", "content");
-    			add_location(div6, file$6, 85, 0, 2089);
+    			add_location(div6, file$6, 86, 0, 2071);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div2, anchor);
     			append_dev(div2, div0);
     			append_dev(div0, h4);
-    			append_dev(div2, t1);
+    			append_dev(h4, t0);
+    			append_dev(h4, t1);
+    			append_dev(div2, t2);
     			append_dev(div2, div1);
     			append_dev(div1, button);
     			if (if_block) if_block.m(button, null);
-    			append_dev(button, t2);
-    			insert_dev(target, t3, anchor);
+    			append_dev(button, t3);
+    			insert_dev(target, t4, anchor);
     			insert_dev(target, div6, anchor);
     			append_dev(div6, div5);
     			append_dev(div5, div3);
     			append_dev(div3, b0);
-    			append_dev(div3, t5);
+    			append_dev(div3, t6);
     			append_dev(div3, input);
-    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].title);
-    			append_dev(div5, t6);
+    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].title);
+    			append_dev(div5, t7);
     			append_dev(div5, div4);
     			append_dev(div4, b1);
-    			append_dev(div4, t8);
+    			append_dev(div4, t9);
     			append_dev(div4, select);
 
     			for (let i = 0; i < each_blocks_1.length; i += 1) {
     				each_blocks_1[i].m(select, null);
     			}
 
-    			select_option(select, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].category);
-    			append_dev(div6, t9);
+    			select_option(select, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].category);
+    			append_dev(div6, t10);
 
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(div6, null);
@@ -4461,28 +4466,30 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(button, "click", /*save*/ ctx[5], false, false, false),
-    					listen_dev(input, "input", /*input_input_handler*/ ctx[9]),
-    					listen_dev(select, "change", /*select_change_handler*/ ctx[10])
+    					listen_dev(button, "click", /*save*/ ctx[6], false, false, false),
+    					listen_dev(input, "input", /*input_input_handler*/ ctx[10]),
+    					listen_dev(select, "change", /*select_change_handler*/ ctx[11])
     				];
 
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
+    			if (!current || dirty & /*title*/ 32) set_data_dev(t1, /*title*/ ctx[5]);
+
     			if (/*loading*/ ctx[4]) {
     				if (if_block) ; else {
     					if_block = create_if_block_8(ctx);
     					if_block.c();
-    					if_block.m(button, t2);
+    					if_block.m(button, t3);
     				}
     			} else if (if_block) {
     				if_block.d(1);
     				if_block = null;
     			}
 
-    			if (dirty & /*data, cat, index*/ 7 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].title) {
-    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].title);
+    			if (dirty & /*data, cat, index*/ 13 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].title) {
+    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].title);
     			}
 
     			if (dirty & /*data*/ 1) {
@@ -4509,12 +4516,12 @@ var app = (function () {
     				each_blocks_1.length = each_value_1.length;
     			}
 
-    			if (dirty & /*data, cat, index*/ 7) {
-    				select_option(select, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]].category);
+    			if (dirty & /*data, cat, index*/ 13) {
+    				select_option(select, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]].category);
     			}
 
     			if (dirty & /*collection, data, cat, index*/ 15) {
-    				each_value = /*collection*/ ctx[3].fields;
+    				each_value = /*collection*/ ctx[1].fields;
     				validate_each_argument(each_value);
     				let i;
 
@@ -4562,7 +4569,7 @@ var app = (function () {
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div2);
     			if (if_block) if_block.d();
-    			if (detaching) detach_dev(t3);
+    			if (detaching) detach_dev(t4);
     			if (detaching) detach_dev(div6);
     			destroy_each(each_blocks_1, detaching);
     			destroy_each(each_blocks, detaching);
@@ -4575,14 +4582,14 @@ var app = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(74:0) {#if collection}",
+    		source: "(75:0) {#if collection}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (82:55) {#if loading}
+    // (83:55) {#if loading}
     function create_if_block_8(ctx) {
     	let span;
 
@@ -4592,7 +4599,7 @@ var app = (function () {
     			attr_dev(span, "class", "spinner-border spinner-border-sm");
     			attr_dev(span, "role", "status");
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$6, 81, 68, 1960);
+    			add_location(span, file$6, 82, 68, 1942);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -4606,17 +4613,17 @@ var app = (function () {
     		block,
     		id: create_if_block_8.name,
     		type: "if",
-    		source: "(82:55) {#if loading}",
+    		source: "(83:55) {#if loading}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (101:0) {#each data.categories as cat}
+    // (102:0) {#each data.categories as cat}
     function create_each_block_1$1(ctx) {
     	let option;
-    	let t_value = /*cat*/ ctx[1].title + "";
+    	let t_value = /*cat*/ ctx[2].title + "";
     	let t;
     	let option_value_value;
 
@@ -4624,18 +4631,18 @@ var app = (function () {
     		c: function create() {
     			option = element("option");
     			t = text(t_value);
-    			option.__value = option_value_value = /*cat*/ ctx[1].slug;
+    			option.__value = option_value_value = /*cat*/ ctx[2].slug;
     			option.value = option.__value;
-    			add_location(option, file$6, 101, 0, 2406);
+    			add_location(option, file$6, 102, 0, 2388);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
     			append_dev(option, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*data*/ 1 && t_value !== (t_value = /*cat*/ ctx[1].title + "")) set_data_dev(t, t_value);
+    			if (dirty & /*data*/ 1 && t_value !== (t_value = /*cat*/ ctx[2].title + "")) set_data_dev(t, t_value);
 
-    			if (dirty & /*data*/ 1 && option_value_value !== (option_value_value = /*cat*/ ctx[1].slug)) {
+    			if (dirty & /*data*/ 1 && option_value_value !== (option_value_value = /*cat*/ ctx[2].slug)) {
     				prop_dev(option, "__value", option_value_value);
     				option.value = option.__value;
     			}
@@ -4649,31 +4656,31 @@ var app = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(101:0) {#each data.categories as cat}",
+    		source: "(102:0) {#each data.categories as cat}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (112:0) {#if field.type !== 'cat'}
+    // (113:0) {#if field.type !== 'cat'}
     function create_if_block_7(ctx) {
     	let b;
-    	let t_value = /*field*/ ctx[21].title + "";
+    	let t_value = /*field*/ ctx[22].title + "";
     	let t;
 
     	const block = {
     		c: function create() {
     			b = element("b");
     			t = text(t_value);
-    			add_location(b, file$6, 112, 2, 2556);
+    			add_location(b, file$6, 113, 2, 2538);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, b, anchor);
     			append_dev(b, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*collection*/ 8 && t_value !== (t_value = /*field*/ ctx[21].title + "")) set_data_dev(t, t_value);
+    			if (dirty & /*collection*/ 2 && t_value !== (t_value = /*field*/ ctx[22].title + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(b);
@@ -4684,17 +4691,17 @@ var app = (function () {
     		block,
     		id: create_if_block_7.name,
     		type: "if",
-    		source: "(112:0) {#if field.type !== 'cat'}",
+    		source: "(113:0) {#if field.type !== 'cat'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (116:2) {#if field.description}
+    // (117:2) {#if field.description}
     function create_if_block_6$1(ctx) {
     	let div;
-    	let t_value = /*field*/ ctx[21].description + "";
+    	let t_value = /*field*/ ctx[22].description + "";
     	let t;
 
     	const block = {
@@ -4702,14 +4709,14 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "description");
-    			add_location(div, file$6, 116, 2, 2612);
+    			add_location(div, file$6, 117, 2, 2594);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*collection*/ 8 && t_value !== (t_value = /*field*/ ctx[21].description + "")) set_data_dev(t, t_value);
+    			if (dirty & /*collection*/ 2 && t_value !== (t_value = /*field*/ ctx[22].description + "")) set_data_dev(t, t_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
@@ -4720,21 +4727,21 @@ var app = (function () {
     		block,
     		id: create_if_block_6$1.name,
     		type: "if",
-    		source: "(116:2) {#if field.description}",
+    		source: "(117:2) {#if field.description}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (120:2) {#if field.type=='txt'}
+    // (121:2) {#if field.type=='txt'}
     function create_if_block_5$1(ctx) {
     	let input;
     	let mounted;
     	let dispose;
 
     	function input_input_handler_1() {
-    		/*input_input_handler_1*/ ctx[11].call(input, /*field*/ ctx[21]);
+    		/*input_input_handler_1*/ ctx[12].call(input, /*field*/ ctx[22]);
     	}
 
     	const block = {
@@ -4742,11 +4749,11 @@ var app = (function () {
     			input = element("input");
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
-    			add_location(input, file$6, 120, 2, 2700);
+    			add_location(input, file$6, 121, 2, 2682);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
-    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title]);
+    			set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title]);
 
     			if (!mounted) {
     				dispose = listen_dev(input, "input", input_input_handler_1);
@@ -4756,8 +4763,8 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*data, cat, index, collection*/ 15 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title]) {
-    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title]);
+    			if (dirty & /*data, cat, index, collection*/ 15 && input.value !== /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title]) {
+    				set_input_value(input, /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title]);
     			}
     		},
     		d: function destroy(detaching) {
@@ -4771,27 +4778,27 @@ var app = (function () {
     		block,
     		id: create_if_block_5$1.name,
     		type: "if",
-    		source: "(120:2) {#if field.type=='txt'}",
+    		source: "(121:2) {#if field.type=='txt'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (124:2) {#if field.type=='txta'}
+    // (125:2) {#if field.type=='txta'}
     function create_if_block_4$1(ctx) {
     	let textarea;
     	let updating_val;
     	let current;
 
     	function textarea_val_binding(value) {
-    		/*textarea_val_binding*/ ctx[12].call(null, value, /*field*/ ctx[21]);
+    		/*textarea_val_binding*/ ctx[13].call(null, value, /*field*/ ctx[22]);
     	}
 
     	let textarea_props = {};
 
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title] !== void 0) {
-    		textarea_props.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
+    	if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title] !== void 0) {
+    		textarea_props.val = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
     	}
 
     	textarea = new Textarea({ props: textarea_props, $$inline: true });
@@ -4811,7 +4818,7 @@ var app = (function () {
 
     			if (!updating_val && dirty & /*data, cat, index, collection*/ 15) {
     				updating_val = true;
-    				textarea_changes.val = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
+    				textarea_changes.val = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
     				add_flush_callback(() => updating_val = false);
     			}
 
@@ -4835,14 +4842,14 @@ var app = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(124:2) {#if field.type=='txta'}",
+    		source: "(125:2) {#if field.type=='txta'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (128:2) {#if field.type=='mde'}
+    // (129:2) {#if field.type=='mde'}
     function create_if_block_3$1(ctx) {
     	let markdown;
     	let updating_key;
@@ -4850,21 +4857,21 @@ var app = (function () {
     	let current;
 
     	function markdown_key_binding(value) {
-    		/*markdown_key_binding*/ ctx[13].call(null, value, /*field*/ ctx[21]);
+    		/*markdown_key_binding*/ ctx[14].call(null, value, /*field*/ ctx[22]);
     	}
 
     	function markdown_html_binding(value) {
-    		/*markdown_html_binding*/ ctx[14].call(null, value, /*field*/ ctx[21]);
+    		/*markdown_html_binding*/ ctx[15].call(null, value, /*field*/ ctx[22]);
     	}
 
     	let markdown_props = {};
 
-    	if (/*field*/ ctx[21].title !== void 0) {
-    		markdown_props.key = /*field*/ ctx[21].title;
+    	if (/*field*/ ctx[22].title !== void 0) {
+    		markdown_props.key = /*field*/ ctx[22].title;
     	}
 
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title] !== void 0) {
-    		markdown_props.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
+    	if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title] !== void 0) {
+    		markdown_props.html = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
     	}
 
     	markdown = new Markdown({ props: markdown_props, $$inline: true });
@@ -4883,15 +4890,15 @@ var app = (function () {
     			ctx = new_ctx;
     			const markdown_changes = {};
 
-    			if (!updating_key && dirty & /*collection*/ 8) {
+    			if (!updating_key && dirty & /*collection*/ 2) {
     				updating_key = true;
-    				markdown_changes.key = /*field*/ ctx[21].title;
+    				markdown_changes.key = /*field*/ ctx[22].title;
     				add_flush_callback(() => updating_key = false);
     			}
 
     			if (!updating_html && dirty & /*data, cat, index, collection*/ 15) {
     				updating_html = true;
-    				markdown_changes.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
+    				markdown_changes.html = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
     				add_flush_callback(() => updating_html = false);
     			}
 
@@ -4915,14 +4922,14 @@ var app = (function () {
     		block,
     		id: create_if_block_3$1.name,
     		type: "if",
-    		source: "(128:2) {#if field.type=='mde'}",
+    		source: "(129:2) {#if field.type=='mde'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (132:2) {#if field.type=='rte'}
+    // (133:2) {#if field.type=='rte'}
     function create_if_block_2$2(ctx) {
     	let texteditor;
     	let updating_key;
@@ -4930,21 +4937,21 @@ var app = (function () {
     	let current;
 
     	function texteditor_key_binding(value) {
-    		/*texteditor_key_binding*/ ctx[15].call(null, value, /*field*/ ctx[21]);
+    		/*texteditor_key_binding*/ ctx[16].call(null, value, /*field*/ ctx[22]);
     	}
 
     	function texteditor_html_binding(value) {
-    		/*texteditor_html_binding*/ ctx[16].call(null, value, /*field*/ ctx[21]);
+    		/*texteditor_html_binding*/ ctx[17].call(null, value, /*field*/ ctx[22]);
     	}
 
     	let texteditor_props = {};
 
-    	if (/*field*/ ctx[21].title !== void 0) {
-    		texteditor_props.key = /*field*/ ctx[21].title;
+    	if (/*field*/ ctx[22].title !== void 0) {
+    		texteditor_props.key = /*field*/ ctx[22].title;
     	}
 
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title] !== void 0) {
-    		texteditor_props.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
+    	if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title] !== void 0) {
+    		texteditor_props.html = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
     	}
 
     	texteditor = new TextEditor({ props: texteditor_props, $$inline: true });
@@ -4963,15 +4970,15 @@ var app = (function () {
     			ctx = new_ctx;
     			const texteditor_changes = {};
 
-    			if (!updating_key && dirty & /*collection*/ 8) {
+    			if (!updating_key && dirty & /*collection*/ 2) {
     				updating_key = true;
-    				texteditor_changes.key = /*field*/ ctx[21].title;
+    				texteditor_changes.key = /*field*/ ctx[22].title;
     				add_flush_callback(() => updating_key = false);
     			}
 
     			if (!updating_html && dirty & /*data, cat, index, collection*/ 15) {
     				updating_html = true;
-    				texteditor_changes.html = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]][/*field*/ ctx[21].title];
+    				texteditor_changes.html = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]][/*field*/ ctx[22].title];
     				add_flush_callback(() => updating_html = false);
     			}
 
@@ -4995,14 +5002,14 @@ var app = (function () {
     		block,
     		id: create_if_block_2$2.name,
     		type: "if",
-    		source: "(132:2) {#if field.type=='rte'}",
+    		source: "(133:2) {#if field.type=='rte'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (137:2) {#if field.type=='gal'}
+    // (138:2) {#if field.type=='gal'}
     function create_if_block_1$2(ctx) {
     	let gallery;
     	let updating_key;
@@ -5010,21 +5017,21 @@ var app = (function () {
     	let current;
 
     	function gallery_key_binding(value) {
-    		/*gallery_key_binding*/ ctx[17].call(null, value, /*field*/ ctx[21]);
+    		/*gallery_key_binding*/ ctx[18].call(null, value, /*field*/ ctx[22]);
     	}
 
     	function gallery_item_binding(value) {
-    		/*gallery_item_binding*/ ctx[18].call(null, value);
+    		/*gallery_item_binding*/ ctx[19].call(null, value);
     	}
 
     	let gallery_props = {};
 
-    	if (/*field*/ ctx[21].title !== void 0) {
-    		gallery_props.key = /*field*/ ctx[21].title;
+    	if (/*field*/ ctx[22].title !== void 0) {
+    		gallery_props.key = /*field*/ ctx[22].title;
     	}
 
-    	if (/*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]] !== void 0) {
-    		gallery_props.item = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]];
+    	if (/*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]] !== void 0) {
+    		gallery_props.item = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]];
     	}
 
     	gallery = new Gallery({ props: gallery_props, $$inline: true });
@@ -5043,15 +5050,15 @@ var app = (function () {
     			ctx = new_ctx;
     			const gallery_changes = {};
 
-    			if (!updating_key && dirty & /*collection*/ 8) {
+    			if (!updating_key && dirty & /*collection*/ 2) {
     				updating_key = true;
-    				gallery_changes.key = /*field*/ ctx[21].title;
+    				gallery_changes.key = /*field*/ ctx[22].title;
     				add_flush_callback(() => updating_key = false);
     			}
 
-    			if (!updating_item && dirty & /*data, cat, index*/ 7) {
+    			if (!updating_item && dirty & /*data, cat, index*/ 13) {
     				updating_item = true;
-    				gallery_changes.item = /*data*/ ctx[0][/*cat*/ ctx[1]][/*index*/ ctx[2]];
+    				gallery_changes.item = /*data*/ ctx[0][/*cat*/ ctx[2]][/*index*/ ctx[3]];
     				add_flush_callback(() => updating_item = false);
     			}
 
@@ -5075,14 +5082,14 @@ var app = (function () {
     		block,
     		id: create_if_block_1$2.name,
     		type: "if",
-    		source: "(137:2) {#if field.type=='gal'}",
+    		source: "(138:2) {#if field.type=='gal'}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (110:2) {#each collection.fields as field}
+    // (111:2) {#each collection.fields as field}
     function create_each_block$2(ctx) {
     	let t0;
     	let t1;
@@ -5092,13 +5099,13 @@ var app = (function () {
     	let t5;
     	let if_block6_anchor;
     	let current;
-    	let if_block0 = /*field*/ ctx[21].type !== "cat" && create_if_block_7(ctx);
-    	let if_block1 = /*field*/ ctx[21].description && create_if_block_6$1(ctx);
-    	let if_block2 = /*field*/ ctx[21].type == "txt" && create_if_block_5$1(ctx);
-    	let if_block3 = /*field*/ ctx[21].type == "txta" && create_if_block_4$1(ctx);
-    	let if_block4 = /*field*/ ctx[21].type == "mde" && create_if_block_3$1(ctx);
-    	let if_block5 = /*field*/ ctx[21].type == "rte" && create_if_block_2$2(ctx);
-    	let if_block6 = /*field*/ ctx[21].type == "gal" && create_if_block_1$2(ctx);
+    	let if_block0 = /*field*/ ctx[22].type !== "cat" && create_if_block_7(ctx);
+    	let if_block1 = /*field*/ ctx[22].description && create_if_block_6$1(ctx);
+    	let if_block2 = /*field*/ ctx[22].type == "txt" && create_if_block_5$1(ctx);
+    	let if_block3 = /*field*/ ctx[22].type == "txta" && create_if_block_4$1(ctx);
+    	let if_block4 = /*field*/ ctx[22].type == "mde" && create_if_block_3$1(ctx);
+    	let if_block5 = /*field*/ ctx[22].type == "rte" && create_if_block_2$2(ctx);
+    	let if_block6 = /*field*/ ctx[22].type == "gal" && create_if_block_1$2(ctx);
 
     	const block = {
     		c: function create() {
@@ -5135,7 +5142,7 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (/*field*/ ctx[21].type !== "cat") {
+    			if (/*field*/ ctx[22].type !== "cat") {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
     				} else {
@@ -5148,7 +5155,7 @@ var app = (function () {
     				if_block0 = null;
     			}
 
-    			if (/*field*/ ctx[21].description) {
+    			if (/*field*/ ctx[22].description) {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
     				} else {
@@ -5161,7 +5168,7 @@ var app = (function () {
     				if_block1 = null;
     			}
 
-    			if (/*field*/ ctx[21].type == "txt") {
+    			if (/*field*/ ctx[22].type == "txt") {
     				if (if_block2) {
     					if_block2.p(ctx, dirty);
     				} else {
@@ -5174,11 +5181,11 @@ var app = (function () {
     				if_block2 = null;
     			}
 
-    			if (/*field*/ ctx[21].type == "txta") {
+    			if (/*field*/ ctx[22].type == "txta") {
     				if (if_block3) {
     					if_block3.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block3, 1);
     					}
     				} else {
@@ -5197,11 +5204,11 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*field*/ ctx[21].type == "mde") {
+    			if (/*field*/ ctx[22].type == "mde") {
     				if (if_block4) {
     					if_block4.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block4, 1);
     					}
     				} else {
@@ -5220,11 +5227,11 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*field*/ ctx[21].type == "rte") {
+    			if (/*field*/ ctx[22].type == "rte") {
     				if (if_block5) {
     					if_block5.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block5, 1);
     					}
     				} else {
@@ -5243,11 +5250,11 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*field*/ ctx[21].type == "gal") {
+    			if (/*field*/ ctx[22].type == "gal") {
     				if (if_block6) {
     					if_block6.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block6, 1);
     					}
     				} else {
@@ -5303,7 +5310,7 @@ var app = (function () {
     		block,
     		id: create_each_block$2.name,
     		type: "each",
-    		source: "(110:2) {#each collection.fields as field}",
+    		source: "(111:2) {#each collection.fields as field}",
     		ctx
     	});
 
@@ -5313,7 +5320,7 @@ var app = (function () {
     function create_fragment$7(ctx) {
     	let if_block_anchor;
     	let current;
-    	let if_block = /*collection*/ ctx[3] && create_if_block$3(ctx);
+    	let if_block = /*collection*/ ctx[1] && create_if_block$3(ctx);
 
     	const block = {
     		c: function create() {
@@ -5329,11 +5336,11 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
-    			if (/*collection*/ ctx[3]) {
+    			if (/*collection*/ ctx[1]) {
     				if (if_block) {
     					if_block.p(ctx, dirty);
 
-    					if (dirty & /*collection*/ 8) {
+    					if (dirty & /*collection*/ 2) {
     						transition_in(if_block, 1);
     					}
     				} else {
@@ -5390,6 +5397,7 @@ var app = (function () {
     	let collection = false;
     	let fields = {};
     	let loading = false;
+    	let title = false;
 
     	function save() {
     		if (typeof data[cat][index].slug === "undefined" || data[cat][index].slug == "") {
@@ -5439,23 +5447,23 @@ var app = (function () {
     	function input_input_handler() {
     		data[cat][index].title = this.value;
     		$$invalidate(0, data);
-    		(((($$invalidate(1, cat), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(7, id)), $$invalidate(8, item));
-    		((((($$invalidate(2, index), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id)), $$invalidate(8, item));
+    		((((($$invalidate(2, cat), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(8, id)), $$invalidate(9, item)), $$invalidate(1, collection));
+    		(((((($$invalidate(3, index), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(9, item)), $$invalidate(1, collection));
     	}
 
     	function select_change_handler() {
     		data[cat][index].category = select_value(this);
     		$$invalidate(0, data);
-    		(((($$invalidate(1, cat), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(7, id)), $$invalidate(8, item));
-    		((((($$invalidate(2, index), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id)), $$invalidate(8, item));
+    		((((($$invalidate(2, cat), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(8, id)), $$invalidate(9, item)), $$invalidate(1, collection));
+    		(((((($$invalidate(3, index), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(9, item)), $$invalidate(1, collection));
     	}
 
     	function input_input_handler_1(field) {
     		data[cat][index][field.title] = this.value;
     		$$invalidate(0, data);
-    		(((($$invalidate(1, cat), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(7, id)), $$invalidate(8, item));
-    		((((($$invalidate(2, index), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id)), $$invalidate(8, item));
-    		((((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id)), $$invalidate(8, item));
+    		((((($$invalidate(2, cat), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(8, id)), $$invalidate(9, item)), $$invalidate(1, collection));
+    		(((((($$invalidate(3, index), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(9, item)), $$invalidate(1, collection));
+    		((((($$invalidate(1, collection), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(9, item));
     	}
 
     	function textarea_val_binding(value, field) {
@@ -5465,7 +5473,7 @@ var app = (function () {
 
     	function markdown_key_binding(value, field) {
     		field.title = value;
-    		((((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id)), $$invalidate(8, item));
+    		((((($$invalidate(1, collection), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(9, item));
     	}
 
     	function markdown_html_binding(value, field) {
@@ -5475,7 +5483,7 @@ var app = (function () {
 
     	function texteditor_key_binding(value, field) {
     		field.title = value;
-    		((((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id)), $$invalidate(8, item));
+    		((((($$invalidate(1, collection), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(9, item));
     	}
 
     	function texteditor_html_binding(value, field) {
@@ -5485,7 +5493,7 @@ var app = (function () {
 
     	function gallery_key_binding(value, field) {
     		field.title = value;
-    		((((($$invalidate(3, collection), $$invalidate(6, params)), $$invalidate(0, data)), $$invalidate(1, cat)), $$invalidate(7, id)), $$invalidate(8, item));
+    		((((($$invalidate(1, collection), $$invalidate(7, params)), $$invalidate(0, data)), $$invalidate(2, cat)), $$invalidate(8, id)), $$invalidate(9, item));
     	}
 
     	function gallery_item_binding(value) {
@@ -5494,7 +5502,7 @@ var app = (function () {
     	}
 
     	$$self.$$set = $$props => {
-    		if ("params" in $$props) $$invalidate(6, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(7, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     	};
 
@@ -5512,20 +5520,22 @@ var app = (function () {
     		collection,
     		fields,
     		loading,
+    		title,
     		save,
     		slugifyTitle
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("params" in $$props) $$invalidate(6, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(7, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
-    		if ("cat" in $$props) $$invalidate(1, cat = $$props.cat);
-    		if ("id" in $$props) $$invalidate(7, id = $$props.id);
-    		if ("item" in $$props) $$invalidate(8, item = $$props.item);
-    		if ("index" in $$props) $$invalidate(2, index = $$props.index);
-    		if ("collection" in $$props) $$invalidate(3, collection = $$props.collection);
+    		if ("cat" in $$props) $$invalidate(2, cat = $$props.cat);
+    		if ("id" in $$props) $$invalidate(8, id = $$props.id);
+    		if ("item" in $$props) $$invalidate(9, item = $$props.item);
+    		if ("index" in $$props) $$invalidate(3, index = $$props.index);
+    		if ("collection" in $$props) $$invalidate(1, collection = $$props.collection);
     		if ("fields" in $$props) fields = $$props.fields;
     		if ("loading" in $$props) $$invalidate(4, loading = $$props.loading);
+    		if ("title" in $$props) $$invalidate(5, title = $$props.title);
     	};
 
     	if ($$props && "$$inject" in $$props) {
@@ -5533,20 +5543,20 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*params, data, cat, id, item*/ 451) {
+    		if ($$self.$$.dirty & /*params, data, cat, id, item, collection*/ 903) {
     			 if (params.cat && params.id) {
-    				$$invalidate(1, cat = params.cat);
-    				$$invalidate(7, id = params.id);
-    				$$invalidate(8, item = data[cat].filter(x => x.id == id)[0]);
-    				$$invalidate(2, index = data[cat].findIndex(x => x.id == id));
+    				$$invalidate(2, cat = params.cat);
+    				$$invalidate(8, id = params.id);
+    				$$invalidate(9, item = data[cat].filter(x => x.id == id)[0]);
+    				$$invalidate(3, index = data[cat].findIndex(x => x.id == id));
 
     				if (cat == "posts") {
-    					$$invalidate(3, collection = data.collections.filter(x => x.slug == item.type)[0]);
-    				} else if (cat !== "categories") {
-    					$$invalidate(3, collection = data.collections.filter(x => x.slug == cat)[0]);
+    					$$invalidate(1, collection = data.collections.filter(x => x.slug == item.type)[0]);
+    					$$invalidate(5, title = collection.title);
     				} else {
-    					$$invalidate(3, collection = {});
-    					$$invalidate(3, collection.fields = [], collection);
+    					$$invalidate(1, collection = {});
+    					$$invalidate(1, collection.fields = [], collection);
+    					$$invalidate(5, title = "category");
     				}
     			}
     		}
@@ -5554,10 +5564,11 @@ var app = (function () {
 
     	return [
     		data,
+    		collection,
     		cat,
     		index,
-    		collection,
     		loading,
+    		title,
     		save,
     		params,
     		id,
@@ -5578,7 +5589,7 @@ var app = (function () {
     class Edit extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$7, create_fragment$7, safe_not_equal, { params: 6, data: 0 });
+    		init(this, options, instance$7, create_fragment$7, safe_not_equal, { params: 7, data: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -5590,7 +5601,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*params*/ ctx[6] === undefined && !("params" in props)) {
+    		if (/*params*/ ctx[7] === undefined && !("params" in props)) {
     			console_1$2.warn("<Edit> was created without expected prop 'params'");
     		}
 
@@ -8082,7 +8093,7 @@ var app = (function () {
     			a1.textContent = "Categories";
     			t7 = space();
     			a2 = element("a");
-    			a2.textContent = "Collections";
+    			a2.textContent = "Post Types";
     			t9 = space();
     			a3 = element("a");
     			a3.textContent = "settings";
@@ -8117,13 +8128,13 @@ var app = (function () {
     			add_location(a2, file$b, 144, 1, 3269);
     			attr_dev(a3, "href", "/#/settings");
     			toggle_class(a3, "selected", /*current*/ ctx[2] === "settings");
-    			add_location(a3, file$b, 147, 1, 3406);
-    			add_location(br0, file$b, 149, 0, 3524);
-    			add_location(br1, file$b, 149, 4, 3528);
-    			add_location(a4, file$b, 150, 0, 3533);
+    			add_location(a3, file$b, 147, 1, 3405);
+    			add_location(br0, file$b, 149, 0, 3523);
+    			add_location(br1, file$b, 149, 4, 3527);
+    			add_location(a4, file$b, 150, 0, 3532);
     			attr_dev(a5, "href", "/logout");
     			attr_dev(a5, "id", "logout");
-    			add_location(a5, file$b, 151, 1, 3584);
+    			add_location(a5, file$b, 151, 1, 3583);
     			attr_dev(div1, "class", "side-nav");
     			add_location(div1, file$b, 124, 0, 2852);
     			attr_dev(div2, "class", "side");
@@ -8131,9 +8142,9 @@ var app = (function () {
     			attr_dev(div3, "class", "col-md-2");
     			add_location(div3, file$b, 119, 0, 2668);
     			attr_dev(div4, "class", "main");
-    			add_location(div4, file$b, 159, 0, 3674);
+    			add_location(div4, file$b, 159, 0, 3673);
     			attr_dev(div5, "class", "col-md-10");
-    			add_location(div5, file$b, 157, 0, 3649);
+    			add_location(div5, file$b, 157, 0, 3648);
     			attr_dev(div6, "class", "row no-gutters page");
     			add_location(div6, file$b, 118, 0, 2618);
     		},

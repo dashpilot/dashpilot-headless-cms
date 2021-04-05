@@ -42,7 +42,7 @@
     "fields": [{
       "title": "body",
       "description": "",
-      "type": "mde"
+      "type": "rte"
     }]
   }],
   "categories": [{

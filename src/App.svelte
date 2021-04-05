@@ -143,7 +143,7 @@ on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
 <a href="/#/categories" class:selected="{current === 'categories'}"
 on:click="{() => current = 'categories'}">Categories</a>
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
-	on:click="{() => current = 'collections'}">Collections</a>
+	on:click="{() => current = 'collections'}">Post Types</a>
 
 	<a href="/#/settings" class:selected="{current === 'settings'}"
 	on:click="{() => current = 'settings'}">settings</a>

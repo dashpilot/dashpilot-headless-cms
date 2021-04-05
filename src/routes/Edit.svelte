@@ -12,6 +12,7 @@ let index = false;
 let collection = false;
 let fields = {};
 let loading = false;
+let title = false;
 
 
 $: if (params.cat && params.id) {
@@ -22,11 +23,11 @@ index = data[cat].findIndex(x => x.id == id);
 
 if(cat=='posts'){
   collection = data.collections.filter(x => x.slug == item.type)[0];
-}else if(cat !== 'categories'){
-  collection = data.collections.filter(x => x.slug == cat)[0];
+  title = collection.title;
 }else{
   collection = {};
   collection.fields = [];
+  title = 'category';
 }
 
 }
@@ -76,7 +77,7 @@ function slugifyTitle()
 
 <div class="row topnav">
 <div class="col-6">
-<h4>Edit</h4>
+<h4>Edit {title}</h4>
 </div>
 <div class="col-6 text-right">
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
