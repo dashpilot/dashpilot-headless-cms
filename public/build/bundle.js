@@ -41,6 +41,9 @@ var app = (function () {
         const unsub = store.subscribe(...callbacks);
         return unsub.unsubscribe ? () => unsub.unsubscribe() : unsub;
     }
+    function action_destroyer(action_result) {
+        return action_result && is_function(action_result.destroy) ? action_result.destroy : noop;
+    }
 
     const is_client = typeof window !== 'undefined';
     let now = is_client
@@ -207,6 +210,75 @@ var app = (function () {
             });
             active_docs.clear();
         });
+    }
+
+    function create_animation(node, from, fn, params) {
+        if (!from)
+            return noop;
+        const to = node.getBoundingClientRect();
+        if (from.left === to.left && from.right === to.right && from.top === to.top && from.bottom === to.bottom)
+            return noop;
+        const { delay = 0, duration = 300, easing = identity, 
+        // @ts-ignore todo: should this be separated from destructuring? Or start/end added to public api and documentation?
+        start: start_time = now() + delay, 
+        // @ts-ignore todo:
+        end = start_time + duration, tick = noop, css } = fn(node, { from, to }, params);
+        let running = true;
+        let started = false;
+        let name;
+        function start() {
+            if (css) {
+                name = create_rule(node, 0, 1, duration, delay, easing, css);
+            }
+            if (!delay) {
+                started = true;
+            }
+        }
+        function stop() {
+            if (css)
+                delete_rule(node, name);
+            running = false;
+        }
+        loop(now => {
+            if (!started && now >= start_time) {
+                started = true;
+            }
+            if (started && now >= end) {
+                tick(1, 0);
+                stop();
+            }
+            if (!running) {
+                return false;
+            }
+            if (started) {
+                const p = now - start_time;
+                const t = 0 + 1 * easing(p / duration);
+                tick(t, 1 - t);
+            }
+            return true;
+        });
+        start();
+        tick(0, 1);
+        return stop;
+    }
+    function fix_position(node) {
+        const style = getComputedStyle(node);
+        if (style.position !== 'absolute' && style.position !== 'fixed') {
+            const { width, height } = style;
+            const a = node.getBoundingClientRect();
+            node.style.position = 'absolute';
+            node.style.width = width;
+            node.style.height = height;
+            add_transform(node, a);
+        }
+    }
+    function add_transform(node, a) {
+        const b = node.getBoundingClientRect();
+        if (a.left !== b.left || a.top !== b.top) {
+            const style = getComputedStyle(node);
+            const transform = style.transform === 'none' ? '' : style.transform;
+            node.style.transform = `${transform} translate(${a.left - b.left}px, ${a.top - b.top}px)`;
+        }
     }
 
     let current_component;
@@ -485,6 +557,100 @@ var app = (function () {
             ? globalThis
             : global);
 
+    function destroy_block(block, lookup) {
+        block.d(1);
+        lookup.delete(block.key);
+    }
+    function fix_and_destroy_block(block, lookup) {
+        block.f();
+        destroy_block(block, lookup);
+    }
+    function update_keyed_each(old_blocks, dirty, get_key, dynamic, ctx, list, lookup, node, destroy, create_each_block, next, get_context) {
+        let o = old_blocks.length;
+        let n = list.length;
+        let i = o;
+        const old_indexes = {};
+        while (i--)
+            old_indexes[old_blocks[i].key] = i;
+        const new_blocks = [];
+        const new_lookup = new Map();
+        const deltas = new Map();
+        i = n;
+        while (i--) {
+            const child_ctx = get_context(ctx, list, i);
+            const key = get_key(child_ctx);
+            let block = lookup.get(key);
+            if (!block) {
+                block = create_each_block(key, child_ctx);
+                block.c();
+            }
+            else if (dynamic) {
+                block.p(child_ctx, dirty);
+            }
+            new_lookup.set(key, new_blocks[i] = block);
+            if (key in old_indexes)
+                deltas.set(key, Math.abs(i - old_indexes[key]));
+        }
+        const will_move = new Set();
+        const did_move = new Set();
+        function insert(block) {
+            transition_in(block, 1);
+            block.m(node, next);
+            lookup.set(block.key, block);
+            next = block.first;
+            n--;
+        }
+        while (o && n) {
+            const new_block = new_blocks[n - 1];
+            const old_block = old_blocks[o - 1];
+            const new_key = new_block.key;
+            const old_key = old_block.key;
+            if (new_block === old_block) {
+                // do nothing
+                next = new_block.first;
+                o--;
+                n--;
+            }
+            else if (!new_lookup.has(old_key)) {
+                // remove old block
+                destroy(old_block, lookup);
+                o--;
+            }
+            else if (!lookup.has(new_key) || will_move.has(new_key)) {
+                insert(new_block);
+            }
+            else if (did_move.has(old_key)) {
+                o--;
+            }
+            else if (deltas.get(new_key) > deltas.get(old_key)) {
+                did_move.add(new_key);
+                insert(new_block);
+            }
+            else {
+                will_move.add(old_key);
+                o--;
+            }
+        }
+        while (o--) {
+            const old_block = old_blocks[o];
+            if (!new_lookup.has(old_block.key))
+                destroy(old_block, lookup);
+        }
+        while (n)
+            insert(new_blocks[n - 1]);
+        return new_blocks;
+    }
+    function validate_each_keys(ctx, list, get_context, get_key) {
+        const keys = new Set();
+        for (let i = 0; i < list.length; i++) {
+            const key = get_key(get_context(ctx, list, i));
+            if (keys.has(key)) {
+                throw new Error('Cannot have duplicate keys in a keyed each');
+            }
+            keys.add(key);
+        }
+    }
+
     function get_spread_update(levels, updates) {
         const update = {};
         const to_null_out = {};
@@ -734,6 +900,11 @@ var app = (function () {
         }
         $capture_state() { }
         $inject_state() { }
+    }
+
+    function cubicOut(t) {
+        const f = t - 1.0;
+        return f * f * f + 1.0;
     }
 
     function fade(node, { delay = 0, duration = 400, easing = identity }) {
@@ -1964,17 +2135,17 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[12] = list[i];
+    	child_ctx[11] = list[i];
     	return child_ctx;
     }
 
-    // (86:0) {#each data.types as item}
+    // (82:0) {#each data.types as item}
     function create_each_block(ctx) {
     	let li;
     	let div2;
     	let div0;
     	let a;
-    	let t0_value = /*item*/ ctx[12].title + "";
+    	let t0_value = /*item*/ ctx[11].title + "";
     	let t0;
     	let a_href_value;
     	let t1;
@@ -1991,17 +2162,17 @@ var app = (function () {
     			t1 = space();
     			div1 = element("div");
     			t2 = space();
-    			attr_dev(a, "href", a_href_value = "/#/type/" + /*item*/ ctx[12].id);
+    			attr_dev(a, "href", a_href_value = "/#/type/" + /*item*/ ctx[11].id);
     			attr_dev(a, "class", "text-truncate");
-    			add_location(a, file$1, 90, 2, 2062);
+    			add_location(a, file$1, 86, 2, 2040);
     			attr_dev(div0, "class", "col-6 text-truncate d-flex align-items-center");
-    			add_location(div0, file$1, 88, 2, 1999);
+    			add_location(div0, file$1, 84, 2, 1977);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$1, 93, 2, 2141);
+    			add_location(div1, file$1, 89, 2, 2119);
     			attr_dev(div2, "class", "row");
-    			add_location(div2, file$1, 87, 2, 1979);
+    			add_location(div2, file$1, 83, 2, 1957);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$1, 86, 2, 1948);
+    			add_location(li, file$1, 82, 2, 1926);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -2014,9 +2185,9 @@ var app = (function () {
     			append_dev(li, t2);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*data*/ 1 && t0_value !== (t0_value = /*item*/ ctx[12].title + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*data*/ 1 && t0_value !== (t0_value = /*item*/ ctx[11].title + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*data*/ 1 && a_href_value !== (a_href_value = "/#/type/" + /*item*/ ctx[12].id)) {
+    			if (dirty & /*data*/ 1 && a_href_value !== (a_href_value = "/#/type/" + /*item*/ ctx[11].id)) {
     				attr_dev(a, "href", a_href_value);
     			}
     		},
@@ -2029,14 +2200,14 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(86:0) {#each data.types as item}",
+    		source: "(82:0) {#each data.types as item}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (104:0) {#if addType}
+    // (100:0) {#if addType}
     function create_if_block$1(ctx) {
     	let div7;
     	let div6;
@@ -2090,41 +2261,41 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Add Post Type";
     			attr_dev(h4, "class", "modal-title");
-    			add_location(h4, file$1, 110, 8, 2426);
+    			add_location(h4, file$1, 106, 8, 2404);
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$1, 112, 10, 2564);
+    			add_location(span, file$1, 108, 10, 2542);
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "close");
     			attr_dev(button0, "data-dismiss", "modal");
     			attr_dev(button0, "aria-label", "Close");
-    			add_location(button0, file$1, 111, 8, 2477);
+    			add_location(button0, file$1, 107, 8, 2455);
     			attr_dev(div0, "class", "modal-header");
-    			add_location(div0, file$1, 109, 6, 2391);
-    			add_location(b, file$1, 122, 2, 2770);
+    			add_location(div0, file$1, 105, 6, 2369);
+    			add_location(b, file$1, 118, 2, 2748);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
     			attr_dev(input, "id", "coll-title");
-    			add_location(input, file$1, 123, 6, 2788);
+    			add_location(input, file$1, 119, 6, 2766);
     			attr_dev(div1, "class", "description-sub");
-    			add_location(div1, file$1, 124, 10, 2857);
+    			add_location(div1, file$1, 120, 10, 2835);
     			attr_dev(div2, "class", "modal-body");
-    			add_location(div2, file$1, 115, 6, 2676);
+    			add_location(div2, file$1, 111, 6, 2654);
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary");
-    			add_location(button1, file$1, 127, 8, 2947);
+    			add_location(button1, file$1, 123, 8, 2925);
     			attr_dev(div3, "class", "modal-footer");
-    			add_location(div3, file$1, 126, 6, 2912);
+    			add_location(div3, file$1, 122, 6, 2890);
     			attr_dev(div4, "class", "modal-content");
-    			add_location(div4, file$1, 108, 4, 2357);
+    			add_location(div4, file$1, 104, 4, 2335);
     			attr_dev(div5, "class", "modal-dialog");
     			attr_dev(div5, "role", "document");
-    			add_location(div5, file$1, 107, 2, 2310);
+    			add_location(div5, file$1, 103, 2, 2288);
     			attr_dev(div6, "class", "modal");
     			attr_dev(div6, "tabindex", "-1");
     			attr_dev(div6, "role", "dialog");
-    			add_location(div6, file$1, 106, 0, 2260);
+    			add_location(div6, file$1, 102, 0, 2238);
     			attr_dev(div7, "class", "backdrop");
-    			add_location(div7, file$1, 104, 0, 2236);
+    			add_location(div7, file$1, 100, 0, 2214);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div7, anchor);
@@ -2151,7 +2322,7 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(span, "click", /*click_handler_1*/ ctx[6], false, false, false),
+    					listen_dev(span, "click", /*click_handler_1*/ ctx[5], false, false, false),
     					listen_dev(button1, "click", /*saveCollection*/ ctx[3], false, false, false)
     				];
 
@@ -2184,14 +2355,14 @@ var app = (function () {
     		block,
     		id: create_if_block$1.name,
     		type: "if",
-    		source: "(104:0) {#if addType}",
+    		source: "(100:0) {#if addType}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (118:0) {#if error}
+    // (114:0) {#if error}
     function create_if_block_1(ctx) {
     	let div;
     	let t;
@@ -2201,7 +2372,7 @@ var app = (function () {
     			div = element("div");
     			t = text(/*error*/ ctx[2]);
     			attr_dev(div, "class", "alert alert-danger");
-    			add_location(div, file$1, 118, 0, 2714);
+    			add_location(div, file$1, 114, 0, 2692);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -2219,7 +2390,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(118:0) {#if error}",
+    		source: "(114:0) {#if error}",
     		ctx
     	});
 
@@ -2271,19 +2442,19 @@ var app = (function () {
     			t4 = space();
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
-    			add_location(h4, file$1, 71, 0, 1688);
+    			add_location(h4, file$1, 67, 0, 1666);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$1, 69, 0, 1667);
+    			add_location(div0, file$1, 65, 0, 1645);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$1, 76, 0, 1748);
+    			add_location(button, file$1, 72, 0, 1726);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$1, 75, 0, 1717);
+    			add_location(div1, file$1, 71, 0, 1695);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$1, 68, 0, 1642);
+    			add_location(div2, file$1, 64, 0, 1620);
     			attr_dev(ul, "class", "list-group entries-list");
-    			add_location(ul, file$1, 84, 0, 1882);
+    			add_location(ul, file$1, 80, 0, 1860);
     			attr_dev(div3, "class", "content");
-    			add_location(div3, file$1, 80, 0, 1857);
+    			add_location(div3, file$1, 76, 0, 1835);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2308,7 +2479,7 @@ var app = (function () {
     			insert_dev(target, if_block_anchor, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*click_handler*/ ctx[5], false, false, false);
+    				dispose = listen_dev(button, "click", /*click_handler*/ ctx[4], false, false, false);
     				mounted = true;
     			}
     		},
@@ -2393,7 +2564,6 @@ var app = (function () {
     function instance$2($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Types", slots, []);
-    	let { params } = $$props;
     	let { data } = $$props;
     	let cat = false;
     	let items = false;
@@ -2440,7 +2610,7 @@ var app = (function () {
     		}
     	}
 
-    	const writable_props = ["params", "data"];
+    	const writable_props = ["data"];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console.warn(`<Types> was created with unknown prop '${key}'`);
@@ -2450,12 +2620,10 @@ var app = (function () {
     	const click_handler_1 = () => addColl = false;
 
     	$$self.$$set = $$props => {
-    		if ("params" in $$props) $$invalidate(4, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     	};
 
     	$$self.$capture_state = () => ({
-    		params,
     		data,
     		cat,
     		items,
@@ -2469,7 +2637,6 @@ var app = (function () {
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("params" in $$props) $$invalidate(4, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     		if ("cat" in $$props) cat = $$props.cat;
     		if ("items" in $$props) items = $$props.items;
@@ -2482,13 +2649,13 @@ var app = (function () {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [data, addType, error, saveCollection, params, click_handler, click_handler_1];
+    	return [data, addType, error, saveCollection, click_handler, click_handler_1];
     }
 
     class Types extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { params: 4, data: 0 });
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { data: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -2500,21 +2667,9 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*params*/ ctx[4] === undefined && !("params" in props)) {
-    			console.warn("<Types> was created without expected prop 'params'");
-    		}
-
     		if (/*data*/ ctx[0] === undefined && !("data" in props)) {
     			console.warn("<Types> was created without expected prop 'data'");
     		}
-    	}
-
-    	get params() {
-    		throw new Error("<Types>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
-    	}
-
-    	set params(value) {
-    		throw new Error("<Types>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
     	get data() {
@@ -5785,6 +5940,1802 @@ var app = (function () {
     	}
     }
 
+    function flip(node, animation, params) {
+        const style = getComputedStyle(node);
+        const transform = style.transform === 'none' ? '' : style.transform;
+        const scaleX = animation.from.width / node.clientWidth;
+        const scaleY = animation.from.height / node.clientHeight;
+        const dx = (animation.from.left - animation.to.left) / scaleX;
+        const dy = (animation.from.top - animation.to.top) / scaleY;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        const { delay = 0, duration = (d) => Math.sqrt(d) * 120, easing = cubicOut } = params;
+        return {
+            delay,
+            duration: is_function(duration) ? duration(d) : duration,
+            easing,
+            css: (_t, u) => `transform: ${transform} translate(${u * dx}px, ${u * dy}px);`
+        };
+    }
+
+    // external events
+    const FINALIZE_EVENT_NAME = "finalize";
+    const CONSIDER_EVENT_NAME = "consider";
+
+    /**
+     * @typedef {Object} Info
+     * @property {string} trigger
+     * @property {string} id
+     * @property {string} source
+     * @param {Node} el
+     * @param {Array} items
+     * @param {Info} info
+     */
+    function dispatchFinalizeEvent(el, items, info) {
+        el.dispatchEvent(
+            new CustomEvent(FINALIZE_EVENT_NAME, {
+                detail: {items, info}
+            })
+        );
+    }
+
+    /**
+     * Dispatches a consider event
+     * @param {Node} el
+     * @param {Array} items
+     * @param {Info} info
+     */
+    function dispatchConsiderEvent(el, items, info) {
+        el.dispatchEvent(
+            new CustomEvent(CONSIDER_EVENT_NAME, {
+                detail: {items, info}
+            })
+        );
+    }
+
+    // internal events
+    const DRAGGED_ENTERED_EVENT_NAME = "draggedEntered";
+    const DRAGGED_LEFT_EVENT_NAME = "draggedLeft";
+    const DRAGGED_OVER_INDEX_EVENT_NAME = "draggedOverIndex";
+    const DRAGGED_LEFT_DOCUMENT_EVENT_NAME = "draggedLeftDocument";
+
+    const DRAGGED_LEFT_TYPES = {
+        LEFT_FOR_ANOTHER: "leftForAnother",
+        OUTSIDE_OF_ANY: "outsideOfAny"
+    };
+
+    function dispatchDraggedElementEnteredContainer(containerEl, indexObj, draggedEl) {
+        containerEl.dispatchEvent(
+            new CustomEvent(DRAGGED_ENTERED_EVENT_NAME, {
+                detail: {indexObj, draggedEl}
+            })
+        );
+    }
+
+    /**
+     * @param containerEl - the dropzone the element left
+     * @param draggedEl - the dragged element
+     * @param theOtherDz - the new dropzone the element entered
+     */
+    function dispatchDraggedElementLeftContainerForAnother(containerEl, draggedEl, theOtherDz) {
+        containerEl.dispatchEvent(
+            new CustomEvent(DRAGGED_LEFT_EVENT_NAME, {
+                detail: {draggedEl, type: DRAGGED_LEFT_TYPES.LEFT_FOR_ANOTHER, theOtherDz}
+            })
+        );
+    }
+
+    function dispatchDraggedElementLeftContainerForNone(containerEl, draggedEl) {
+        containerEl.dispatchEvent(
+            new CustomEvent(DRAGGED_LEFT_EVENT_NAME, {
+                detail: {draggedEl, type: DRAGGED_LEFT_TYPES.OUTSIDE_OF_ANY}
+            })
+        );
+    }
+    function dispatchDraggedElementIsOverIndex(containerEl, indexObj, draggedEl) {
+        containerEl.dispatchEvent(
+            new CustomEvent(DRAGGED_OVER_INDEX_EVENT_NAME, {
+                detail: {indexObj, draggedEl}
+            })
+        );
+    }
+    function dispatchDraggedLeftDocument(draggedEl) {
+        window.dispatchEvent(
+            new CustomEvent(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, {
+                detail: {draggedEl}
+            })
+        );
+    }
+
+    const TRIGGERS = {
+        DRAG_STARTED: "dragStarted",
+        DRAGGED_ENTERED: DRAGGED_ENTERED_EVENT_NAME,
+        DRAGGED_ENTERED_ANOTHER: "dragEnteredAnother",
+        DRAGGED_OVER_INDEX: DRAGGED_OVER_INDEX_EVENT_NAME,
+        DRAGGED_LEFT: DRAGGED_LEFT_EVENT_NAME,
+        DRAGGED_LEFT_ALL: "draggedLeftAll",
+        DROPPED_INTO_ZONE: "droppedIntoZone",
+        DROPPED_INTO_ANOTHER: "droppedIntoAnother",
+        DROPPED_OUTSIDE_OF_ANY: "droppedOutsideOfAny",
+        DRAG_STOPPED: "dragStopped"
+    };
+
+    const SOURCES = {
+        POINTER: "pointer",
+        KEYBOARD: "keyboard"
+    };
+
+    const SHADOW_ITEM_MARKER_PROPERTY_NAME = "isDndShadowItem";
+    const SHADOW_ELEMENT_ATTRIBUTE_NAME = "data-is-dnd-shadow-item";
+    const SHADOW_PLACEHOLDER_ITEM_ID = "id:dnd-shadow-placeholder-0000";
+    const DRAGGED_ELEMENT_ID = "dnd-action-dragged-el";
+
+    let ITEM_ID_KEY = "id";
+    let activeDndZoneCount = 0;
+    function incrementActiveDropZoneCount() {
+        activeDndZoneCount++;
+    }
+    function decrementActiveDropZoneCount() {
+        if (activeDndZoneCount === 0) {
+            throw new Error("Bug! trying to decrement when there are no dropzones");
+        }
+        activeDndZoneCount--;
+    }
+
+    const isOnServer = typeof window === "undefined";
+
+    // This is based off https://stackoverflow.com/questions/27745438/how-to-compute-getboundingclientrect-without-considering-transforms/57876601#57876601
+    // It removes the transforms that are potentially applied by the flip animations
+    /**
+     * Gets the bounding rect but removes transforms (ex: flip animation)
+     * @param {HTMLElement} el
+     * @return {{top: number, left: number, bottom: number, right: number}}
+     */
+    function getBoundingRectNoTransforms(el) {
+        let ta;
+        const rect = el.getBoundingClientRect();
+        const style = getComputedStyle(el);
+        const tx = style.transform;
+
+        if (tx) {
+            let sx, sy, dx, dy;
+            if (tx.startsWith("matrix3d(")) {
+                ta = tx.slice(9, -1).split(/, /);
+                sx = +ta[0];
+                sy = +ta[5];
+                dx = +ta[12];
+                dy = +ta[13];
+            } else if (tx.startsWith("matrix(")) {
+                ta = tx.slice(7, -1).split(/, /);
+                sx = +ta[0];
+                sy = +ta[3];
+                dx = +ta[4];
+                dy = +ta[5];
+            } else {
+                return rect;
+            }
+
+            const to = style.transformOrigin;
+            const x = rect.x - dx - (1 - sx) * parseFloat(to);
+            const y = rect.y - dy - (1 - sy) * parseFloat(to.slice(to.indexOf(" ") + 1));
+            const w = sx ? rect.width / sx : el.offsetWidth;
+            const h = sy ? rect.height / sy : el.offsetHeight;
+            return {
+                x: x,
+                y: y,
+                width: w,
+                height: h,
+                top: y,
+                right: x + w,
+                bottom: y + h,
+                left: x
+            };
+        } else {
+            return rect;
+        }
+    }
+
+    /**
+     * Gets the absolute bounding rect (accounts for the window's scroll position and removes transforms)
+     * @param {HTMLElement} el
+     * @return {{top: number, left: number, bottom: number, right: number}}
+     */
+    function getAbsoluteRectNoTransforms(el) {
+        const rect = getBoundingRectNoTransforms(el);
+        return {
+            top: rect.top + window.scrollY,
+            bottom: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX,
+            right: rect.right + window.scrollX
+        };
+    }
+
+    /**
+     * Gets the absolute bounding rect (accounts for the window's scroll position)
+     * @param {HTMLElement} el
+     * @return {{top: number, left: number, bottom: number, right: number}}
+     */
+    function getAbsoluteRect(el) {
+        const rect = el.getBoundingClientRect();
+        return {
+            top: rect.top + window.scrollY,
+            bottom: rect.bottom + window.scrollY,
+            left: rect.left + window.scrollX,
+            right: rect.right + window.scrollX
+        };
+    }
+
+    /**
+     * finds the center :)
+     * @typedef {Object} Rect
+     * @property {number} top
+     * @property {number} bottom
+     * @property {number} left
+     * @property {number} right
+     * @param {Rect} rect
+     * @return {{x: number, y: number}}
+     */
+    function findCenter(rect) {
+        return {
+            x: (rect.left + rect.right) / 2,
+            y: (rect.top + rect.bottom) / 2
+        };
+    }
+
+    /**
+     * @typedef {Object} Point
+     * @property {number} x
+     * @property {number} y
+     * @param {Point} pointA
+     * @param {Point} pointB
+     * @return {number}
+     */
+    function calcDistance(pointA, pointB) {
+        return Math.sqrt(Math.pow(pointA.x - pointB.x, 2) + Math.pow(pointA.y - pointB.y, 2));
+    }
+
+    /**
+     * @param {Point} point
+     * @param {Rect} rect
+     * @return {boolean|boolean}
+     */
+    function isPointInsideRect(point, rect) {
+        return point.y <= rect.bottom && point.y >= rect.top && point.x >= rect.left && point.x <= rect.right;
+    }
+
+    /**
+     * find the absolute coordinates of the center of a dom element
+     * @param el {HTMLElement}
+     * @returns {{x: number, y: number}}
+     */
+    function findCenterOfElement(el) {
+        return findCenter(getAbsoluteRect(el));
+    }
+
+    /**
+     * @param {HTMLElement} elA
+     * @param {HTMLElement} elB
+     * @return {boolean}
+     */
+    function isCenterOfAInsideB(elA, elB) {
+        const centerOfA = findCenterOfElement(elA);
+        const rectOfB = getAbsoluteRectNoTransforms(elB);
+        return isPointInsideRect(centerOfA, rectOfB);
+    }
+
+    /**
+     * @param {HTMLElement|ChildNode} elA
+     * @param {HTMLElement|ChildNode} elB
+     * @return {number}
+     */
+    function calcDistanceBetweenCenters(elA, elB) {
+        const centerOfA = findCenterOfElement(elA);
+        const centerOfB = findCenterOfElement(elB);
+        return calcDistance(centerOfA, centerOfB);
+    }
+
+    /**
+     * @param {HTMLElement} el - the element to check
+     * @returns {boolean} - true if the element in its entirety is off screen including the scrollable area (the normal dom events look at the mouse rather than the element)
+     */
+    function isElementOffDocument(el) {
+        const rect = getAbsoluteRect(el);
+        return rect.right < 0 || rect.left > document.documentElement.scrollWidth || rect.bottom < 0 || rect.top > document.documentElement.scrollHeight;
+    }
+
+    /**
+     * If the point is inside the element returns its distances from the sides, otherwise returns null
+     * @param {Point} point
+     * @param {HTMLElement} el
+     * @return {null|{top: number, left: number, bottom: number, right: number}}
+     */
+    function calcInnerDistancesBetweenPointAndSidesOfElement(point, el) {
+        const rect = getAbsoluteRect(el);
+        if (!isPointInsideRect(point, rect)) {
+            return null;
+        }
+        return {
+            top: point.y - rect.top,
+            bottom: rect.bottom - point.y,
+            left: point.x - rect.left,
+            // TODO - figure out what is so special about right (why the rect is too big)
+            right: Math.min(rect.right, document.documentElement.clientWidth) - point.x
+        };
+    }
+
+    let dzToShadowIndexToRect;
+
+    /**
+     * Resets the cache that allows for smarter "would be index" resolution. Should be called after every drag operation
+     */
+    function resetIndexesCache() {
+        dzToShadowIndexToRect = new Map();
+    }
+    resetIndexesCache();
+
+    /**
+     * Caches the coordinates of the shadow element when it's in a certain index in a certain dropzone.
+     * Helpful in order to determine "would be index" more effectively
+     * @param {HTMLElement} dz
+     * @return {number} - the shadow element index
+     */
+    function cacheShadowRect(dz) {
+        const shadowElIndex = Array.from(dz.children).findIndex(child => child.getAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME));
+        if (shadowElIndex >= 0) {
+            if (!dzToShadowIndexToRect.has(dz)) {
+                dzToShadowIndexToRect.set(dz, new Map());
+            }
+            dzToShadowIndexToRect.get(dz).set(shadowElIndex, getAbsoluteRectNoTransforms(dz.children[shadowElIndex]));
+            return shadowElIndex;
+        }
+        return undefined;
+    }
+
+    /**
+     * @typedef {Object} Index
+     * @property {number} index - the would be index
+     * @property {boolean} isProximityBased - false if the element is actually over the index, true if it is not over it but this index is the closest
+     */
+    /**
+     * Find the index for the dragged element in the list it is dragged over
+     * @param {HTMLElement} floatingAboveEl
+     * @param {HTMLElement} collectionBelowEl
+     * @returns {Index|null} -  if the element is over the container the Index object otherwise null
+     */
+    function findWouldBeIndex(floatingAboveEl, collectionBelowEl) {
+        if (!isCenterOfAInsideB(floatingAboveEl, collectionBelowEl)) {
+            return null;
+        }
+        const children = collectionBelowEl.children;
+        // the container is empty, floating element should be the first
+        if (children.length === 0) {
+            return {index: 0, isProximityBased: true};
+        }
+        const shadowElIndex = cacheShadowRect(collectionBelowEl);
+
+        // the search could be more efficient but keeping it simple for now
+        // a possible improvement: pass in the lastIndex it was found in and check there first, then expand from there
+        for (let i = 0; i < children.length; i++) {
+            if (isCenterOfAInsideB(floatingAboveEl, children[i])) {
+                const cachedShadowRect = dzToShadowIndexToRect.has(collectionBelowEl) && dzToShadowIndexToRect.get(collectionBelowEl).get(i);
+                if (cachedShadowRect) {
+                    if (!isPointInsideRect(findCenterOfElement(floatingAboveEl), cachedShadowRect)) {
+                        return {index: shadowElIndex, isProximityBased: false};
+                    }
+                }
+                return {index: i, isProximityBased: false};
+            }
+        }
+        // this can happen if there is space around the children so the floating element has
+        //entered the container but not any of the children, in this case we will find the nearest child
+        let minDistanceSoFar = Number.MAX_VALUE;
+        let indexOfMin = undefined;
+        // we are checking all of them because we don't know whether we are dealing with a horizontal or vertical container and where the floating element entered from
+        for (let i = 0; i < children.length; i++) {
+            const distance = calcDistanceBetweenCenters(floatingAboveEl, children[i]);
+            if (distance < minDistanceSoFar) {
+                minDistanceSoFar = distance;
+                indexOfMin = i;
+            }
+        }
+        return {index: indexOfMin, isProximityBased: true};
+    }
+
+    const SCROLL_ZONE_PX = 25;
+
+    function makeScroller() {
+        let scrollingInfo;
+        function resetScrolling() {
+            scrollingInfo = {directionObj: undefined, stepPx: 0};
+        }
+        resetScrolling();
+        // directionObj {x: 0|1|-1, y:0|1|-1} - 1 means down in y and right in x
+        function scrollContainer(containerEl) {
+            const {directionObj, stepPx} = scrollingInfo;
+            if (directionObj) {
+                containerEl.scrollBy(directionObj.x * stepPx, directionObj.y * stepPx);
+                window.requestAnimationFrame(() => scrollContainer(containerEl));
+            }
+        }
+        function calcScrollStepPx(distancePx) {
+            return SCROLL_ZONE_PX - distancePx;
+        }
+
+        /**
+         * If the pointer is next to the sides of the element to scroll, will trigger scrolling
+         * Can be called repeatedly with updated pointer and elementToScroll values without issues
+         * @return {boolean} - true if scrolling was needed
+         */
+        function scrollIfNeeded(pointer, elementToScroll) {
+            if (!elementToScroll) {
+                return false;
+            }
+            const distances = calcInnerDistancesBetweenPointAndSidesOfElement(pointer, elementToScroll);
+            if (distances === null) {
+                resetScrolling();
+                return false;
+            }
+            const isAlreadyScrolling = !!scrollingInfo.directionObj;
+            let [scrollingVertically, scrollingHorizontally] = [false, false];
+            // vertical
+            if (elementToScroll.scrollHeight > elementToScroll.clientHeight) {
+                if (distances.bottom < SCROLL_ZONE_PX) {
+                    scrollingVertically = true;
+                    scrollingInfo.directionObj = {x: 0, y: 1};
+                    scrollingInfo.stepPx = calcScrollStepPx(distances.bottom);
+                } else if (distances.top < SCROLL_ZONE_PX) {
+                    scrollingVertically = true;
+                    scrollingInfo.directionObj = {x: 0, y: -1};
+                    scrollingInfo.stepPx = calcScrollStepPx(distances.top);
+                }
+                if (!isAlreadyScrolling && scrollingVertically) {
+                    scrollContainer(elementToScroll);
+                    return true;
+                }
+            }
+            // horizontal
+            if (elementToScroll.scrollWidth > elementToScroll.clientWidth) {
+                if (distances.right < SCROLL_ZONE_PX) {
+                    scrollingHorizontally = true;
+                    scrollingInfo.directionObj = {x: 1, y: 0};
+                    scrollingInfo.stepPx = calcScrollStepPx(distances.right);
+                } else if (distances.left < SCROLL_ZONE_PX) {
+                    scrollingHorizontally = true;
+                    scrollingInfo.directionObj = {x: -1, y: 0};
+                    scrollingInfo.stepPx = calcScrollStepPx(distances.left);
+                }
+                if (!isAlreadyScrolling && scrollingHorizontally) {
+                    scrollContainer(elementToScroll);
+                    return true;
+                }
+            }
+            resetScrolling();
+            return false;
+        }
+
+        return {
+            scrollIfNeeded,
+            resetScrolling
+        };
+    }
+
+    /**
+     * @param {Object} object
+     * @return {string}
+     */
+    function toString(object) {
+        return JSON.stringify(object, null, 2);
+    }
+
+    /**
+     * Finds the depth of the given node in the DOM tree
+     * @param {HTMLElement} node
+     * @return {number} - the depth of the node
+     */
+    function getDepth(node) {
+        if (!node) {
+            throw new Error("cannot get depth of a falsy node");
+        }
+        return _getDepth(node, 0);
+    }
+    function _getDepth(node, countSoFar = 0) {
+        if (!node.parentElement) {
+            return countSoFar - 1;
+        }
+        return _getDepth(node.parentElement, countSoFar + 1);
+    }
+
+    /**
+     * A simple util to shallow compare objects quickly, it doesn't validate the arguments so pass objects in
+     * @param {Object} objA
+     * @param {Object} objB
+     * @return {boolean} - true if objA and objB are shallow equal
+     */
+    function areObjectsShallowEqual(objA, objB) {
+        if (Object.keys(objA).length !== Object.keys(objB).length) {
+            return false;
+        }
+        for (const keyA in objA) {
+            if (!{}.hasOwnProperty.call(objB, keyA) || objB[keyA] !== objA[keyA]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Shallow compares two arrays
+     * @param arrA
+     * @param arrB
+     * @return {boolean} - whether the arrays are shallow equal
+     */
+    function areArraysShallowEqualSameOrder(arrA, arrB) {
+        if (arrA.length !== arrB.length) {
+            return false;
+        }
+        for (let i = 0; i < arrA.length; i++) {
+            if (arrA[i] !== arrB[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    const INTERVAL_MS = 200;
+    const TOLERANCE_PX = 10;
+    const {scrollIfNeeded, resetScrolling} = makeScroller();
+    let next;
+
+    /**
+     * Tracks the dragged elements and performs the side effects when it is dragged over a drop zone (basically dispatching custom-events scrolling)
+     * @param {Set<HTMLElement>} dropZones
+     * @param {HTMLElement} draggedEl
+     * @param {number} [intervalMs = INTERVAL_MS]
+     */
+    function observe(draggedEl, dropZones, intervalMs = INTERVAL_MS) {
+        // initialization
+        let lastDropZoneFound;
+        let lastIndexFound;
+        let lastIsDraggedInADropZone = false;
+        let lastCentrePositionOfDragged;
+        // We are sorting to make sure that in case of nested zones of the same type the one "on top" is considered first
+        const dropZonesFromDeepToShallow = Array.from(dropZones).sort((dz1, dz2) => getDepth(dz2) - getDepth(dz1));
+
+        /**
+         * The main function in this module. Tracks where everything is/ should be a take the actions
+         */
+        function andNow() {
+            const currentCenterOfDragged = findCenterOfElement(draggedEl);
+            const scrolled = scrollIfNeeded(currentCenterOfDragged, lastDropZoneFound);
+            // we only want to make a new decision after the element was moved a bit to prevent flickering
+            if (
+                !scrolled &&
+                lastCentrePositionOfDragged &&
+                Math.abs(lastCentrePositionOfDragged.x - currentCenterOfDragged.x) < TOLERANCE_PX &&
+                Math.abs(lastCentrePositionOfDragged.y - currentCenterOfDragged.y) < TOLERANCE_PX
+            ) {
+                next = window.setTimeout(andNow, intervalMs);
+                return;
+            }
+            if (isElementOffDocument(draggedEl)) {
+                dispatchDraggedLeftDocument(draggedEl);
+                return;
+            }
+
+            lastCentrePositionOfDragged = currentCenterOfDragged;
+            // this is a simple algorithm, potential improvement: first look at lastDropZoneFound
+            let isDraggedInADropZone = false;
+            for (const dz of dropZonesFromDeepToShallow) {
+                const indexObj = findWouldBeIndex(draggedEl, dz);
+                if (indexObj === null) {
+                    // it is not inside
+                    continue;
+                }
+                const {index} = indexObj;
+                isDraggedInADropZone = true;
+                // the element is over a container
+                if (dz !== lastDropZoneFound) {
+                    lastDropZoneFound && dispatchDraggedElementLeftContainerForAnother(lastDropZoneFound, draggedEl, dz);
+                    dispatchDraggedElementEnteredContainer(dz, indexObj, draggedEl);
+                    lastDropZoneFound = dz;
+                } else if (index !== lastIndexFound) {
+                    dispatchDraggedElementIsOverIndex(dz, indexObj, draggedEl);
+                    lastIndexFound = index;
+                }
+                // we handle looping with the 'continue' statement above
+                break;
+            }
+            // the first time the dragged element is not in any dropzone we need to notify the last dropzone it was in
+            if (!isDraggedInADropZone && lastIsDraggedInADropZone && lastDropZoneFound) {
+                dispatchDraggedElementLeftContainerForNone(lastDropZoneFound, draggedEl);
+                lastDropZoneFound = undefined;
+                lastIndexFound = undefined;
+                lastIsDraggedInADropZone = false;
+            } else {
+                lastIsDraggedInADropZone = true;
+            }
+            next = window.setTimeout(andNow, intervalMs);
+        }
+        andNow();
+    }
+
+    // assumption - we can only observe one dragged element at a time, this could be changed in the future
+    function unobserve() {
+        clearTimeout(next);
+        resetScrolling();
+        resetIndexesCache();
+    }
+
+    const INTERVAL_MS$1 = 300;
+    let mousePosition;
+
+    /**
+     * Do not use this! it is visible for testing only until we get over the issue Cypress not triggering the mousemove listeners
+     * // TODO - make private (remove export)
+     * @param {{clientX: number, clientY: number}} e
+     */
+    function updateMousePosition(e) {
+        const c = e.touches ? e.touches[0] : e;
+        mousePosition = {x: c.clientX, y: c.clientY};
+    }
+    const {scrollIfNeeded: scrollIfNeeded$1, resetScrolling: resetScrolling$1} = makeScroller();
+    let next$1;
+
+    function loop$1() {
+        if (mousePosition) {
+            scrollIfNeeded$1(mousePosition, document.documentElement);
+        }
+        next$1 = window.setTimeout(loop$1, INTERVAL_MS$1);
+    }
+
+    /**
+     * will start watching the mouse pointer and scroll the window if it goes next to the edges
+     */
+    function armWindowScroller() {
+        window.addEventListener("mousemove", updateMousePosition);
+        window.addEventListener("touchmove", updateMousePosition);
+        loop$1();
+    }
+
+    /**
+     * will stop watching the mouse pointer and won't scroll the window anymore
+     */
+    function disarmWindowScroller() {
+        window.removeEventListener("mousemove", updateMousePosition);
+        window.removeEventListener("touchmove", updateMousePosition);
+        mousePosition = undefined;
+        window.clearTimeout(next$1);
+        resetScrolling$1();
+    }
+
+    const TRANSITION_DURATION_SECONDS = 0.2;
+
+    /**
+     * private helper function - creates a transition string for a property
+     * @param {string} property
+     * @return {string} - the transition string
+     */
+    function trs(property) {
+        return `${property} ${TRANSITION_DURATION_SECONDS}s ease`;
+    }
+    /**
+     * clones the given element and applies proper styles and transitions to the dragged element
+     * @param {HTMLElement} originalElement
+     * @param {Point} [positionCenterOnXY]
+     * @return {Node} - the cloned, styled element
+     */
+    function createDraggedElementFrom(originalElement, positionCenterOnXY) {
+        const rect = originalElement.getBoundingClientRect();
+        const draggedEl = originalElement.cloneNode(true);
+        copyStylesFromTo(originalElement, draggedEl);
+        draggedEl.id = DRAGGED_ELEMENT_ID;
+        draggedEl.style.position = "fixed";
+        let elTopPx = rect.top;
+        let elLeftPx = rect.left;
+        draggedEl.style.top = `${elTopPx}px`;
+        draggedEl.style.left = `${elLeftPx}px`;
+        if (positionCenterOnXY) {
+            const center = findCenter(rect);
+            elTopPx -= center.y - positionCenterOnXY.y;
+            elLeftPx -= center.x - positionCenterOnXY.x;
+            window.setTimeout(() => {
+                draggedEl.style.top = `${elTopPx}px`;
+                draggedEl.style.left = `${elLeftPx}px`;
+            }, 0);
+        }
+        draggedEl.style.margin = "0";
+        // we can't have relative or automatic height and width or it will break the illusion
+        draggedEl.style.boxSizing = "border-box";
+        draggedEl.style.height = `${rect.height}px`;
+        draggedEl.style.width = `${rect.width}px`;
+        draggedEl.style.transition = `${trs("top")}, ${trs("left")}, ${trs("background-color")}, ${trs("opacity")}, ${trs("color")} `;
+        // this is a workaround for a strange browser bug that causes the right border to disappear when all the transitions are added at the same time
+        window.setTimeout(() => (draggedEl.style.transition += `, ${trs("width")}, ${trs("height")}`), 0);
+        draggedEl.style.zIndex = "9999";
+        draggedEl.style.cursor = "grabbing";
+
+        return draggedEl;
+    }
+
+    /**
+     * styles the dragged element to a 'dropped' state
+     * @param {HTMLElement} draggedEl
+     */
+    function moveDraggedElementToWasDroppedState(draggedEl) {
+        draggedEl.style.cursor = "grab";
+    }
+
+    /**
+     * Morphs the dragged element style, maintains the mouse pointer within the element
+     * @param {HTMLElement} draggedEl
+     * @param {HTMLElement} copyFromEl - the element the dragged element should look like, typically the shadow element
+     * @param {number} currentMouseX
+     * @param {number} currentMouseY
+     * @param {function} transformDraggedElement - function to transform the dragged element, does nothing by default.
+     */
+    function morphDraggedElementToBeLike(draggedEl, copyFromEl, currentMouseX, currentMouseY, transformDraggedElement) {
+        const newRect = copyFromEl.getBoundingClientRect();
+        const draggedElRect = draggedEl.getBoundingClientRect();
+        const widthChange = newRect.width - draggedElRect.width;
+        const heightChange = newRect.height - draggedElRect.height;
+        if (widthChange || heightChange) {
+            const relativeDistanceOfMousePointerFromDraggedSides = {
+                left: (currentMouseX - draggedElRect.left) / draggedElRect.width,
+                top: (currentMouseY - draggedElRect.top) / draggedElRect.height
+            };
+            draggedEl.style.height = `${newRect.height}px`;
+            draggedEl.style.width = `${newRect.width}px`;
+            draggedEl.style.left = `${parseFloat(draggedEl.style.left) - relativeDistanceOfMousePointerFromDraggedSides.left * widthChange}px`;
+            draggedEl.style.top = `${parseFloat(draggedEl.style.top) - relativeDistanceOfMousePointerFromDraggedSides.top * heightChange}px`;
+        }
+
+        /// other properties
+        copyStylesFromTo(copyFromEl, draggedEl);
+        transformDraggedElement();
+    }
+
+    /**
+     * @param {HTMLElement} copyFromEl
+     * @param {HTMLElement} copyToEl
+     */
+    function copyStylesFromTo(copyFromEl, copyToEl) {
+        const computedStyle = window.getComputedStyle(copyFromEl);
+        Array.from(computedStyle)
+            .filter(
+                s =>
+                    s.startsWith("background") ||
+                    s.startsWith("padding") ||
+                    s.startsWith("font") ||
+                    s.startsWith("text") ||
+                    s.startsWith("align") ||
+                    s.startsWith("justify") ||
+                    s.startsWith("display") ||
+                    s.startsWith("flex") ||
+                    s.startsWith("border") ||
+                    s === "opacity" ||
+                    s === "color" ||
+                    s === "list-style-type"
+            )
+            .forEach(s => copyToEl.style.setProperty(s, computedStyle.getPropertyValue(s), computedStyle.getPropertyPriority(s)));
+    }
+
+    /**
+     * makes the element compatible with being draggable
+     * @param {HTMLElement} draggableEl
+     * @param {boolean} dragDisabled
+     */
+    function styleDraggable(draggableEl, dragDisabled) {
+        draggableEl.draggable = false;
+        draggableEl.ondragstart = () => false;
+        if (!dragDisabled) {
+            draggableEl.style.userSelect = "none";
+            draggableEl.style.WebkitUserSelect = "none";
+            draggableEl.style.cursor = "grab";
+        } else {
+            draggableEl.style.userSelect = "";
+            draggableEl.style.WebkitUserSelect = "";
+            draggableEl.style.cursor = "";
+        }
+    }
+
+    /**
+     * Hides the provided element so that it can stay in the dom without interrupting
+     * @param {HTMLElement} dragTarget
+     */
+    function hideOriginalDragTarget(dragTarget) {
+        dragTarget.style.display = "none";
+        dragTarget.style.position = "fixed";
+        dragTarget.style.zIndex = "-5";
+    }
+
+    /**
+     * styles the shadow element
+     * @param {HTMLElement} shadowEl
+     */
+    function decorateShadowEl(shadowEl) {
+        shadowEl.style.visibility = "hidden";
+        shadowEl.setAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME, "true");
+    }
+
+    /**
+     * undo the styles the shadow element
+     * @param {HTMLElement} shadowEl
+     */
+    function unDecorateShadowElement(shadowEl) {
+        shadowEl.style.visibility = "";
+        shadowEl.removeAttribute(SHADOW_ELEMENT_ATTRIBUTE_NAME);
+    }
+
+    /**
+     * will mark the given dropzones as visually active
+     * @param {Array<HTMLElement>} dropZones
+     * @param {Function} getStyles - maps a dropzone to a styles object (so the styles can be removed)
+     * @param {Function} getClasses - maps a dropzone to a classList
+     */
+    function styleActiveDropZones(dropZones, getStyles = () => {}, getClasses = () => []) {
+        dropZones.forEach(dz => {
+            const styles = getStyles(dz);
+            Object.keys(styles).forEach(style => {
+                dz.style[style] = styles[style];
+            });
+            getClasses(dz).forEach(c => dz.classList.add(c));
+        });
+    }
+
+    /**
+     * will remove the 'active' styling from given dropzones
+     * @param {Array<HTMLElement>} dropZones
+     * @param {Function} getStyles - maps a dropzone to a styles object
+     * @param {Function} getClasses - maps a dropzone to a classList
+     */
+    function styleInactiveDropZones(dropZones, getStyles = () => {}, getClasses = () => []) {
+        dropZones.forEach(dz => {
+            const styles = getStyles(dz);
+            Object.keys(styles).forEach(style => {
+                dz.style[style] = "";
+            });
+            getClasses(dz).forEach(c => dz.classList.contains(c) && dz.classList.remove(c));
+        });
+    }
+
+    /**
+     * will prevent the provided element from shrinking by setting its minWidth and minHeight to the current width and height values
+     * @param {HTMLElement} el
+     * @return {function(): void} - run this function to undo the operation and restore the original values
+     */
+    function preventShrinking(el) {
+        const originalMinHeight = el.style.minHeight;
+        el.style.minHeight = window.getComputedStyle(el).getPropertyValue("height");
+        const originalMinWidth = el.style.minWidth;
+        el.style.minWidth = window.getComputedStyle(el).getPropertyValue("width");
+        return function undo() {
+            el.style.minHeight = originalMinHeight;
+            el.style.minWidth = originalMinWidth;
+        };
+    }
+
+    const DEFAULT_DROP_ZONE_TYPE = "--any--";
+    const MIN_OBSERVATION_INTERVAL_MS = 100;
+    const MIN_MOVEMENT_BEFORE_DRAG_START_PX = 3;
+    const DEFAULT_DROP_TARGET_STYLE = {
+        outline: "rgba(255, 255, 102, 0.7) solid 2px"
+    };
+
+    let originalDragTarget;
+    let draggedEl;
+    let draggedElData;
+    let draggedElType;
+    let originDropZone;
+    let originIndex;
+    let shadowElData;
+    let shadowElDropZone;
+    let dragStartMousePosition;
+    let currentMousePosition;
+    let isWorkingOnPreviousDrag = false;
+    let finalizingPreviousDrag = false;
+    let unlockOriginDzMinDimensions;
+    let isDraggedOutsideOfAnyDz = false;
+
+    // a map from type to a set of drop-zones
+    const typeToDropZones = new Map();
+    // important - this is needed because otherwise the config that would be used for everyone is the config of the element that created the event listeners
+    const dzToConfig = new Map();
+    // this is needed in order to be able to cleanup old listeners and avoid stale closures issues (as the listener is defined within each zone)
+    const elToMouseDownListener = new WeakMap();
+
+    /* drop-zones registration management */
+    function registerDropZone(dropZoneEl, type) {
+        if (!typeToDropZones.has(type)) {
+            typeToDropZones.set(type, new Set());
+        }
+        if (!typeToDropZones.get(type).has(dropZoneEl)) {
+            typeToDropZones.get(type).add(dropZoneEl);
+            incrementActiveDropZoneCount();
+        }
+    }
+    function unregisterDropZone(dropZoneEl, type) {
+        typeToDropZones.get(type).delete(dropZoneEl);
+        decrementActiveDropZoneCount();
+        if (typeToDropZones.get(type).size === 0) {
+            typeToDropZones.delete(type);
+        }
+    }
+
+    /* functions to manage observing the dragged element and trigger custom drag-events */
+    function watchDraggedElement() {
+        armWindowScroller();
+        const dropZones = typeToDropZones.get(draggedElType);
+        for (const dz of dropZones) {
+            dz.addEventListener(DRAGGED_ENTERED_EVENT_NAME, handleDraggedEntered);
+            dz.addEventListener(DRAGGED_LEFT_EVENT_NAME, handleDraggedLeft);
+            dz.addEventListener(DRAGGED_OVER_INDEX_EVENT_NAME, handleDraggedIsOverIndex);
+        }
+        window.addEventListener(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, handleDrop);
+        // it is important that we don't have an interval that is faster than the flip duration because it can cause elements to jump bach and forth
+        const observationIntervalMs = Math.max(
+            MIN_OBSERVATION_INTERVAL_MS,
+            ...Array.from(dropZones.keys()).map(dz => dzToConfig.get(dz).dropAnimationDurationMs)
+        );
+        observe(draggedEl, dropZones, observationIntervalMs * 1.07);
+    }
+    function unWatchDraggedElement() {
+        disarmWindowScroller();
+        const dropZones = typeToDropZones.get(draggedElType);
+        for (const dz of dropZones) {
+            dz.removeEventListener(DRAGGED_ENTERED_EVENT_NAME, handleDraggedEntered);
+            dz.removeEventListener(DRAGGED_LEFT_EVENT_NAME, handleDraggedLeft);
+            dz.removeEventListener(DRAGGED_OVER_INDEX_EVENT_NAME, handleDraggedIsOverIndex);
+        }
+        window.removeEventListener(DRAGGED_LEFT_DOCUMENT_EVENT_NAME, handleDrop);
+        unobserve();
+    }
+
+    // finds the initial placeholder that is placed there on drag start
+    function findShadowPlaceHolderIdx(items) {
+        return items.findIndex(item => item[ITEM_ID_KEY] === SHADOW_PLACEHOLDER_ITEM_ID);
+    }
+    function findShadowElementIdx(items) {
+        // checking that the id is not the placeholder's for Dragula like usecases
+        return items.findIndex(item => !!item[SHADOW_ITEM_MARKER_PROPERTY_NAME] && item[ITEM_ID_KEY] !== SHADOW_PLACEHOLDER_ITEM_ID);
+    }
+
+    /* custom drag-events handlers */
+    function handleDraggedEntered(e) {
+        let {items, dropFromOthersDisabled} = dzToConfig.get(e.currentTarget);
+        if (dropFromOthersDisabled && e.currentTarget !== originDropZone) {
+            return;
+        }
+        isDraggedOutsideOfAnyDz = false;
+        // this deals with another race condition. in rare occasions (super rapid operations) the list hasn't updated yet
+        items = items.filter(item => item[ITEM_ID_KEY] !== shadowElData[ITEM_ID_KEY]);
+
+        if (originDropZone !== e.currentTarget) {
+            const originZoneItems = dzToConfig.get(originDropZone).items;
+            const newOriginZoneItems = originZoneItems.filter(item => !item[SHADOW_ITEM_MARKER_PROPERTY_NAME]);
+            dispatchConsiderEvent(originDropZone, newOriginZoneItems, {
+                trigger: TRIGGERS.DRAGGED_ENTERED_ANOTHER,
+                id: draggedElData[ITEM_ID_KEY],
+                source: SOURCES.POINTER
+            });
+        } else {
+            const shadowPlaceHolderIdx = findShadowPlaceHolderIdx(items);
+            if (shadowPlaceHolderIdx !== -1) {
+                items.splice(shadowPlaceHolderIdx, 1);
+            }
+        }
+
+        const {index, isProximityBased} = e.detail.indexObj;
+        const shadowElIdx = isProximityBased && index === e.currentTarget.children.length - 1 ? index + 1 : index;
+        shadowElDropZone = e.currentTarget;
+        items.splice(shadowElIdx, 0, shadowElData);
+        dispatchConsiderEvent(e.currentTarget, items, {trigger: TRIGGERS.DRAGGED_ENTERED, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
+    }
+
+    function handleDraggedLeft(e) {
+        // dealing with a rare race condition on extremely rapid clicking and dropping
+        if (!isWorkingOnPreviousDrag) return;
+        const {items, dropFromOthersDisabled} = dzToConfig.get(e.currentTarget);
+        if (dropFromOthersDisabled && e.currentTarget !== originDropZone) {
+            return;
+        }
+        const shadowElIdx = findShadowElementIdx(items);
+        const shadowItem = items.splice(shadowElIdx, 1)[0];
+        shadowElDropZone = undefined;
+        const {type, theOtherDz} = e.detail;
+        if (
+            type === DRAGGED_LEFT_TYPES.OUTSIDE_OF_ANY ||
+            (type === DRAGGED_LEFT_TYPES.LEFT_FOR_ANOTHER && theOtherDz !== originDropZone && dzToConfig.get(theOtherDz).dropFromOthersDisabled)
+        ) {
+            isDraggedOutsideOfAnyDz = true;
+            shadowElDropZone = originDropZone;
+            const originZoneItems = dzToConfig.get(originDropZone).items;
+            originZoneItems.splice(originIndex, 0, shadowItem);
+            dispatchConsiderEvent(originDropZone, originZoneItems, {
+                trigger: TRIGGERS.DRAGGED_LEFT_ALL,
+                id: draggedElData[ITEM_ID_KEY],
+                source: SOURCES.POINTER
+            });
+        }
+        // for the origin dz, when the dragged is outside of any, this will be fired in addition to the previous. this is for simplicity
+        dispatchConsiderEvent(e.currentTarget, items, {
+            trigger: TRIGGERS.DRAGGED_LEFT,
+            id: draggedElData[ITEM_ID_KEY],
+            source: SOURCES.POINTER
+        });
+    }
+    function handleDraggedIsOverIndex(e) {
+        const {items, dropFromOthersDisabled} = dzToConfig.get(e.currentTarget);
+        if (dropFromOthersDisabled && e.currentTarget !== originDropZone) {
+            return;
+        }
+        isDraggedOutsideOfAnyDz = false;
+        const {index} = e.detail.indexObj;
+        const shadowElIdx = findShadowElementIdx(items);
+        items.splice(shadowElIdx, 1);
+        items.splice(index, 0, shadowElData);
+        dispatchConsiderEvent(e.currentTarget, items, {trigger: TRIGGERS.DRAGGED_OVER_INDEX, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
+    }
+
+    // Global mouse/touch-events handlers
+    function handleMouseMove(e) {
+        e.preventDefault();
+        const c = e.touches ? e.touches[0] : e;
+        currentMousePosition = {x: c.clientX, y: c.clientY};
+        draggedEl.style.transform = `translate3d(${currentMousePosition.x - dragStartMousePosition.x}px, ${
+        currentMousePosition.y - dragStartMousePosition.y
+    }px, 0)`;
+    }
+
+    function handleDrop() {
+        finalizingPreviousDrag = true;
+        // cleanup
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("touchmove", handleMouseMove);
+        window.removeEventListener("mouseup", handleDrop);
+        window.removeEventListener("touchend", handleDrop);
+        unWatchDraggedElement();
+        moveDraggedElementToWasDroppedState(draggedEl);
+
+        if (!shadowElDropZone) {
+            shadowElDropZone = originDropZone;
+        }
+        let {items, type} = dzToConfig.get(shadowElDropZone);
+        styleInactiveDropZones(
+            typeToDropZones.get(type),
+            dz => dzToConfig.get(dz).dropTargetStyle,
+            dz => dzToConfig.get(dz).dropTargetClasses
+        );
+        let shadowElIdx = findShadowElementIdx(items);
+        // the handler might remove the shadow element, ex: dragula like copy on drag
+        if (shadowElIdx === -1) shadowElIdx = originIndex;
+        items = items.map(item => (item[SHADOW_ITEM_MARKER_PROPERTY_NAME] ? draggedElData : item));
+        function finalizeWithinZone() {
+            unlockOriginDzMinDimensions();
+            dispatchFinalizeEvent(shadowElDropZone, items, {
+                trigger: isDraggedOutsideOfAnyDz ? TRIGGERS.DROPPED_OUTSIDE_OF_ANY : TRIGGERS.DROPPED_INTO_ZONE,
+                id: draggedElData[ITEM_ID_KEY],
+                source: SOURCES.POINTER
+            });
+            if (shadowElDropZone !== originDropZone) {
+                // letting the origin drop zone know the element was permanently taken away
+                dispatchFinalizeEvent(originDropZone, dzToConfig.get(originDropZone).items, {
+                    trigger: TRIGGERS.DROPPED_INTO_ANOTHER,
+                    id: draggedElData[ITEM_ID_KEY],
+                    source: SOURCES.POINTER
+                });
+            }
+            unDecorateShadowElement(shadowElDropZone.children[shadowElIdx]);
+            cleanupPostDrop();
+        }
+        animateDraggedToFinalPosition(shadowElIdx, finalizeWithinZone);
+    }
+
+    // helper function for handleDrop
+    function animateDraggedToFinalPosition(shadowElIdx, callback) {
+        const shadowElRect = getBoundingRectNoTransforms(shadowElDropZone.children[shadowElIdx]);
+        const newTransform = {
+            x: shadowElRect.left - parseFloat(draggedEl.style.left),
+            y: shadowElRect.top - parseFloat(draggedEl.style.top)
+        };
+        const {dropAnimationDurationMs} = dzToConfig.get(shadowElDropZone);
+        const transition = `transform ${dropAnimationDurationMs}ms ease`;
+        draggedEl.style.transition = draggedEl.style.transition ? draggedEl.style.transition + "," + transition : transition;
+        draggedEl.style.transform = `translate3d(${newTransform.x}px, ${newTransform.y}px, 0)`;
+        window.setTimeout(callback, dropAnimationDurationMs);
+    }
+
+    /* cleanup */
+    function cleanupPostDrop() {
+        draggedEl.remove();
+        originalDragTarget.remove();
+        draggedEl = undefined;
+        originalDragTarget = undefined;
+        draggedElData = undefined;
+        draggedElType = undefined;
+        originDropZone = undefined;
+        originIndex = undefined;
+        shadowElData = undefined;
+        shadowElDropZone = undefined;
+        dragStartMousePosition = undefined;
+        currentMousePosition = undefined;
+        isWorkingOnPreviousDrag = false;
+        finalizingPreviousDrag = false;
+        unlockOriginDzMinDimensions = undefined;
+        isDraggedOutsideOfAnyDz = false;
+    }
+
+    function dndzone(node, options) {
+        const config = {
+            items: undefined,
+            type: undefined,
+            flipDurationMs: 0,
+            dragDisabled: false,
+            dropFromOthersDisabled: false,
+            dropTargetStyle: DEFAULT_DROP_TARGET_STYLE,
+            dropTargetClasses: [],
+            transformDraggedElement: () => {},
+            centreDraggedOnCursor: false
+        };
+        let elToIdx = new Map();
+
+        function addMaybeListeners() {
+            window.addEventListener("mousemove", handleMouseMoveMaybeDragStart, {passive: false});
+            window.addEventListener("touchmove", handleMouseMoveMaybeDragStart, {passive: false, capture: false});
+            window.addEventListener("mouseup", handleFalseAlarm, {passive: false});
+            window.addEventListener("touchend", handleFalseAlarm, {passive: false});
+        }
+        function removeMaybeListeners() {
+            window.removeEventListener("mousemove", handleMouseMoveMaybeDragStart);
+            window.removeEventListener("touchmove", handleMouseMoveMaybeDragStart);
+            window.removeEventListener("mouseup", handleFalseAlarm);
+            window.removeEventListener("touchend", handleFalseAlarm);
+        }
+        function handleFalseAlarm() {
+            removeMaybeListeners();
+            originalDragTarget = undefined;
+            dragStartMousePosition = undefined;
+            currentMousePosition = undefined;
+        }
+
+        function handleMouseMoveMaybeDragStart(e) {
+            e.preventDefault();
+            const c = e.touches ? e.touches[0] : e;
+            currentMousePosition = {x: c.clientX, y: c.clientY};
+            if (
+                Math.abs(currentMousePosition.x - dragStartMousePosition.x) >= MIN_MOVEMENT_BEFORE_DRAG_START_PX ||
+                Math.abs(currentMousePosition.y - dragStartMousePosition.y) >= MIN_MOVEMENT_BEFORE_DRAG_START_PX
+            ) {
+                removeMaybeListeners();
+                handleDragStart();
+            }
+        }
+        function handleMouseDown(e) {
+            // on safari clicking on a select element doesn't fire mouseup at the end of the click and in general this makes more sense
+            if (e.target !== e.currentTarget && (e.target.value !== undefined || e.target.isContentEditable)) {
+                return;
+            }
+            // prevents responding to any button but left click which equals 0 (which is falsy)
+            if (e.button) {
+                return;
+            }
+            if (isWorkingOnPreviousDrag) {
+                return;
+            }
+            e.stopPropagation();
+            const c = e.touches ? e.touches[0] : e;
+            dragStartMousePosition = {x: c.clientX, y: c.clientY};
+            currentMousePosition = {...dragStartMousePosition};
+            originalDragTarget = e.currentTarget;
+            addMaybeListeners();
+        }
+
+        function handleDragStart() {
+            isWorkingOnPreviousDrag = true;
+
+            // initialising globals
+            const currentIdx = elToIdx.get(originalDragTarget);
+            originIndex = currentIdx;
+            originDropZone = originalDragTarget.parentElement;
+            const {items, type, centreDraggedOnCursor} = config;
+            draggedElData = {...items[currentIdx]};
+            draggedElType = type;
+            shadowElData = {...draggedElData, [SHADOW_ITEM_MARKER_PROPERTY_NAME]: true};
+            // The initial shadow element. We need a different id at first in order to avoid conflicts and timing issues
+            const placeHolderElData = {...shadowElData, [ITEM_ID_KEY]: SHADOW_PLACEHOLDER_ITEM_ID};
+
+            // creating the draggable element
+            draggedEl = createDraggedElementFrom(originalDragTarget, centreDraggedOnCursor && currentMousePosition);
+            // We will keep the original dom node in the dom because touch events keep firing on it, we want to re-add it after the framework removes it
+            function keepOriginalElementInDom() {
+                if (!draggedEl.parentElement) {
+                    document.body.appendChild(draggedEl);
+                    // to prevent the outline from disappearing
+                    draggedEl.focus();
+                    watchDraggedElement();
+                    hideOriginalDragTarget(originalDragTarget);
+                    document.body.appendChild(originalDragTarget);
+                } else {
+                    window.requestAnimationFrame(keepOriginalElementInDom);
+                }
+            }
+            window.requestAnimationFrame(keepOriginalElementInDom);
+
+            styleActiveDropZones(
+                Array.from(typeToDropZones.get(config.type)).filter(dz => dz === originDropZone || !dzToConfig.get(dz).dropFromOthersDisabled),
+                dz => dzToConfig.get(dz).dropTargetStyle,
+                dz => dzToConfig.get(dz).dropTargetClasses
+            );
+
+            // removing the original element by removing its data entry
+            items.splice(currentIdx, 1, placeHolderElData);
+            unlockOriginDzMinDimensions = preventShrinking(originDropZone);
+
+            dispatchConsiderEvent(originDropZone, items, {trigger: TRIGGERS.DRAG_STARTED, id: draggedElData[ITEM_ID_KEY], source: SOURCES.POINTER});
+
+            // handing over to global handlers - starting to watch the element
+            window.addEventListener("mousemove", handleMouseMove, {passive: false});
+            window.addEventListener("touchmove", handleMouseMove, {passive: false, capture: false});
+            window.addEventListener("mouseup", handleDrop, {passive: false});
+            window.addEventListener("touchend", handleDrop, {passive: false});
+        }
+
+        function configure({
+            items = undefined,
+            flipDurationMs: dropAnimationDurationMs = 0,
+            type: newType = DEFAULT_DROP_ZONE_TYPE,
+            dragDisabled = false,
+            dropFromOthersDisabled = false,
+            dropTargetStyle = DEFAULT_DROP_TARGET_STYLE,
+            dropTargetClasses = [],
+            transformDraggedElement = () => {},
+            centreDraggedOnCursor = false
+        }) {
+            config.dropAnimationDurationMs = dropAnimationDurationMs;
+            if (config.type && newType !== config.type) {
+                unregisterDropZone(node, config.type);
+            }
+            config.type = newType;
+            registerDropZone(node, newType);
+
+            config.items = [...items];
+            config.dragDisabled = dragDisabled;
+            config.transformDraggedElement = transformDraggedElement;
+            config.centreDraggedOnCursor = centreDraggedOnCursor;
+
+            // realtime update for dropTargetStyle
+            if (
+                isWorkingOnPreviousDrag &&
+                !finalizingPreviousDrag &&
+                (!areObjectsShallowEqual(dropTargetStyle, config.dropTargetStyle) ||
+                    !areArraysShallowEqualSameOrder(dropTargetClasses, config.dropTargetClasses))
+            ) {
+                styleInactiveDropZones(
+                    [node],
+                    () => config.dropTargetStyle,
+                    () => dropTargetClasses
+                );
+                styleActiveDropZones(
+                    [node],
+                    () => dropTargetStyle,
+                    () => dropTargetClasses
+                );
+            }
+            config.dropTargetStyle = dropTargetStyle;
+            config.dropTargetClasses = [...dropTargetClasses];
+
+            // realtime update for dropFromOthersDisabled
+            if (isWorkingOnPreviousDrag && config.dropFromOthersDisabled !== dropFromOthersDisabled) {
+                if (dropFromOthersDisabled) {
+                    styleInactiveDropZones(
+                        [node],
+                        dz => dzToConfig.get(dz).dropTargetStyle,
+                        dz => dzToConfig.get(dz).dropTargetClasses
+                    );
+                } else {
+                    styleActiveDropZones(
+                        [node],
+                        dz => dzToConfig.get(dz).dropTargetStyle,
+                        dz => dzToConfig.get(dz).dropTargetClasses
+                    );
+                }
+            }
+            config.dropFromOthersDisabled = dropFromOthersDisabled;
+
+            dzToConfig.set(node, config);
+            const shadowElIdx = findShadowElementIdx(config.items);
+            for (let idx = 0; idx < node.children.length; idx++) {
+                const draggableEl = node.children[idx];
+                styleDraggable(draggableEl, dragDisabled);
+                if (idx === shadowElIdx) {
+                    morphDraggedElementToBeLike(draggedEl, draggableEl, currentMousePosition.x, currentMousePosition.y, () =>
+                        config.transformDraggedElement(draggedEl, draggedElData, idx)
+                    );
+                    decorateShadowEl(draggableEl);
+                    continue;
+                }
+                draggableEl.removeEventListener("mousedown", elToMouseDownListener.get(draggableEl));
+                draggableEl.removeEventListener("touchstart", elToMouseDownListener.get(draggableEl));
+                if (!dragDisabled) {
+                    draggableEl.addEventListener("mousedown", handleMouseDown);
+                    draggableEl.addEventListener("touchstart", handleMouseDown);
+                    elToMouseDownListener.set(draggableEl, handleMouseDown);
+                }
+                // updating the idx
+                elToIdx.set(draggableEl, idx);
+            }
+        }
+        configure(options);
+
+        return {
+            update: newOptions => {
+                configure(newOptions);
+            },
+            destroy: () => {
+                unregisterDropZone(node, config.type);
+                dzToConfig.delete(node);
+            }
+        };
+    }
+
+    const INSTRUCTION_IDs = {
+        DND_ZONE_ACTIVE: "dnd-zone-active",
+        DND_ZONE_DRAG_DISABLED: "dnd-zone-drag-disabled"
+    };
+    const ID_TO_INSTRUCTION = {
+        [INSTRUCTION_IDs.DND_ZONE_ACTIVE]: "Tab to one the items and press space-bar or enter to start dragging it",
+        [INSTRUCTION_IDs.DND_ZONE_DRAG_DISABLED]: "This is a disabled drag and drop list"
+    };
+
+    const ALERT_DIV_ID = "dnd-action-aria-alert";
+    let alertsDiv;
+
+    function initAriaOnBrowser() {
+        // setting the dynamic alerts
+        alertsDiv = document.createElement("div");
+        (function initAlertsDiv() {
+            alertsDiv.id = ALERT_DIV_ID;
+            // tab index -1 makes the alert be read twice on chrome for some reason
+            //alertsDiv.tabIndex = -1;
+            alertsDiv.style.position = "fixed";
+            alertsDiv.style.bottom = "0";
+            alertsDiv.style.left = "0";
+            alertsDiv.style.zIndex = "-5";
+            alertsDiv.style.opacity = "0";
+            alertsDiv.style.height = "0";
+            alertsDiv.style.width = "0";
+            alertsDiv.setAttribute("role", "alert");
+        })();
+        document.body.prepend(alertsDiv);
+
+        // setting the instructions
+        Object.entries(ID_TO_INSTRUCTION).forEach(([id, txt]) => document.body.prepend(instructionToHiddenDiv(id, txt)));
+    }
+
+    /**
+     * Initializes the static aria instructions so they can be attached to zones
+     * @return {{DND_ZONE_ACTIVE: string, DND_ZONE_DRAG_DISABLED: string} | null} - the IDs for static aria instruction (to be used via aria-describedby) or null on the server
+     */
+    function initAria() {
+        if (isOnServer) return null;
+        if (document.readyState === "complete") {
+            initAriaOnBrowser();
+        } else {
+            window.addEventListener("DOMContentLoaded", initAriaOnBrowser);
+        }
+        return {...INSTRUCTION_IDs};
+    }
+    function instructionToHiddenDiv(id, txt) {
+        const div = document.createElement("div");
+        div.id = id;
+        div.innerHTML = `<p>${txt}</p>`;
+        div.style.display = "none";
+        div.style.position = "fixed";
+        div.style.zIndex = "-5";
+        return div;
+    }
+
+    /**
+     * Will make the screen reader alert the provided text to the user
+     * @param {string} txt
+     */
+    function alertToScreenReader(txt) {
+        alertsDiv.innerHTML = "";
+        const alertText = document.createTextNode(txt);
+        alertsDiv.appendChild(alertText);
+        // this is needed for Safari
+        alertsDiv.style.display = "none";
+        alertsDiv.style.display = "inline";
+    }
+
+    const DEFAULT_DROP_ZONE_TYPE$1 = "--any--";
+    const DEFAULT_DROP_TARGET_STYLE$1 = {
+        outline: "rgba(255, 255, 102, 0.7) solid 2px"
+    };
+
+    let isDragging = false;
+    let draggedItemType;
+    let focusedDz;
+    let focusedDzLabel = "";
+    let focusedItem;
+    let focusedItemId;
+    let focusedItemLabel = "";
+    const allDragTargets = new WeakSet();
+    const elToKeyDownListeners = new WeakMap();
+    const elToFocusListeners = new WeakMap();
+    const dzToHandles = new Map();
+    const dzToConfig$1 = new Map();
+    const typeToDropZones$1 = new Map();
+
+    /* TODO (potentially)
+     * what's the deal with the black border of voice-reader not following focus?
+     * maybe keep focus on the last dragged item upon drop?
+     */
+
+    const INSTRUCTION_IDs$1 = initAria();
+
+    /* drop-zones registration management */
+    function registerDropZone$1(dropZoneEl, type) {
+        if (typeToDropZones$1.size === 0) {
+            window.addEventListener("keydown", globalKeyDownHandler);
+            window.addEventListener("click", globalClickHandler);
+        }
+        if (!typeToDropZones$1.has(type)) {
+            typeToDropZones$1.set(type, new Set());
+        }
+        if (!typeToDropZones$1.get(type).has(dropZoneEl)) {
+            typeToDropZones$1.get(type).add(dropZoneEl);
+            incrementActiveDropZoneCount();
+        }
+    }
+    function unregisterDropZone$1(dropZoneEl, type) {
+        if (focusedDz === dropZoneEl) {
+            handleDrop$1();
+        }
+        typeToDropZones$1.get(type).delete(dropZoneEl);
+        decrementActiveDropZoneCount();
+        if (typeToDropZones$1.get(type).size === 0) {
+            typeToDropZones$1.delete(type);
+        }
+        if (typeToDropZones$1.size === 0) {
+            window.removeEventListener("keydown", globalKeyDownHandler);
+            window.removeEventListener("click", globalClickHandler);
+        }
+    }
+
+    function globalKeyDownHandler(e) {
+        if (!isDragging) return;
+        switch (e.key) {
+            case "Escape": {
+                handleDrop$1();
+                break;
+            }
+        }
+    }
+
+    function globalClickHandler() {
+        if (!isDragging) return;
+        if (!allDragTargets.has(document.activeElement)) {
+            handleDrop$1();
+        }
+    }
+
+    function handleZoneFocus(e) {
+        if (!isDragging) return;
+        const newlyFocusedDz = e.currentTarget;
+        if (newlyFocusedDz === focusedDz) return;
+
+        focusedDzLabel = newlyFocusedDz.getAttribute("aria-label") || "";
+        const {items: originItems} = dzToConfig$1.get(focusedDz);
+        const originItem = originItems.find(item => item[ITEM_ID_KEY] === focusedItemId);
+        const originIdx = originItems.indexOf(originItem);
+        const itemToMove = originItems.splice(originIdx, 1)[0];
+        const {items: targetItems, autoAriaDisabled} = dzToConfig$1.get(newlyFocusedDz);
+        if (
+            newlyFocusedDz.getBoundingClientRect().top < focusedDz.getBoundingClientRect().top ||
+            newlyFocusedDz.getBoundingClientRect().left < focusedDz.getBoundingClientRect().left
+        ) {
+            targetItems.push(itemToMove);
+            if (!autoAriaDisabled) {
+                alertToScreenReader(`Moved item ${focusedItemLabel} to the end of the list ${focusedDzLabel}`);
+            }
+        } else {
+            targetItems.unshift(itemToMove);
+            if (!autoAriaDisabled) {
+                alertToScreenReader(`Moved item ${focusedItemLabel} to the beginning of the list ${focusedDzLabel}`);
+            }
+        }
+        const dzFrom = focusedDz;
+        dispatchFinalizeEvent(dzFrom, originItems, {trigger: TRIGGERS.DROPPED_INTO_ANOTHER, id: focusedItemId, source: SOURCES.KEYBOARD});
+        dispatchFinalizeEvent(newlyFocusedDz, targetItems, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
+        focusedDz = newlyFocusedDz;
+    }
+
+    function triggerAllDzsUpdate() {
+        dzToHandles.forEach(({update}, dz) => update(dzToConfig$1.get(dz)));
+    }
+
+    function handleDrop$1(dispatchConsider = true) {
+        if (!dzToConfig$1.get(focusedDz).autoAriaDisabled) {
+            alertToScreenReader(`Stopped dragging item ${focusedItemLabel}`);
+        }
+        if (allDragTargets.has(document.activeElement)) {
+            document.activeElement.blur();
+        }
+        if (dispatchConsider) {
+            dispatchConsiderEvent(focusedDz, dzToConfig$1.get(focusedDz).items, {
+                trigger: TRIGGERS.DRAG_STOPPED,
+                id: focusedItemId,
+                source: SOURCES.KEYBOARD
+            });
+        }
+        styleInactiveDropZones(
+            typeToDropZones$1.get(draggedItemType),
+            dz => dzToConfig$1.get(dz).dropTargetStyle,
+            dz => dzToConfig$1.get(dz).dropTargetClasses
+        );
+        focusedItem = null;
+        focusedItemId = null;
+        focusedItemLabel = "";
+        draggedItemType = null;
+        focusedDz = null;
+        focusedDzLabel = "";
+        isDragging = false;
+        triggerAllDzsUpdate();
+    }
+    //////
+    function dndzone$1(node, options) {
+        const config = {
+            items: undefined,
+            type: undefined,
+            dragDisabled: false,
+            dropFromOthersDisabled: false,
+            dropTargetStyle: DEFAULT_DROP_TARGET_STYLE$1,
+            dropTargetClasses: [],
+            autoAriaDisabled: false
+        };
+
+        function swap(arr, i, j) {
+            if (arr.length <= 1) return;
+            arr.splice(j, 1, arr.splice(i, 1, arr[j])[0]);
+        }
+
+        function handleKeyDown(e) {
+            switch (e.key) {
+                case "Enter":
+                case " ": {
+                    // we don't want to affect nested input elements or clickable elements
+                    if ((e.target.disabled !== undefined || e.target.href || e.target.isContentEditable) && !allDragTargets.has(e.target)) {
+                        return;
+                    }
+                    e.preventDefault(); // preventing scrolling on spacebar
+                    e.stopPropagation();
+                    if (isDragging) {
+                        // TODO - should this trigger a drop? only here or in general (as in when hitting space or enter outside of any zone)?
+                        handleDrop$1();
+                    } else {
+                        // drag start
+                        handleDragStart(e);
+                    }
+                    break;
+                }
+                case "ArrowDown":
+                case "ArrowRight": {
+                    if (!isDragging) return;
+                    e.preventDefault(); // prevent scrolling
+                    e.stopPropagation();
+                    const {items} = dzToConfig$1.get(node);
+                    const children = Array.from(node.children);
+                    const idx = children.indexOf(e.currentTarget);
+                    if (idx < children.length - 1) {
+                        if (!config.autoAriaDisabled) {
+                            alertToScreenReader(`Moved item ${focusedItemLabel} to position ${idx + 2} in the list ${focusedDzLabel}`);
+                        }
+                        swap(items, idx, idx + 1);
+                        dispatchFinalizeEvent(node, items, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
+                    }
+                    break;
+                }
+                case "ArrowUp":
+                case "ArrowLeft": {
+                    if (!isDragging) return;
+                    e.preventDefault(); // prevent scrolling
+                    e.stopPropagation();
+                    const {items} = dzToConfig$1.get(node);
+                    const children = Array.from(node.children);
+                    const idx = children.indexOf(e.currentTarget);
+                    if (idx > 0) {
+                        if (!config.autoAriaDisabled) {
+                            alertToScreenReader(`Moved item ${focusedItemLabel} to position ${idx} in the list ${focusedDzLabel}`);
+                        }
+                        swap(items, idx, idx - 1);
+                        dispatchFinalizeEvent(node, items, {trigger: TRIGGERS.DROPPED_INTO_ZONE, id: focusedItemId, source: SOURCES.KEYBOARD});
+                    }
+                    break;
+                }
+            }
+        }
+        function handleDragStart(e) {
+            setCurrentFocusedItem(e.currentTarget);
+            focusedDz = node;
+            draggedItemType = config.type;
+            isDragging = true;
+            const dropTargets = Array.from(typeToDropZones$1.get(config.type)).filter(dz => dz === focusedDz || !dzToConfig$1.get(dz).dropFromOthersDisabled);
+            styleActiveDropZones(
+                dropTargets,
+                dz => dzToConfig$1.get(dz).dropTargetStyle,
+                dz => dzToConfig$1.get(dz).dropTargetClasses
+            );
+            if (!config.autoAriaDisabled) {
+                let msg = `Started dragging item ${focusedItemLabel}. Use the arrow keys to move it within its list ${focusedDzLabel}`;
+                if (dropTargets.length > 1) {
+                    msg += `, or tab to another list in order to move the item into it`;
+                }
+                alertToScreenReader(msg);
+            }
+            dispatchConsiderEvent(node, dzToConfig$1.get(node).items, {trigger: TRIGGERS.DRAG_STARTED, id: focusedItemId, source: SOURCES.KEYBOARD});
+            triggerAllDzsUpdate();
+        }
+
+        function handleClick(e) {
+            if (!isDragging) return;
+            if (e.currentTarget === focusedItem) return;
+            e.stopPropagation();
+            handleDrop$1(false);
+            handleDragStart(e);
+        }
+        function setCurrentFocusedItem(draggableEl) {
+            const {items} = dzToConfig$1.get(node);
+            const children = Array.from(node.children);
+            const focusedItemIdx = children.indexOf(draggableEl);
+            focusedItem = draggableEl;
+            focusedItem.tabIndex = 0;
+            focusedItemId = items[focusedItemIdx][ITEM_ID_KEY];
+            focusedItemLabel = children[focusedItemIdx].getAttribute("aria-label") || "";
+        }
+
+        function configure({
+            items = [],
+            type: newType = DEFAULT_DROP_ZONE_TYPE$1,
+            dragDisabled = false,
+            dropFromOthersDisabled = false,
+            dropTargetStyle = DEFAULT_DROP_TARGET_STYLE$1,
+            dropTargetClasses = [],
+            autoAriaDisabled = false
+        }) {
+            config.items = [...items];
+            config.dragDisabled = dragDisabled;
+            config.dropFromOthersDisabled = dropFromOthersDisabled;
+            config.dropTargetStyle = dropTargetStyle;
+            config.dropTargetClasses = dropTargetClasses;
+            config.autoAriaDisabled = autoAriaDisabled;
+            if (!autoAriaDisabled) {
+                node.setAttribute("aria-disabled", dragDisabled);
+                node.setAttribute("role", "list");
+                node.setAttribute("aria-describedby", dragDisabled ? INSTRUCTION_IDs$1.DND_ZONE_DRAG_DISABLED : INSTRUCTION_IDs$1.DND_ZONE_ACTIVE);
+            }
+            if (config.type && newType !== config.type) {
+                unregisterDropZone$1(node, config.type);
+            }
+            config.type = newType;
+            registerDropZone$1(node, newType);
+            dzToConfig$1.set(node, config);
+
+            node.tabIndex =
+                isDragging &&
+                (node === focusedDz ||
+                    focusedItem.contains(node) ||
+                    config.dropFromOthersDisabled ||
+                    (focusedDz && config.type !== dzToConfig$1.get(focusedDz).type))
+                    ? -1
+                    : 0;
+            node.addEventListener("focus", handleZoneFocus);
+
+            for (let i = 0; i < node.children.length; i++) {
+                const draggableEl = node.children[i];
+                allDragTargets.add(draggableEl);
+                draggableEl.tabIndex = isDragging ? -1 : 0;
+                if (!autoAriaDisabled) {
+                    draggableEl.setAttribute("role", "listitem");
+                }
+                draggableEl.removeEventListener("keydown", elToKeyDownListeners.get(draggableEl));
+                draggableEl.removeEventListener("click", elToFocusListeners.get(draggableEl));
+                if (!dragDisabled) {
+                    draggableEl.addEventListener("keydown", handleKeyDown);
+                    elToKeyDownListeners.set(draggableEl, handleKeyDown);
+                    draggableEl.addEventListener("click", handleClick);
+                    elToFocusListeners.set(draggableEl, handleClick);
+                }
+                if (isDragging && config.items[i][ITEM_ID_KEY] === focusedItemId) {
+                    // if it is a nested dropzone, it was re-rendered and we need to refresh our pointer
+                    focusedItem = draggableEl;
+                    focusedItem.tabIndex = 0;
+                    // without this the element loses focus if it moves backwards in the list
+                    draggableEl.focus();
+                }
+            }
+        }
+        configure(options);
+
+        const handles = {
+            update: newOptions => {
+                configure(newOptions);
+            },
+            destroy: () => {
+                unregisterDropZone$1(node, config.type);
+                dzToConfig$1.delete(node);
+                dzToHandles.delete(node);
+            }
+        };
+        dzToHandles.set(node, handles);
+        return handles;
+    }
+
+    /**
+     * A custom action to turn any container to a dnd zone and all of its direct children to draggables
+     * Supports mouse, touch and keyboard interactions.
+     * Dispatches two events that the container is expected to react to by modifying its list of items,
+     * which will then feed back in to this action via the update function
+     *
+     * @typedef {object} Options
+     * @property {array} items - the list of items that was used to generate the children of the given node (the list used in the #each block
+     * @property {string} [type] - the type of the dnd zone. children dragged from here can only be dropped in other zones of the same type, default to a base type
+     * @property {number} [flipDurationMs] - if the list animated using flip (recommended), specifies the flip duration such that everything syncs with it without conflict, defaults to zero
+     * @property {boolean} [dragDisabled]
+     * @property {boolean} [dropFromOthersDisabled]
+     * @property {object} [dropTargetStyle]
+     * @property {string[]} [dropTargetClasses]
+     * @property {function} [transformDraggedElement]
+     * @param {HTMLElement} node - the element to enhance
+     * @param {Options} options
+     * @return {{update: function, destroy: function}}
+     */
+    function dndzone$2(node, options) {
+        validateOptions(options);
+        const pointerZone = dndzone(node, options);
+        const keyboardZone = dndzone$1(node, options);
+        return {
+            update: newOptions => {
+                validateOptions(newOptions);
+                pointerZone.update(newOptions);
+                keyboardZone.update(newOptions);
+            },
+            destroy: () => {
+                pointerZone.destroy();
+                keyboardZone.destroy();
+            }
+        };
+    }
+
+    function validateOptions(options) {
+        /*eslint-disable*/
+        const {
+            items,
+            flipDurationMs,
+            type,
+            dragDisabled,
+            dropFromOthersDisabled,
+            dropTargetStyle,
+            dropTargetClasses,
+            transformDraggedElement,
+            autoAriaDisabled,
+            centreDraggedOnCursor,
+            ...rest
+        } = options;
+        /*eslint-enable*/
+        if (Object.keys(rest).length > 0) {
+            console.warn(`dndzone will ignore unknown options`, rest);
+        }
+        if (!items) {
+            throw new Error("no 'items' key provided to dndzone");
+        }
+        const itemWithMissingId = items.find(item => !{}.hasOwnProperty.call(item, ITEM_ID_KEY));
+        if (itemWithMissingId) {
+            throw new Error(`missing '${ITEM_ID_KEY}' property for item ${toString(itemWithMissingId)}`);
+        }
+        if (dropTargetClasses && !Array.isArray(dropTargetClasses)) {
+            throw new Error(`dropTargetClasses should be an array but instead it is a ${typeof dropTargetClasses}, ${toString(dropTargetClasses)}`);
+        }
+    }
+
     /* src/routes/Categories.svelte generated by Svelte v3.31.2 */
 
     const { console: console_1$4 } = globals;
@@ -5796,8 +7747,8 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (72:0) {#each items as item}
-    function create_each_block$4(ctx) {
+    // (71:0) {#each items as item(item.id)}
+    function create_each_block$4(key_1, ctx) {
     	let li;
     	let div3;
     	let div0;
@@ -5809,24 +7760,21 @@ var app = (function () {
     	let t1;
     	let div2;
     	let div1;
-    	let button0;
-    	let i0;
+    	let button;
+    	let i;
     	let t2;
-    	let button1;
-    	let i1;
-    	let t3;
+    	let rect;
+    	let stop_animation = noop;
     	let mounted;
     	let dispose;
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[7](/*item*/ ctx[11]);
-    	}
-
-    	function click_handler_2() {
-    		return /*click_handler_2*/ ctx[8](/*item*/ ctx[11]);
+    		return /*click_handler_1*/ ctx[8](/*item*/ ctx[11]);
     	}
 
     	const block = {
+    		key: key_1,
+    		first: null,
     		c: function create() {
     			li = element("li");
     			div3 = element("div");
@@ -5837,33 +7785,27 @@ var app = (function () {
     			t1 = space();
     			div2 = element("div");
     			div1 = element("div");
-    			button0 = element("button");
-    			i0 = element("i");
+    			button = element("button");
+    			i = element("i");
     			t2 = space();
-    			button1 = element("button");
-    			i1 = element("i");
-    			t3 = space();
-    			add_location(a0, file$8, 76, 51, 1900);
+    			add_location(a0, file$8, 75, 51, 2081);
     			attr_dev(a1, "href", a1_href_value = "/#/edit/categories/" + /*item*/ ctx[11].id);
-    			add_location(a1, file$8, 76, 0, 1849);
+    			add_location(a1, file$8, 75, 0, 2030);
     			attr_dev(div0, "class", "col-6 text-truncate d-flex align-items-center");
-    			add_location(div0, file$8, 74, 2, 1788);
-    			attr_dev(i0, "class", "bi bi-caret-down");
-    			add_location(i0, file$8, 81, 92, 2065);
-    			attr_dev(button0, "class", "btn btn-outline-secondary w-50");
-    			add_location(button0, file$8, 81, 4, 1977);
-    			attr_dev(i1, "class", "bi bi-trash");
-    			add_location(i1, file$8, 82, 83, 2190);
-    			attr_dev(button1, "class", "btn btn-outline-secondary");
-    			add_location(button1, file$8, 82, 2, 2109);
+    			add_location(div0, file$8, 73, 2, 1969);
+    			attr_dev(i, "class", "bi bi-trash");
+    			add_location(i, file$8, 80, 83, 2237);
+    			attr_dev(button, "class", "btn btn-outline-secondary");
+    			add_location(button, file$8, 80, 2, 2156);
     			attr_dev(div1, "class", "btn-group");
-    			add_location(div1, file$8, 80, 2, 1949);
+    			add_location(div1, file$8, 79, 2, 2130);
     			attr_dev(div2, "class", "col-6 text-right");
-    			add_location(div2, file$8, 79, 2, 1916);
+    			add_location(div2, file$8, 78, 2, 2097);
     			attr_dev(div3, "class", "row");
-    			add_location(div3, file$8, 73, 2, 1768);
+    			add_location(div3, file$8, 72, 2, 1949);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$8, 72, 2, 1737);
+    			add_location(li, file$8, 71, 2, 1874);
+    			this.first = li;
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -5875,19 +7817,12 @@ var app = (function () {
     			append_dev(div3, t1);
     			append_dev(div3, div2);
     			append_dev(div2, div1);
-    			append_dev(div1, button0);
-    			append_dev(button0, i0);
-    			append_dev(div1, t2);
-    			append_dev(div1, button1);
-    			append_dev(button1, i1);
-    			append_dev(li, t3);
+    			append_dev(div1, button);
+    			append_dev(button, i);
+    			append_dev(li, t2);
 
     			if (!mounted) {
-    				dispose = [
-    					listen_dev(button0, "click", click_handler_1, false, false, false),
-    					listen_dev(button1, "click", click_handler_2, false, false, false)
-    				];
-
+    				dispose = listen_dev(button, "click", click_handler_1, false, false, false);
     				mounted = true;
     			}
     		},
@@ -5899,10 +7834,21 @@ var app = (function () {
     				attr_dev(a1, "href", a1_href_value);
     			}
     		},
+    		r: function measure() {
+    			rect = li.getBoundingClientRect();
+    		},
+    		f: function fix() {
+    			fix_position(li);
+    			stop_animation();
+    		},
+    		a: function animate() {
+    			stop_animation();
+    			stop_animation = create_animation(li, rect, flip, { duration: flipDurationMs });
+    		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(li);
     			mounted = false;
-    			run_all(dispose);
+    			dispose();
     		}
     	};
 
@@ -5910,14 +7856,14 @@ var app = (function () {
     		block,
     		id: create_each_block$4.name,
     		type: "each",
-    		source: "(72:0) {#each items as item}",
+    		source: "(71:0) {#each items as item(item.id)}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (92:0) {#if addCat}
+    // (90:0) {#if addCat}
     function create_if_block$5(ctx) {
     	let div7;
     	let div6;
@@ -5967,41 +7913,41 @@ var app = (function () {
     			button1 = element("button");
     			button1.textContent = "Add Category";
     			attr_dev(h4, "class", "modal-title");
-    			add_location(h4, file$8, 98, 8, 2487);
+    			add_location(h4, file$8, 96, 8, 2534);
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$8, 100, 10, 2624);
+    			add_location(span, file$8, 98, 10, 2671);
     			attr_dev(button0, "type", "button");
     			attr_dev(button0, "class", "close");
     			attr_dev(button0, "data-dismiss", "modal");
     			attr_dev(button0, "aria-label", "Close");
-    			add_location(button0, file$8, 99, 8, 2537);
+    			add_location(button0, file$8, 97, 8, 2584);
     			attr_dev(div0, "class", "modal-header");
-    			add_location(div0, file$8, 97, 6, 2452);
-    			add_location(b, file$8, 105, 2, 2763);
+    			add_location(div0, file$8, 95, 6, 2499);
+    			add_location(b, file$8, 103, 6, 2814);
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
     			attr_dev(input, "id", "new-cat");
-    			add_location(input, file$8, 106, 6, 2790);
+    			add_location(input, file$8, 104, 6, 2841);
     			attr_dev(div1, "class", "description-sub");
-    			add_location(div1, file$8, 107, 10, 2856);
+    			add_location(div1, file$8, 105, 10, 2907);
     			attr_dev(div2, "class", "modal-body");
-    			add_location(div2, file$8, 103, 6, 2735);
+    			add_location(div2, file$8, 101, 6, 2782);
     			attr_dev(button1, "type", "button");
     			attr_dev(button1, "class", "btn btn-primary");
-    			add_location(button1, file$8, 110, 8, 2946);
+    			add_location(button1, file$8, 108, 8, 2997);
     			attr_dev(div3, "class", "modal-footer");
-    			add_location(div3, file$8, 109, 6, 2911);
+    			add_location(div3, file$8, 107, 6, 2962);
     			attr_dev(div4, "class", "modal-content");
-    			add_location(div4, file$8, 96, 4, 2418);
+    			add_location(div4, file$8, 94, 4, 2465);
     			attr_dev(div5, "class", "modal-dialog");
     			attr_dev(div5, "role", "document");
-    			add_location(div5, file$8, 95, 2, 2371);
+    			add_location(div5, file$8, 93, 2, 2418);
     			attr_dev(div6, "class", "modal");
     			attr_dev(div6, "tabindex", "-1");
     			attr_dev(div6, "role", "dialog");
-    			add_location(div6, file$8, 94, 0, 2321);
+    			add_location(div6, file$8, 92, 0, 2368);
     			attr_dev(div7, "class", "backdrop");
-    			add_location(div7, file$8, 92, 0, 2297);
+    			add_location(div7, file$8, 90, 0, 2344);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div7, anchor);
@@ -6026,8 +7972,8 @@ var app = (function () {
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(span, "click", /*click_handler_3*/ ctx[9], false, false, false),
-    					listen_dev(button1, "click", /*saveCat*/ ctx[3], false, false, false)
+    					listen_dev(span, "click", /*click_handler_2*/ ctx[9], false, false, false),
+    					listen_dev(button1, "click", /*saveCat*/ ctx[5], false, false, false)
     				];
 
     				mounted = true;
@@ -6045,7 +7991,7 @@ var app = (function () {
     		block,
     		id: create_if_block$5.name,
     		type: "if",
-    		source: "(92:0) {#if addCat}",
+    		source: "(90:0) {#if addCat}",
     		ctx
     	});
 
@@ -6062,16 +8008,22 @@ var app = (function () {
     	let t3;
     	let div3;
     	let ul;
+    	let each_blocks = [];
+    	let each_1_lookup = new Map();
+    	let dndzone_action;
     	let t4;
     	let if_block_anchor;
     	let mounted;
     	let dispose;
     	let each_value = /*items*/ ctx[0];
     	validate_each_argument(each_value);
-    	let each_blocks = [];
+    	const get_key = ctx => /*item*/ ctx[11].id;
+    	validate_each_keys(ctx, each_value, get_each_context$4, get_key);
 
     	for (let i = 0; i < each_value.length; i += 1) {
-    		each_blocks[i] = create_each_block$4(get_each_context$4(ctx, each_value, i));
+    		let child_ctx = get_each_context$4(ctx, each_value, i);
+    		let key = get_key(child_ctx);
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block$4(key, child_ctx));
     	}
 
     	let if_block = /*addCat*/ ctx[1] && create_if_block$5(ctx);
@@ -6097,19 +8049,19 @@ var app = (function () {
     			t4 = space();
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
-    			add_location(h4, file$8, 59, 0, 1486);
+    			add_location(h4, file$8, 60, 0, 1508);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$8, 58, 0, 1466);
+    			add_location(div0, file$8, 59, 0, 1488);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$8, 62, 0, 1544);
+    			add_location(button, file$8, 63, 0, 1566);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$8, 61, 0, 1513);
+    			add_location(div1, file$8, 62, 0, 1535);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$8, 57, 0, 1441);
+    			add_location(div2, file$8, 58, 0, 1463);
     			attr_dev(ul, "class", "list-group entries-list");
-    			add_location(ul, file$8, 70, 0, 1676);
+    			add_location(ul, file$8, 69, 0, 1696);
     			attr_dev(div3, "class", "content");
-    			add_location(div3, file$8, 66, 0, 1651);
+    			add_location(div3, file$8, 67, 0, 1673);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6134,34 +8086,27 @@ var app = (function () {
     			insert_dev(target, if_block_anchor, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*click_handler*/ ctx[6], false, false, false);
+    				dispose = [
+    					listen_dev(button, "click", /*click_handler*/ ctx[7], false, false, false),
+    					action_destroyer(dndzone_action = dndzone$2.call(null, ul, { items: /*items*/ ctx[0], flipDurationMs })),
+    					listen_dev(ul, "consider", /*handleDndConsider*/ ctx[2], false, false, false),
+    					listen_dev(ul, "finalize", /*handleDndFinalize*/ ctx[3], false, false, false)
+    				];
+
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
-    			if (dirty & /*deleteItem, items, moveItemDown*/ 21) {
+    			if (dirty & /*deleteItem, items*/ 17) {
     				each_value = /*items*/ ctx[0];
     				validate_each_argument(each_value);
-    				let i;
-
-    				for (i = 0; i < each_value.length; i += 1) {
-    					const child_ctx = get_each_context$4(ctx, each_value, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block$4(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(ul, null);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value.length;
+    				for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].r();
+    				validate_each_keys(ctx, each_value, get_each_context$4, get_key);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value, each_1_lookup, ul, fix_and_destroy_block, create_each_block$4, null, get_each_context$4);
+    				for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].a();
     			}
+
+    			if (dndzone_action && is_function(dndzone_action.update) && dirty & /*items*/ 1) dndzone_action.update.call(null, { items: /*items*/ ctx[0], flipDurationMs });
 
     			if (/*addCat*/ ctx[1]) {
     				if (if_block) {
@@ -6182,12 +8127,16 @@ var app = (function () {
     			if (detaching) detach_dev(div2);
     			if (detaching) detach_dev(t3);
     			if (detaching) detach_dev(div3);
-    			destroy_each(each_blocks, detaching);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].d();
+    			}
+
     			if (detaching) detach_dev(t4);
     			if (if_block) if_block.d(detaching);
     			if (detaching) detach_dev(if_block_anchor);
     			mounted = false;
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -6201,6 +8150,8 @@ var app = (function () {
 
     	return block;
     }
+
+    const flipDurationMs = 300;
 
     function slugify(text) {
     	let slug = text.toString().toLowerCase().replace(/\s+/g, "-").replace(/[^\w\-]+/g, "").replace(/\-\-+/g, "-").replace(/^-+/, "").replace(/-+$/, ""); // Replace spaces with -
@@ -6221,13 +8172,24 @@ var app = (function () {
     	let addCat = false;
     	items = data.categories;
 
+    	function handleDndConsider(e) {
+    		$$invalidate(0, items = e.detail.items);
+    	}
+
+    	function handleDndFinalize(e) {
+    		$$invalidate(0, items = e.detail.items);
+    		$$invalidate(6, data.categories = items, data);
+    		renderData(data); // force re-render
+    	}
+
     	function deleteItem(id) {
     		let result = confirm("Are you sure you want to delete this category?");
 
     		if (result) {
-    			$$invalidate(5, data.categories = data.categories.filter(x => x.id !== id), data);
-    			$$invalidate(5, data);
+    			$$invalidate(6, data.categories = data.categories.filter(x => x.id !== id), data);
+    			$$invalidate(6, data);
     			$$invalidate(0, items = data.categories);
+    			renderData(data); // force re-render
     		}
     	}
 
@@ -6239,20 +8201,10 @@ var app = (function () {
     		newItem.title = val;
     		newItem.slug = slugify(val);
     		data.categories.push(newItem);
-    		$$invalidate(5, data);
+    		$$invalidate(6, data);
     		$$invalidate(0, items = data.categories);
     		console.log(data.categories);
     		$$invalidate(1, addCat = false);
-    	}
-
-    	function moveItemDown(id) {
-    		let fromIndex = data.categories.findIndex(x => x.id == id);
-    		let toIndex = fromIndex + 1;
-    		var element = data.categories[fromIndex];
-    		data.categories.splice(fromIndex, 1);
-    		data.categories.splice(toIndex, 0, element);
-    		$$invalidate(0, items = data.categories);
-    		$$invalidate(5, data);
     	}
 
     	const writable_props = ["data"];
@@ -6262,27 +8214,30 @@ var app = (function () {
     	});
 
     	const click_handler = () => $$invalidate(1, addCat = true);
-    	const click_handler_1 = item => moveItemDown(item.id);
-    	const click_handler_2 = item => deleteItem(item.id);
-    	const click_handler_3 = () => $$invalidate(1, addCat = false);
+    	const click_handler_1 = item => deleteItem(item.id);
+    	const click_handler_2 = () => $$invalidate(1, addCat = false);
 
     	$$self.$$set = $$props => {
-    		if ("data" in $$props) $$invalidate(5, data = $$props.data);
+    		if ("data" in $$props) $$invalidate(6, data = $$props.data);
     	};
 
     	$$self.$capture_state = () => ({
+    		flip,
+    		dndzone: dndzone$2,
     		data,
     		cat,
     		items,
     		addCat,
+    		flipDurationMs,
+    		handleDndConsider,
+    		handleDndFinalize,
     		deleteItem,
     		saveCat,
-    		moveItemDown,
     		slugify
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("data" in $$props) $$invalidate(5, data = $$props.data);
+    		if ("data" in $$props) $$invalidate(6, data = $$props.data);
     		if ("cat" in $$props) cat = $$props.cat;
     		if ("items" in $$props) $$invalidate(0, items = $$props.items);
     		if ("addCat" in $$props) $$invalidate(1, addCat = $$props.addCat);
@@ -6295,21 +8250,21 @@ var app = (function () {
     	return [
     		items,
     		addCat,
+    		handleDndConsider,
+    		handleDndFinalize,
     		deleteItem,
     		saveCat,
-    		moveItemDown,
     		data,
     		click_handler,
     		click_handler_1,
-    		click_handler_2,
-    		click_handler_3
+    		click_handler_2
     	];
     }
 
     class Categories extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$9, create_fragment$9, safe_not_equal, { data: 5 });
+    		init(this, options, instance$9, create_fragment$9, safe_not_equal, { data: 6 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -6321,7 +8276,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*data*/ ctx[5] === undefined && !("data" in props)) {
+    		if (/*data*/ ctx[6] === undefined && !("data" in props)) {
     			console_1$4.warn("<Categories> was created without expected prop 'data'");
     		}
     	}
@@ -6336,7 +8291,6 @@ var app = (function () {
     }
 
     /* src/routes/Posts.svelte generated by Svelte v3.31.2 */
-
     const file$9 = "src/routes/Posts.svelte";
 
     function get_each_context$5(ctx, list, i) {
@@ -6351,7 +8305,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (69:86) {:else}
+    // (89:86) {:else}
     function create_else_block$2(ctx) {
     	let t_value = /*item*/ ctx[14].title + "";
     	let t;
@@ -6375,14 +8329,14 @@ var app = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(69:86) {:else}",
+    		source: "(89:86) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (69:58) {#if item.title==''}
+    // (89:58) {#if item.title==''}
     function create_if_block_1$4(ctx) {
     	let t;
 
@@ -6403,15 +8357,15 @@ var app = (function () {
     		block,
     		id: create_if_block_1$4.name,
     		type: "if",
-    		source: "(69:58) {#if item.title==''}",
+    		source: "(89:58) {#if item.title==''}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (64:0) {#each items as item}
-    function create_each_block_1$1(ctx) {
+    // (84:0) {#each items as item(item.id)}
+    function create_each_block_1$1(key_1, ctx) {
     	let li;
     	let div3;
     	let div0;
@@ -6420,12 +8374,11 @@ var app = (function () {
     	let t0;
     	let div2;
     	let div1;
-    	let button0;
-    	let i0;
+    	let button;
+    	let i;
     	let t1;
-    	let button1;
-    	let i1;
-    	let t2;
+    	let rect;
+    	let stop_animation = noop;
     	let mounted;
     	let dispose;
 
@@ -6438,14 +8391,12 @@ var app = (function () {
     	let if_block = current_block_type(ctx);
 
     	function click_handler_1() {
-    		return /*click_handler_1*/ ctx[10](/*item*/ ctx[14]);
-    	}
-
-    	function click_handler_2() {
-    		return /*click_handler_2*/ ctx[11](/*item*/ ctx[14]);
+    		return /*click_handler_1*/ ctx[11](/*item*/ ctx[14]);
     	}
 
     	const block = {
+    		key: key_1,
+    		first: null,
     		c: function create() {
     			li = element("li");
     			div3 = element("div");
@@ -6455,33 +8406,27 @@ var app = (function () {
     			t0 = space();
     			div2 = element("div");
     			div1 = element("div");
-    			button0 = element("button");
-    			i0 = element("i");
+    			button = element("button");
+    			i = element("i");
     			t1 = space();
-    			button1 = element("button");
-    			i1 = element("i");
-    			t2 = space();
     			attr_dev(a, "href", a_href_value = "/#/edit/posts/" + /*item*/ ctx[14].id);
     			attr_dev(a, "class", "text-truncate");
-    			add_location(a, file$9, 68, 2, 1395);
+    			add_location(a, file$9, 88, 2, 2018);
     			attr_dev(div0, "class", "col-6 text-truncate d-flex align-items-center");
-    			add_location(div0, file$9, 66, 2, 1332);
-    			attr_dev(i0, "class", "bi bi-caret-down");
-    			add_location(i0, file$9, 74, 90, 1666);
-    			attr_dev(button0, "class", "btn btn-outline-secondary w-50");
-    			add_location(button0, file$9, 74, 2, 1578);
-    			attr_dev(i1, "class", "bi bi-trash");
-    			add_location(i1, file$9, 75, 88, 1796);
-    			attr_dev(button1, "class", "btn btn-outline-secondary w-50");
-    			add_location(button1, file$9, 75, 2, 1710);
+    			add_location(div0, file$9, 86, 2, 1955);
+    			attr_dev(i, "class", "bi bi-trash");
+    			add_location(i, file$9, 94, 88, 2289);
+    			attr_dev(button, "class", "btn btn-outline-secondary w-50");
+    			add_location(button, file$9, 94, 2, 2203);
     			attr_dev(div1, "class", "btn-group");
-    			add_location(div1, file$9, 73, 0, 1552);
+    			add_location(div1, file$9, 93, 2, 2177);
     			attr_dev(div2, "class", "col-6 text-right");
-    			add_location(div2, file$9, 71, 2, 1520);
+    			add_location(div2, file$9, 91, 2, 2143);
     			attr_dev(div3, "class", "row");
-    			add_location(div3, file$9, 65, 2, 1312);
+    			add_location(div3, file$9, 85, 2, 1935);
     			attr_dev(li, "class", "list-group-item");
-    			add_location(li, file$9, 64, 2, 1281);
+    			add_location(li, file$9, 84, 2, 1860);
+    			this.first = li;
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
@@ -6492,19 +8437,12 @@ var app = (function () {
     			append_dev(div3, t0);
     			append_dev(div3, div2);
     			append_dev(div2, div1);
-    			append_dev(div1, button0);
-    			append_dev(button0, i0);
-    			append_dev(div1, t1);
-    			append_dev(div1, button1);
-    			append_dev(button1, i1);
-    			append_dev(li, t2);
+    			append_dev(div1, button);
+    			append_dev(button, i);
+    			append_dev(li, t1);
 
     			if (!mounted) {
-    				dispose = [
-    					listen_dev(button0, "click", click_handler_1, false, false, false),
-    					listen_dev(button1, "click", click_handler_2, false, false, false)
-    				];
-
+    				dispose = listen_dev(button, "click", click_handler_1, false, false, false);
     				mounted = true;
     			}
     		},
@@ -6527,11 +8465,22 @@ var app = (function () {
     				attr_dev(a, "href", a_href_value);
     			}
     		},
+    		r: function measure() {
+    			rect = li.getBoundingClientRect();
+    		},
+    		f: function fix() {
+    			fix_position(li);
+    			stop_animation();
+    		},
+    		a: function animate() {
+    			stop_animation();
+    			stop_animation = create_animation(li, rect, flip, { duration: flipDurationMs$1 });
+    		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(li);
     			if_block.d();
     			mounted = false;
-    			run_all(dispose);
+    			dispose();
     		}
     	};
 
@@ -6539,14 +8488,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1$1.name,
     		type: "each",
-    		source: "(64:0) {#each items as item}",
+    		source: "(84:0) {#each items as item(item.id)}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (87:0) {#if addPost}
+    // (106:0) {#if addPost}
     function create_if_block$6(ctx) {
     	let div6;
     	let div5;
@@ -6597,32 +8546,32 @@ var app = (function () {
     			}
 
     			attr_dev(h4, "class", "modal-title");
-    			add_location(h4, file$9, 93, 8, 2096);
+    			add_location(h4, file$9, 112, 8, 2589);
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$9, 95, 10, 2229);
+    			add_location(span, file$9, 114, 10, 2722);
     			attr_dev(button, "type", "button");
     			attr_dev(button, "class", "close");
     			attr_dev(button, "data-dismiss", "modal");
     			attr_dev(button, "aria-label", "Close");
-    			add_location(button, file$9, 94, 8, 2142);
+    			add_location(button, file$9, 113, 8, 2635);
     			attr_dev(div0, "class", "modal-header");
-    			add_location(div0, file$9, 92, 6, 2061);
-    			add_location(b, file$9, 100, 0, 2367);
+    			add_location(div0, file$9, 111, 6, 2554);
+    			add_location(b, file$9, 119, 0, 2860);
     			attr_dev(div1, "class", "list-group list-group-flush");
-    			add_location(div1, file$9, 101, 0, 2388);
+    			add_location(div1, file$9, 120, 0, 2881);
     			attr_dev(div2, "class", "modal-body");
-    			add_location(div2, file$9, 98, 6, 2341);
+    			add_location(div2, file$9, 117, 6, 2834);
     			attr_dev(div3, "class", "modal-content");
-    			add_location(div3, file$9, 91, 4, 2027);
+    			add_location(div3, file$9, 110, 4, 2520);
     			attr_dev(div4, "class", "modal-dialog");
     			attr_dev(div4, "role", "document");
-    			add_location(div4, file$9, 90, 2, 1980);
+    			add_location(div4, file$9, 109, 2, 2473);
     			attr_dev(div5, "class", "modal");
     			attr_dev(div5, "tabindex", "-1");
     			attr_dev(div5, "role", "dialog");
-    			add_location(div5, file$9, 89, 0, 1930);
+    			add_location(div5, file$9, 108, 0, 2423);
     			attr_dev(div6, "class", "backdrop");
-    			add_location(div6, file$9, 87, 0, 1906);
+    			add_location(div6, file$9, 106, 0, 2399);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div6, anchor);
@@ -6645,12 +8594,12 @@ var app = (function () {
     			}
 
     			if (!mounted) {
-    				dispose = listen_dev(span, "click", /*click_handler_3*/ ctx[12], false, false, false);
+    				dispose = listen_dev(span, "click", /*click_handler_2*/ ctx[12], false, false, false);
     				mounted = true;
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*addItem, data*/ 17) {
+    			if (dirty & /*addItem, data*/ 65) {
     				each_value = /*data*/ ctx[0].types;
     				validate_each_argument(each_value);
     				let i;
@@ -6686,14 +8635,14 @@ var app = (function () {
     		block,
     		id: create_if_block$6.name,
     		type: "if",
-    		source: "(87:0) {#if addPost}",
+    		source: "(106:0) {#if addPost}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (103:2) {#each data.types as item}
+    // (122:2) {#each data.types as item}
     function create_each_block$5(ctx) {
     	let div;
     	let t_value = /*item*/ ctx[14].title + "";
@@ -6701,8 +8650,8 @@ var app = (function () {
     	let mounted;
     	let dispose;
 
-    	function click_handler_4() {
-    		return /*click_handler_4*/ ctx[13](/*item*/ ctx[14]);
+    	function click_handler_3() {
+    		return /*click_handler_3*/ ctx[13](/*item*/ ctx[14]);
     	}
 
     	const block = {
@@ -6710,14 +8659,14 @@ var app = (function () {
     			div = element("div");
     			t = text(t_value);
     			attr_dev(div, "class", "list-group-item list-group-item-action text-capitalize");
-    			add_location(div, file$9, 103, 2, 2461);
+    			add_location(div, file$9, 122, 2, 2954);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, t);
 
     			if (!mounted) {
-    				dispose = listen_dev(div, "click", click_handler_4, false, false, false);
+    				dispose = listen_dev(div, "click", click_handler_3, false, false, false);
     				mounted = true;
     			}
     		},
@@ -6736,7 +8685,7 @@ var app = (function () {
     		block,
     		id: create_each_block$5.name,
     		type: "each",
-    		source: "(103:2) {#each data.types as item}",
+    		source: "(122:2) {#each data.types as item}",
     		ctx
     	});
 
@@ -6755,16 +8704,22 @@ var app = (function () {
     	let t3;
     	let div3;
     	let ul;
+    	let each_blocks = [];
+    	let each_1_lookup = new Map();
+    	let dndzone_action;
     	let t4;
     	let if_block_anchor;
     	let mounted;
     	let dispose;
     	let each_value_1 = /*items*/ ctx[1];
     	validate_each_argument(each_value_1);
-    	let each_blocks = [];
+    	const get_key = ctx => /*item*/ ctx[14].id;
+    	validate_each_keys(ctx, each_value_1, get_each_context_1$1, get_key);
 
     	for (let i = 0; i < each_value_1.length; i += 1) {
-    		each_blocks[i] = create_each_block_1$1(get_each_context_1$1(ctx, each_value_1, i));
+    		let child_ctx = get_each_context_1$1(ctx, each_value_1, i);
+    		let key = get_key(child_ctx);
+    		each_1_lookup.set(key, each_blocks[i] = create_each_block_1$1(key, child_ctx));
     	}
 
     	let if_block = /*addPost*/ ctx[3] && create_if_block$6(ctx);
@@ -6790,19 +8745,19 @@ var app = (function () {
     			t4 = space();
     			if (if_block) if_block.c();
     			if_block_anchor = empty();
-    			add_location(h4, file$9, 52, 0, 1030);
+    			add_location(h4, file$9, 72, 0, 1492);
     			attr_dev(div0, "class", "col-6");
-    			add_location(div0, file$9, 51, 0, 1010);
+    			add_location(div0, file$9, 71, 0, 1472);
     			attr_dev(button, "class", "btn btn-dark btn-add");
-    			add_location(button, file$9, 55, 0, 1092);
+    			add_location(button, file$9, 75, 0, 1554);
     			attr_dev(div1, "class", "col-6 text-right");
-    			add_location(div1, file$9, 54, 0, 1061);
+    			add_location(div1, file$9, 74, 0, 1523);
     			attr_dev(div2, "class", "row topnav");
-    			add_location(div2, file$9, 50, 0, 985);
+    			add_location(div2, file$9, 70, 0, 1447);
     			attr_dev(ul, "class", "list-group entries-list");
-    			add_location(ul, file$9, 62, 0, 1220);
+    			add_location(ul, file$9, 82, 0, 1682);
     			attr_dev(div3, "class", "content");
-    			add_location(div3, file$9, 59, 0, 1196);
+    			add_location(div3, file$9, 79, 0, 1658);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -6828,36 +8783,29 @@ var app = (function () {
     			insert_dev(target, if_block_anchor, anchor);
 
     			if (!mounted) {
-    				dispose = listen_dev(button, "click", /*click_handler*/ ctx[9], false, false, false);
+    				dispose = [
+    					listen_dev(button, "click", /*click_handler*/ ctx[10], false, false, false),
+    					action_destroyer(dndzone_action = dndzone$2.call(null, ul, { items: /*items*/ ctx[1], flipDurationMs: flipDurationMs$1 })),
+    					listen_dev(ul, "consider", /*handleDndConsider*/ ctx[4], false, false, false),
+    					listen_dev(ul, "finalize", /*handleDndFinalize*/ ctx[5], false, false, false)
+    				];
+
     				mounted = true;
     			}
     		},
     		p: function update(ctx, [dirty]) {
     			if (dirty & /*curCat*/ 4 && t0_value !== (t0_value = /*curCat*/ ctx[2].title + "")) set_data_dev(t0, t0_value);
 
-    			if (dirty & /*deleteItem, items, moveItemDown*/ 98) {
+    			if (dirty & /*deleteItem, items*/ 130) {
     				each_value_1 = /*items*/ ctx[1];
     				validate_each_argument(each_value_1);
-    				let i;
-
-    				for (i = 0; i < each_value_1.length; i += 1) {
-    					const child_ctx = get_each_context_1$1(ctx, each_value_1, i);
-
-    					if (each_blocks[i]) {
-    						each_blocks[i].p(child_ctx, dirty);
-    					} else {
-    						each_blocks[i] = create_each_block_1$1(child_ctx);
-    						each_blocks[i].c();
-    						each_blocks[i].m(ul, null);
-    					}
-    				}
-
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
-    				}
-
-    				each_blocks.length = each_value_1.length;
+    				for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].r();
+    				validate_each_keys(ctx, each_value_1, get_each_context_1$1, get_key);
+    				each_blocks = update_keyed_each(each_blocks, dirty, get_key, 1, ctx, each_value_1, each_1_lookup, ul, fix_and_destroy_block, create_each_block_1$1, null, get_each_context_1$1);
+    				for (let i = 0; i < each_blocks.length; i += 1) each_blocks[i].a();
     			}
+
+    			if (dndzone_action && is_function(dndzone_action.update) && dirty & /*items*/ 2) dndzone_action.update.call(null, { items: /*items*/ ctx[1], flipDurationMs: flipDurationMs$1 });
 
     			if (/*addPost*/ ctx[3]) {
     				if (if_block) {
@@ -6878,12 +8826,16 @@ var app = (function () {
     			if (detaching) detach_dev(div2);
     			if (detaching) detach_dev(t3);
     			if (detaching) detach_dev(div3);
-    			destroy_each(each_blocks, detaching);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				each_blocks[i].d();
+    			}
+
     			if (detaching) detach_dev(t4);
     			if (if_block) if_block.d(detaching);
     			if (detaching) detach_dev(if_block_anchor);
     			mounted = false;
-    			dispose();
+    			run_all(dispose);
     		}
     	};
 
@@ -6898,6 +8850,8 @@ var app = (function () {
     	return block;
     }
 
+    const flipDurationMs$1 = 300;
+
     function instance$a($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots("Posts", slots, []);
@@ -6907,6 +8861,15 @@ var app = (function () {
     	let items = false;
     	let curCat = false;
     	let addPost = false;
+
+    	function handleDndConsider(e) {
+    		$$invalidate(1, items = e.detail.items);
+    	}
+
+    	function handleDndFinalize(e) {
+    		$$invalidate(1, items = e.detail.items);
+    		$$invalidate(0, data.posts = items, data);
+    	}
 
     	function addItem(type) {
     		let newItem = {};
@@ -6928,15 +8891,6 @@ var app = (function () {
     		}
     	}
 
-    	function moveItemDown(id) {
-    		let fromIndex = data[cat].findIndex(x => x.id == id);
-    		let toIndex = fromIndex + 1;
-    		var element = data[cat][fromIndex];
-    		data.posts.splice(fromIndex, 1);
-    		data.posts.splice(toIndex, 0, element);
-    		$$invalidate(0, data);
-    	}
-
     	const writable_props = ["params", "data"];
 
     	Object.keys($$props).forEach(key => {
@@ -6944,32 +8898,35 @@ var app = (function () {
     	});
 
     	const click_handler = () => $$invalidate(3, addPost = true);
-    	const click_handler_1 = item => moveItemDown(item.id);
-    	const click_handler_2 = item => deleteItem(item.id);
-    	const click_handler_3 = () => $$invalidate(3, addPost = false);
-    	const click_handler_4 = item => addItem(item.slug);
+    	const click_handler_1 = item => deleteItem(item.id);
+    	const click_handler_2 = () => $$invalidate(3, addPost = false);
+    	const click_handler_3 = item => addItem(item.slug);
 
     	$$self.$$set = $$props => {
-    		if ("params" in $$props) $$invalidate(7, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(8, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
     	};
 
     	$$self.$capture_state = () => ({
+    		flip,
+    		dndzone: dndzone$2,
     		params,
     		data,
     		cat,
     		items,
     		curCat,
     		addPost,
+    		flipDurationMs: flipDurationMs$1,
+    		handleDndConsider,
+    		handleDndFinalize,
     		addItem,
-    		deleteItem,
-    		moveItemDown
+    		deleteItem
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ("params" in $$props) $$invalidate(7, params = $$props.params);
+    		if ("params" in $$props) $$invalidate(8, params = $$props.params);
     		if ("data" in $$props) $$invalidate(0, data = $$props.data);
-    		if ("cat" in $$props) $$invalidate(8, cat = $$props.cat);
+    		if ("cat" in $$props) $$invalidate(9, cat = $$props.cat);
     		if ("items" in $$props) $$invalidate(1, items = $$props.items);
     		if ("curCat" in $$props) $$invalidate(2, curCat = $$props.curCat);
     		if ("addPost" in $$props) $$invalidate(3, addPost = $$props.addPost);
@@ -6980,9 +8937,9 @@ var app = (function () {
     	}
 
     	$$self.$$.update = () => {
-    		if ($$self.$$.dirty & /*params, data, cat*/ 385) {
+    		if ($$self.$$.dirty & /*params, data, cat*/ 769) {
     			 if (params.cat) {
-    				$$invalidate(8, cat = params.cat);
+    				$$invalidate(9, cat = params.cat);
     				$$invalidate(2, curCat = data.categories.filter(x => x.slug == cat)[0]);
     				$$invalidate(1, items = data.posts.filter(x => x.category == cat));
     			}
@@ -6994,23 +8951,23 @@ var app = (function () {
     		items,
     		curCat,
     		addPost,
+    		handleDndConsider,
+    		handleDndFinalize,
     		addItem,
     		deleteItem,
-    		moveItemDown,
     		params,
     		cat,
     		click_handler,
     		click_handler_1,
     		click_handler_2,
-    		click_handler_3,
-    		click_handler_4
+    		click_handler_3
     	];
     }
 
     class Posts extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$a, create_fragment$a, safe_not_equal, { params: 7, data: 0 });
+    		init(this, options, instance$a, create_fragment$a, safe_not_equal, { params: 8, data: 0 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -7022,7 +8979,7 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*params*/ ctx[7] === undefined && !("params" in props)) {
+    		if (/*params*/ ctx[8] === undefined && !("params" in props)) {
     			console.warn("<Posts> was created without expected prop 'params'");
     		}
 

@@ -1,14 +1,10 @@
 <script>
-export let params;
 export let data;
 let cat = false;
 let items = false;
 let addType = false;
 let error = false;
 let coll_title = false;
-
-
-
 
 function deleteItem(id){
   let result = confirm("Are you sure you want to delete this item?");

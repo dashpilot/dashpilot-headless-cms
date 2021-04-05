@@ -221,6 +221,10 @@ i.bi{
 	cursor: pointer;
 }
 
+.movable-item{
+	background-color: #fcf8e3;
+}
+
 @media only screen and (max-width: 767px) {
 	.content{
 		padding: 0;

@@ -1,4 +1,7 @@
 <script>
+import {flip} from "svelte/animate";
+import {dndzone} from "svelte-dnd-action";
+
 export let params;
 export let data;
 let cat = false;
@@ -11,6 +14,16 @@ $: if (params.cat) {
   cat = params.cat;
   curCat = data.categories.filter(x => x.slug == cat)[0];
   items = data.posts.filter(x => x.category == cat);
+}
+
+const flipDurationMs = 300;
+
+function handleDndConsider(e) {
+  items = e.detail.items;
+}
+function handleDndFinalize(e) {
+  items = e.detail.items;
+  data.posts = items;
 }
 
 function addItem(type){
@@ -35,16 +48,23 @@ function deleteItem(id){
   }
 }
 
+/*
 function moveItemDown(id) {
 
-    let fromIndex = data[cat].findIndex(x => x.id == id);
+    document.querySelectorAll('.movable-item').forEach(function(e){
+      e.classList.remove('movable-item');
+    })
+    document.querySelector('#item-'+id).nextSibling.classList.add('movable-item');
+
+    let fromIndex = data.posts.findIndex(x => x.id == id);
     let toIndex = fromIndex + 1;
-    var element = data[cat][fromIndex];
+    var element = data.posts[fromIndex];
     data.posts.splice(fromIndex, 1);
     data.posts.splice(toIndex, 0, element);
     data = data
 
 }
+*/
 
 </script>
 
@@ -60,9 +80,9 @@ function moveItemDown(id) {
 <div class="content">
 
 
-<ul class="list-group entries-list">
-{#each items as item}
-  <li class="list-group-item">
+<ul class="list-group entries-list" use:dndzone="{{items, flipDurationMs}}" on:consider="{handleDndConsider}" on:finalize="{handleDndFinalize}">
+{#each items as item(item.id)}
+  <li class="list-group-item" animate:flip="{{duration: flipDurationMs}}">
   <div class="row">
   <div class="col-6 text-truncate d-flex align-items-center">
 
@@ -71,8 +91,7 @@ function moveItemDown(id) {
   </div>
   <div class="col-6 text-right">
 
-<div class="btn-group">
-  <button class="btn btn-outline-secondary w-50" on:click="{() => moveItemDown(item.id)}"><i class="bi bi-caret-down"></i></button>
+  <div class="btn-group">
   <button class="btn btn-outline-secondary w-50" on:click="{() => deleteItem(item.id)}"><i class="bi bi-trash"></i></button>
   </div>
 
