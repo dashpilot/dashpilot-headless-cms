@@ -1,5 +1,5 @@
 {
-  "entries": [{
+  "posts": [{
     "id": "1",
     "title": "Hello World",
     "body": "Lorem ipsum dolor site amet",
@@ -15,15 +15,10 @@
     "body": "Lorem ipsum dolor site amet",
     "category": "home"
   }],
-  "something_else": [{
-    "id": "1",
-    "title": "Hello World",
-    "body": "Lorem ipsum dolor site amet"
-  }],
   "collections": [{
     "id": "1",
-    "title": "Entries",
-    "slug": "entries",
+    "title": "posts",
+    "slug": "posts",
     "fields": [{
       "title": "body",
       "description": "This editor uses Markdown",
@@ -39,8 +34,8 @@
     }]
   }, {
     "id": "2",
-    "title": "Something Else",
-    "slug": "something_else",
+    "title": "News",
+    "slug": "news",
     "fields": [{
       "title": "body",
       "description": "",

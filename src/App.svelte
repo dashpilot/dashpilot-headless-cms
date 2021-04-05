@@ -17,6 +17,7 @@ import List from './routes/List.svelte'
 import Edit from './routes/Edit.svelte'
 import EditCollection from './routes/EditCollection.svelte'
 import Categories from './routes/Categories.svelte'
+import Posts from './routes/Posts.svelte'
 import Settings from './routes/Settings.svelte'
 import NotFound from './routes/NotFound.svelte'
 
@@ -43,6 +44,13 @@ onMount(async () => {
 
 						'/list/:cat': wrap({
 								component: List,
+								props: {
+										data:data
+								}
+						}),
+
+						'/posts/:cat': wrap({
+								component: Posts,
 								props: {
 										data:data
 								}
@@ -115,23 +123,28 @@ window.renderData = function(mydata){
 <a href="/#/" class:selected="{current === false}" on:click="{() => current = false}"><img src="assets/img/rocketlogo.png" id="logo" /></a>
 
 <div class="side-nav">
+
+
 <h5>Content</h5>
 <div id="collections-nav">
-	{#each data.collections as item}
 
-	<a href="/#/list/{item.slug}" class:selected="{current === item.title}"
-	on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
+{#each data.categories as item}
 
-	{/each}
+<a href="/#/posts/{item.slug}" class:selected="{current === item.title}"
+on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
+
+{/each}
+
+
 </div>
 
 <h5>Manage</h5>
 
-
+<a href="/#/categories" class:selected="{current === 'categories'}"
+on:click="{() => current = 'categories'}">Categories</a>
 	<a href="/#/list/collections" class:selected="{current === 'collections'}"
 	on:click="{() => current = 'collections'}">Collections</a>
-	<a href="/#/categories" class:selected="{current === 'categories'}"
-	on:click="{() => current = 'categories'}">Categories</a>
+
 	<a href="/#/settings" class:selected="{current === 'settings'}"
 	on:click="{() => current = 'settings'}">settings</a>
 <br><br>
@@ -151,10 +164,4 @@ window.renderData = function(mydata){
 </div>
 </div>
 
-{:else}
- <div id="log-in-screen">
- 		<img src="assets/img/rocket-planet.png" />
- 		<button id="google-signin" onclick="login('google');" class="btn btn-outline-dark w-100 btn-signin"><i class="bi bi-google"></i> Sign In with Google</button>
-		<button id="twitter-signin" onclick="login('twitter');" class="btn btn-outline-dark w-100 mt-2 btn-signin"><i class="bi bi-twitter"></i> Sign In with Twitter</button>
- </div>
 {/if}
