@@ -96,14 +96,14 @@ function slugifyTitle()
 </div>
 <div class="col-md-4">
 
-
+{#if cat !== 'categories'}
 <b>Category</b>
 <select bind:value="{data[cat][index].category}" class="form-control w-100">
 {#each data.categories as cat}
 <option value="{cat.slug}">{cat.title}</option>
 {/each}
 </select>
-
+{/if}
 
 </div>
 </div>
