@@ -3,7 +3,12 @@ import { onMount } from 'svelte';
 export let key;
 export let html;
 
+if(typeof html === 'undefined'){
+  html = '';
+}
+
 onMount(async () => {
+
 
   const config = {
     classes: ['rich-text-editor'],

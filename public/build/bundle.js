@@ -2837,7 +2837,7 @@ var app = (function () {
     			attr_dev(textarea, "class", "form-control rich-text-editor");
     			attr_dev(textarea, "id", textarea_id_value = "rte-" + /*key*/ ctx[1]);
     			textarea.value = /*html*/ ctx[0];
-    			add_location(textarea, file$3, 42, 0, 1013);
+    			add_location(textarea, file$3, 47, 0, 1063);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2881,6 +2881,10 @@ var app = (function () {
     	validate_slots("TextEditor", slots, []);
     	let { key } = $$props;
     	let { html } = $$props;
+
+    	if (typeof html === "undefined") {
+    		html = "";
+    	}
 
     	onMount(async () => {
     		const config = {
@@ -5487,12 +5491,11 @@ var app = (function () {
     	let option2;
     	let option3;
     	let option4;
-    	let option5;
-    	let t8;
+    	let t7;
     	let div3;
     	let button;
     	let i_1;
-    	let t9;
+    	let t8;
     	let mounted;
     	let dispose;
 
@@ -5538,13 +5541,11 @@ var app = (function () {
     			option3.textContent = "Rich Text Editor";
     			option4 = element("option");
     			option4.textContent = "Gallery";
-    			option5 = element("option");
-    			option5.textContent = "Category chooser";
-    			t8 = space();
+    			t7 = space();
     			div3 = element("div");
     			button = element("button");
     			i_1 = element("i");
-    			t9 = space();
+    			t8 = space();
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "class", "form-control mb-0");
     			attr_dev(input0, "placeholder", "field name");
@@ -5572,20 +5573,17 @@ var app = (function () {
     			option4.__value = "gal";
     			option4.value = option4.__value;
     			add_location(option4, file$7, 121, 6, 3414);
-    			option5.__value = "cat";
-    			option5.value = option5.__value;
-    			add_location(option5, file$7, 122, 6, 3457);
     			attr_dev(select, "class", "form-control mb-0");
     			if (/*field*/ ctx[19].type === void 0) add_render_callback(select_change_handler);
     			add_location(select, file$7, 116, 6, 3159);
     			attr_dev(div2, "class", "col-3");
     			add_location(div2, file$7, 115, 6, 3133);
     			attr_dev(i_1, "class", "bi bi-trash");
-    			add_location(i_1, file$7, 128, 6, 3669);
+    			add_location(i_1, file$7, 127, 6, 3617);
     			attr_dev(button, "class", "btn btn-outline-secondary");
-    			add_location(button, file$7, 127, 6, 3576);
+    			add_location(button, file$7, 126, 6, 3524);
     			attr_dev(div3, "class", "col-2 text-right");
-    			add_location(div3, file$7, 126, 6, 3539);
+    			add_location(div3, file$7, 125, 6, 3487);
     			attr_dev(div4, "class", "row");
     			add_location(div4, file$7, 112, 6, 2783);
     			attr_dev(li, "class", "list-group-item");
@@ -5609,13 +5607,12 @@ var app = (function () {
     			append_dev(select, option2);
     			append_dev(select, option3);
     			append_dev(select, option4);
-    			append_dev(select, option5);
     			select_option(select, /*field*/ ctx[19].type);
-    			append_dev(div4, t8);
+    			append_dev(div4, t7);
     			append_dev(div4, div3);
     			append_dev(div3, button);
     			append_dev(button, i_1);
-    			append_dev(li, t9);
+    			append_dev(li, t8);
 
     			if (!mounted) {
     				dispose = [

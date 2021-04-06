@@ -120,7 +120,6 @@ function slugifyFieldTitle(i)
       <option value="mde">Markdown Editor</option>
       <option value="rte">Rich Text Editor</option>
       <option value="gal">Gallery</option>
-      <option value="cat">Category chooser</option>
       </select>
 
       </div>
