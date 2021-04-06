@@ -14,8 +14,6 @@ $: if (params.id) {
   id = params.id;
   item = data.types.filter(x => x.id == id)[0];
   index = data.types.findIndex(x => x.id == id);
-  //collection = data.collections.filter(x => x.title == cat)[0];
-  //title = data.collections[index].title;
 }
 
 function save(){

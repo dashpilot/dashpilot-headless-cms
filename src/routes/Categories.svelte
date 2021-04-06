@@ -1,6 +1,7 @@
 <script>
 import {flip} from "svelte/animate";
 import {dndzone} from "svelte-dnd-action";
+import {slugify} from "./Helpers.svelte";
 
 export let data;
 let cat = false;
@@ -41,18 +42,6 @@ function saveCat(){
     items = data.categories;
     console.log(data.categories);
     addCat = false;
-}
-
-function slugify(text)
-{
-
-  let slug = text.toString().toLowerCase()
-    .replace(/\s+/g, '-')           // Replace spaces with -
-    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-    .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
-  return slug;
 }
 </script>
 

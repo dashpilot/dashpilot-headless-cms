@@ -1,4 +1,5 @@
 <script>
+import {slugify} from "./Helpers.svelte";
 export let data;
 let cat = false;
 let items = false;
@@ -28,7 +29,7 @@ function moveItemDown(id) {
 function saveCollection(){
 
   let val = document.querySelector('#coll-title').value;
-  let slug = slugifyTitle();
+  let slug = slugify(val);
 
   if(val.length<3){
     error = "Name should be at least 3 characters long"
@@ -41,25 +42,11 @@ function saveCollection(){
     newItem.slug = slug;
     newItem.fields = [];
     data.types.push(newItem);
-    data[val] = [];
     window.renderData(data);
     window.location = "/#/type/"+newItem.id;
   }
 }
 
-function slugifyTitle()
-{
-  let collTitle = document.querySelector('#coll-title');
-  let val = collTitle.value;
-  let slug = val.toString().toLowerCase()
-    .replace(/\s+/g, '_')           // Replace spaces with -
-    .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-    .replace(/\-\-+/g, '_')         // Replace multiple - with single -
-    .replace(/^-+/, '')             // Trim - from start of text
-    .replace(/-+$/, '');            // Trim - from end of text
-  collTitle.value = slug;
-  return slug;
-}
 </script>
 
 <div class="row topnav">
@@ -75,8 +62,6 @@ function slugifyTitle()
 </div>
 
 <div class="content">
-
-
 
 <ul class="list-group entries-list">
 {#each data.types as item}
