@@ -20,8 +20,8 @@ function handleDndFinalize(e) {
   renderData(data) // force re-render
 }
 
-function deleteItem(id){
-  let result = confirm("Are you sure you want to delete this category?");
+function deleteItem(what, id){
+  let result = confirm("Are you sure you want to delete this item?");
   if(result){
     data.categories = data.categories.filter(x => x.id !== id)
     data = data;
@@ -66,9 +66,11 @@ function saveCat(){
 
   </div>
   <div class="col-6 text-right">
+  {#if item.slug !== 'home'}
   <div class="btn-group">
   <button class="btn btn-outline-secondary" on:click="{() => deleteItem(item.id)}"><i class="bi bi-trash"></i></button>
   </div>
+  {/if}
   </div>
   </div>
   </li>

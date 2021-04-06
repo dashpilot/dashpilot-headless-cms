@@ -43,6 +43,7 @@ function save(){
   opts.type = 'json';
   opts.data = data;
   call_api('api/save', opts).then(function(res) {
+    window.renderData(data)
     if (res.ok) {
       console.log('Saved');
       loading = false;
@@ -75,6 +76,7 @@ function slugifyTitle()
 {#if collection}
 
 
+
 <div class="row topnav">
 <div class="col-6">
 <h4>Edit {title}</h4>
@@ -84,8 +86,15 @@ function slugifyTitle()
 </div>
 </div>
 
+
 <div class="content">
 
+
+{#if cat=='categories'}
+<b>Title</b>
+<input type="text" class="form-control" bind:value="{data[cat][index].title}" />
+
+{:else}
 
 <div class="row">
 <div class="col-md-8">
@@ -107,6 +116,8 @@ function slugifyTitle()
 
 </div>
 </div>
+
+{/if}
 
   {#each collection.fields as field}
 

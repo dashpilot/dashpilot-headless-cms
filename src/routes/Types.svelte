@@ -15,18 +15,7 @@ function deleteItem(id){
   }
 }
 
-function moveItemDown(id) {
-
-    let fromIndex = data[cat].findIndex(x => x.id == id);
-    let toIndex = fromIndex + 1;
-    var element = data[cat][fromIndex];
-    data[cat].splice(fromIndex, 1);
-    data[cat].splice(toIndex, 0, element);
-    data = data
-
-}
-
-function saveCollection(){
+function saveType(){
 
   let val = document.querySelector('#coll-title').value;
   let slug = slugify(val);
@@ -106,7 +95,7 @@ function saveCollection(){
           <div class="description-sub"></div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" on:click="{saveCollection}">Add Post Type</button>
+        <button type="button" class="btn btn-primary" on:click="{saveType}">Add Post Type</button>
       </div>
     </div>
   </div>
