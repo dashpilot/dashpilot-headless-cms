@@ -56,9 +56,9 @@
   }],
   "settings": {
     "website_title": "My Website",
+    "live_url": "",
     "image_width": "800",
-    "webhook": "",
-    "live_url": ""
+    "webhook": ""
   },
   "permissions": {
     "categories": true,
