@@ -96,7 +96,7 @@ function deleteImage(key, i){
   uploading = true;
 
     let opts = {};
-    opts.filename = item[key][i].filename;
+    opts.path = item[key][i].filename;
     call_api('api/delete', opts).then(function(res) {
       if (res.ok) {
         console.log('Deleted');
