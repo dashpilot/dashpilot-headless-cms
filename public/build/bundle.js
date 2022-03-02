@@ -3379,7 +3379,7 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			div.textContent = "Live URL not configured";
-    			attr_dev(div, "class", "p-2");
+    			attr_dev(div, "class", "p-1");
     			add_location(div, file$6, 187, 2, 4651);
     		},
     		m: function mount(target, anchor) {
@@ -3464,7 +3464,7 @@ var app = (function () {
     		c: function create() {
     			div = element("div");
     			div.textContent = "Generating thumbnails...";
-    			attr_dev(div, "class", "p-2");
+    			attr_dev(div, "class", "p-1");
     			add_location(div, file$6, 183, 4, 4584);
     		},
     		m: function mount(target, anchor) {
