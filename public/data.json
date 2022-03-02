@@ -57,7 +57,8 @@
   "settings": {
     "website_title": "My Website",
     "image_width": "800",
-    "webhook": ""
+    "webhook": "",
+    "live_url": ""
   },
   "permissions": {
     "categories": true,

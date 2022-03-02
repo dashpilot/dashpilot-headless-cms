@@ -3,6 +3,7 @@ import { onMount } from 'svelte';
 
 export let key;
 export let item;
+export let settings;
 
 let uploading = false;
 if(!item[key]){
@@ -16,8 +17,8 @@ onMount(async () => {
 
     uploading = true;
 
-    if(typeof config.imgWidth !== 'undefined'){
-      var width = config.imgWidth;
+    if(typeof settings.image_width !== 'undefined'){
+      var width = settings.image_width;
     }else{
       var width = 800;
     }
@@ -162,7 +163,7 @@ function moveDown(key, index) {
 <li class="list-group-item">
 
 <div class="row">
-  <div class="col-md-1"><div class="box" style="background-image: url({config.live_url+img.filename});"></div></div>
+  <div class="col-md-1"><div class="box" style="background-image: url({settings.live_url+img.filename});"></div></div>
   <div class="col-md-5">{#if window.config.imgTitle}<input type="text" class="form-control" bind:value="{item[key][i].title}" placeholder="{window.config.imgTitle}" />{/if}</div>
   <div class="col-md-6">
 
