@@ -3374,16 +3374,24 @@ var app = (function () {
     // (187:0) {:else}
     function create_else_block_1(ctx) {
     	let div;
+    	let a;
+    	let t1;
 
     	const block = {
     		c: function create() {
     			div = element("div");
-    			div.textContent = "Live URL not configured";
+    			a = element("a");
+    			a.textContent = "Live URL";
+    			t1 = text(" not configured");
+    			attr_dev(a, "href", "/#/settings");
+    			add_location(a, file$6, 187, 19, 4668);
     			attr_dev(div, "class", "p-1");
     			add_location(div, file$6, 187, 2, 4651);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
+    			append_dev(div, a);
+    			append_dev(div, t1);
     		},
     		p: noop,
     		d: function destroy(detaching) {
@@ -3538,7 +3546,7 @@ var app = (function () {
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
     			attr_dev(input, "placeholder", window.config.imgTitle);
-    			add_location(input, file$6, 191, 52, 4766);
+    			add_location(input, file$6, 191, 52, 4792);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -3637,37 +3645,37 @@ var app = (function () {
     			attr_dev(div0, "class", "col-md-4");
     			add_location(div0, file$6, 176, 2, 4376);
     			attr_dev(div1, "class", "col-md-4");
-    			add_location(div1, file$6, 191, 2, 4716);
+    			add_location(div1, file$6, 191, 2, 4742);
     			attr_dev(path0, "fill-rule", "evenodd");
     			attr_dev(path0, "d", "M3.204 5L8 10.481 12.796 5H3.204zm-.753.659l4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z");
-    			add_location(path0, file$6, 198, 2, 5168);
+    			add_location(path0, file$6, 198, 2, 5194);
     			attr_dev(svg0, "width", "1em");
     			attr_dev(svg0, "height", "1em");
     			attr_dev(svg0, "viewBox", "0 0 16 16");
     			attr_dev(svg0, "class", "bi bi-caret-down svelte-ydwqzg");
     			attr_dev(svg0, "fill", "currentColor");
     			attr_dev(svg0, "xmlns", "http://www.w3.org/2000/svg");
-    			add_location(svg0, file$6, 197, 0, 5035);
+    			add_location(svg0, file$6, 197, 0, 5061);
     			attr_dev(button0, "class", "btn btn-outline-secondary svelte-ydwqzg");
-    			add_location(button0, file$6, 196, 0, 4956);
+    			add_location(button0, file$6, 196, 0, 4982);
     			attr_dev(path1, "d", "M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z");
-    			add_location(path1, file$6, 205, 4, 5578);
+    			add_location(path1, file$6, 205, 4, 5604);
     			attr_dev(path2, "fill-rule", "evenodd");
     			attr_dev(path2, "d", "M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z");
-    			add_location(path2, file$6, 206, 4, 5754);
+    			add_location(path2, file$6, 206, 4, 5780);
     			attr_dev(svg1, "width", "1em");
     			attr_dev(svg1, "height", "1em");
     			attr_dev(svg1, "viewBox", "0 0 16 16");
     			attr_dev(svg1, "class", "bi bi-trash svelte-ydwqzg");
     			attr_dev(svg1, "fill", "currentColor");
     			attr_dev(svg1, "xmlns", "http://www.w3.org/2000/svg");
-    			add_location(svg1, file$6, 204, 2, 5448);
+    			add_location(svg1, file$6, 204, 2, 5474);
     			attr_dev(button1, "class", "btn btn-outline-secondary svelte-ydwqzg");
-    			add_location(button1, file$6, 203, 2, 5364);
+    			add_location(button1, file$6, 203, 2, 5390);
     			attr_dev(div2, "class", "btn-group float-right");
-    			add_location(div2, file$6, 194, 0, 4919);
+    			add_location(div2, file$6, 194, 0, 4945);
     			attr_dev(div3, "class", "col-md-4");
-    			add_location(div3, file$6, 192, 2, 4895);
+    			add_location(div3, file$6, 192, 2, 4921);
     			attr_dev(div4, "class", "row svelte-ydwqzg");
     			add_location(div4, file$6, 175, 0, 4356);
     			attr_dev(li, "class", "list-group-item svelte-ydwqzg");
@@ -3779,7 +3787,7 @@ var app = (function () {
     			add_location(input, file$6, 152, 0, 3360);
     			attr_dev(button, "class", "btn btn-outline-secondary w-25 mb-3 svelte-ydwqzg");
     			add_location(button, file$6, 153, 0, 3450);
-    			add_location(br, file$6, 220, 0, 6095);
+    			add_location(br, file$6, 220, 0, 6121);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");

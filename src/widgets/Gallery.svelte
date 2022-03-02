@@ -185,7 +185,7 @@ function imageExists(image_url){
   {/if}
 
 {:else}
-  <div class="p-1">Live URL not configured</div>
+  <div class="p-1"><a href="/#/settings">Live URL</a> not configured</div>
 {/if}
 
   </div>
