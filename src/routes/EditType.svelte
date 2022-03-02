@@ -22,7 +22,7 @@ function save(){
   let opts = {};
   opts.path = 'data.json';
   opts.type = 'json';
-  opts.content = data;
+  opts.data = data;
   call_api('api/save', opts).then(function(res) {
     if (res.ok) {
       console.log('Saved');
