@@ -181,11 +181,11 @@ function imageExists(image_url){
   {#if imageExists(settings.live_url+img.filename)}
     <div class="box" style="background-image: url({settings.live_url+img.filename});"></div>
   {:else}
-    Generating thumbnails...
+    <div class="p-2">Generating thumbnails...</div>
   {/if}
 
 {:else}
-  Live URL not configured
+  <div class="p-2">Live URL not configured</div>
 {/if}
 
   </div>
