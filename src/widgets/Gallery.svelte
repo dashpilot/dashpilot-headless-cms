@@ -162,7 +162,7 @@ function moveDown(key, index) {
 <li class="list-group-item">
 
 <div class="row">
-  <div class="col-md-1"><div class="box" style="background-image: url({img.filename});"></div></div>
+  <div class="col-md-1"><div class="box" style="background-image: url({config.live_url+img.filename});"></div></div>
   <div class="col-md-5">{#if window.config.imgTitle}<input type="text" class="form-control" bind:value="{item[key][i].title}" placeholder="{window.config.imgTitle}" />{/if}</div>
   <div class="col-md-6">
 
