@@ -54,13 +54,13 @@ onMount(async () => {
 
       console.log(base64Image);
       let opts = {};
-      opts.filename = 'img/'+Date.now()+".jpg";
+      opts.path = 'img/'+Date.now()+".jpg";
       opts.type = 'img';
       opts.data = base64Image;
       call_api('api/save', opts).then(function(res) {
         if (res.ok) {
           console.log('Saved');
-          let newItem = {'filename': res.filename};
+          let newItem = {'filename': res.path};
           item[key].push(newItem);
           item = item;
           uploading = false;
