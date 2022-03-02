@@ -3223,8 +3223,8 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (148:0) {:else}
-    function create_else_block$2(ctx) {
+    // (159:0) {:else}
+    function create_else_block_2(ctx) {
     	let svg;
     	let path0;
     	let path1;
@@ -3236,17 +3236,17 @@ var app = (function () {
     			path1 = svg_element("path");
     			attr_dev(path0, "fill-rule", "evenodd");
     			attr_dev(path0, "d", "M12.002 4h-10a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1zm-10-1a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-10zm4 4.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z");
-    			add_location(path0, file$6, 149, 2, 3616);
+    			add_location(path0, file$6, 160, 2, 3782);
     			attr_dev(path1, "fill-rule", "evenodd");
     			attr_dev(path1, "d", "M4 2h10a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1v1a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2h1a1 1 0 0 1 1-1z");
-    			add_location(path1, file$6, 150, 2, 3900);
+    			add_location(path1, file$6, 161, 2, 4066);
     			attr_dev(svg, "width", "1em");
     			attr_dev(svg, "height", "1em");
     			attr_dev(svg, "viewBox", "0 0 16 16");
     			attr_dev(svg, "class", "bi bi-images svelte-ydwqzg");
     			attr_dev(svg, "fill", "currentColor");
     			attr_dev(svg, "xmlns", "http://www.w3.org/2000/svg");
-    			add_location(svg, file$6, 148, 0, 3487);
+    			add_location(svg, file$6, 159, 0, 3653);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, svg, anchor);
@@ -3260,17 +3260,17 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_else_block$2.name,
+    		id: create_else_block_2.name,
     		type: "else",
-    		source: "(148:0) {:else}",
+    		source: "(159:0) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (146:0) {#if uploading}
-    function create_if_block_2$2(ctx) {
+    // (157:0) {#if uploading}
+    function create_if_block_4$2(ctx) {
     	let span;
 
     	const block = {
@@ -3279,7 +3279,7 @@ var app = (function () {
     			attr_dev(span, "class", "spinner-border spinner-border-sm");
     			attr_dev(span, "role", "status");
     			attr_dev(span, "aria-hidden", "true");
-    			add_location(span, file$6, 146, 0, 3391);
+    			add_location(span, file$6, 157, 0, 3557);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -3291,16 +3291,16 @@ var app = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_if_block_2$2.name,
+    		id: create_if_block_4$2.name,
     		type: "if",
-    		source: "(146:0) {#if uploading}",
+    		source: "(157:0) {#if uploading}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (157:0) {#if item[key].length > 0}
+    // (168:0) {#if item[key].length > 0}
     function create_if_block$6(ctx) {
     	let ul;
     	let each_value = /*item*/ ctx[0][/*key*/ ctx[1]];
@@ -3320,7 +3320,7 @@ var app = (function () {
     			}
 
     			attr_dev(ul, "class", "list-group");
-    			add_location(ul, file$6, 158, 0, 4106);
+    			add_location(ul, file$6, 169, 0, 4272);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, ul, anchor);
@@ -3330,7 +3330,7 @@ var app = (function () {
     			}
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*deleteImage, key, moveDown, window, item, settings*/ 55) {
+    			if (dirty & /*deleteImage, key, moveDown, window, item, settings, imageExists*/ 55) {
     				each_value = /*item*/ ctx[0][/*key*/ ctx[1]];
     				validate_each_argument(each_value);
     				let i;
@@ -3364,14 +3364,159 @@ var app = (function () {
     		block,
     		id: create_if_block$6.name,
     		type: "if",
-    		source: "(157:0) {#if item[key].length > 0}",
+    		source: "(168:0) {#if item[key].length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (167:24) {#if window.config.imgTitle}
+    // (187:0) {:else}
+    function create_else_block_1(ctx) {
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			t = text("Live URL not configured");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block_1.name,
+    		type: "else",
+    		source: "(187:0) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (179:0) {#if settings.live_url}
+    function create_if_block_2$2(ctx) {
+    	let show_if;
+    	let if_block_anchor;
+
+    	function select_block_type_2(ctx, dirty) {
+    		if (dirty & /*settings, item, key*/ 7) show_if = null;
+    		if (show_if == null) show_if = !!imageExists(/*settings*/ ctx[2].live_url + /*img*/ ctx[10].filename);
+    		if (show_if) return create_if_block_3$2;
+    		return create_else_block$2;
+    	}
+
+    	let current_block_type = select_block_type_2(ctx, -1);
+    	let if_block = current_block_type(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if_block.c();
+    			if_block_anchor = empty();
+    		},
+    		m: function mount(target, anchor) {
+    			if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (current_block_type === (current_block_type = select_block_type_2(ctx, dirty)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if_block.d(1);
+    				if_block = current_block_type(ctx);
+
+    				if (if_block) {
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_2$2.name,
+    		type: "if",
+    		source: "(179:0) {#if settings.live_url}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (183:2) {:else}
+    function create_else_block$2(ctx) {
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			t = text("Generating thumbnails...");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t, anchor);
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block$2.name,
+    		type: "else",
+    		source: "(183:2) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (181:2) {#if imageExists(settings.live_url+img.filename)}
+    function create_if_block_3$2(ctx) {
+    	let div;
+
+    	const block = {
+    		c: function create() {
+    			div = element("div");
+    			attr_dev(div, "class", "box svelte-ydwqzg");
+    			set_style(div, "background-image", "url(" + (/*settings*/ ctx[2].live_url + /*img*/ ctx[10].filename) + ")");
+    			add_location(div, file$6, 181, 4, 4481);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, div, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*settings, item, key*/ 7) {
+    				set_style(div, "background-image", "url(" + (/*settings*/ ctx[2].live_url + /*img*/ ctx[10].filename) + ")");
+    			}
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(div);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block_3$2.name,
+    		type: "if",
+    		source: "(181:2) {#if imageExists(settings.live_url+img.filename)}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (192:24) {#if window.config.imgTitle}
     function create_if_block_1$5(ctx) {
     	let input;
     	let mounted;
@@ -3387,7 +3532,7 @@ var app = (function () {
     			attr_dev(input, "type", "text");
     			attr_dev(input, "class", "form-control");
     			attr_dev(input, "placeholder", window.config.imgTitle);
-    			add_location(input, file$6, 166, 52, 4379);
+    			add_location(input, file$6, 191, 52, 4720);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, input, anchor);
@@ -3416,24 +3561,23 @@ var app = (function () {
     		block,
     		id: create_if_block_1$5.name,
     		type: "if",
-    		source: "(167:24) {#if window.config.imgTitle}",
+    		source: "(192:24) {#if window.config.imgTitle}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (161:0) {#each item[key] as img, i}
+    // (172:0) {#each item[key] as img, i}
     function create_each_block$6(ctx) {
     	let li;
-    	let div5;
-    	let div1;
+    	let div4;
     	let div0;
     	let t0;
-    	let div2;
+    	let div1;
     	let t1;
-    	let div4;
     	let div3;
+    	let div2;
     	let button0;
     	let svg0;
     	let path0;
@@ -3445,7 +3589,15 @@ var app = (function () {
     	let t3;
     	let mounted;
     	let dispose;
-    	let if_block = window.config.imgTitle && create_if_block_1$5(ctx);
+
+    	function select_block_type_1(ctx, dirty) {
+    		if (/*settings*/ ctx[2].live_url) return create_if_block_2$2;
+    		return create_else_block_1;
+    	}
+
+    	let current_block_type = select_block_type_1(ctx);
+    	let if_block0 = current_block_type(ctx);
+    	let if_block1 = window.config.imgTitle && create_if_block_1$5(ctx);
 
     	function click_handler_1() {
     		return /*click_handler_1*/ ctx[8](/*i*/ ctx[12]);
@@ -3458,15 +3610,15 @@ var app = (function () {
     	const block = {
     		c: function create() {
     			li = element("li");
-    			div5 = element("div");
-    			div1 = element("div");
-    			div0 = element("div");
-    			t0 = space();
-    			div2 = element("div");
-    			if (if_block) if_block.c();
-    			t1 = space();
     			div4 = element("div");
+    			div0 = element("div");
+    			if_block0.c();
+    			t0 = space();
+    			div1 = element("div");
+    			if (if_block1) if_block1.c();
+    			t1 = space();
     			div3 = element("div");
+    			div2 = element("div");
     			button0 = element("button");
     			svg0 = svg_element("svg");
     			path0 = svg_element("path");
@@ -3476,64 +3628,61 @@ var app = (function () {
     			path1 = svg_element("path");
     			path2 = svg_element("path");
     			t3 = space();
-    			attr_dev(div0, "class", "box svelte-ydwqzg");
-    			set_style(div0, "background-image", "url(" + (/*settings*/ ctx[2].live_url + /*img*/ ctx[10].filename) + ")");
-    			add_location(div0, file$6, 165, 24, 4232);
-    			attr_dev(div1, "class", "col-md-1");
-    			add_location(div1, file$6, 165, 2, 4210);
-    			attr_dev(div2, "class", "col-md-5");
-    			add_location(div2, file$6, 166, 2, 4329);
+    			attr_dev(div0, "class", "col-md-4");
+    			add_location(div0, file$6, 176, 2, 4376);
+    			attr_dev(div1, "class", "col-md-4");
+    			add_location(div1, file$6, 191, 2, 4670);
     			attr_dev(path0, "fill-rule", "evenodd");
     			attr_dev(path0, "d", "M3.204 5L8 10.481 12.796 5H3.204zm-.753.659l4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z");
-    			add_location(path0, file$6, 173, 2, 4781);
+    			add_location(path0, file$6, 198, 2, 5122);
     			attr_dev(svg0, "width", "1em");
     			attr_dev(svg0, "height", "1em");
     			attr_dev(svg0, "viewBox", "0 0 16 16");
     			attr_dev(svg0, "class", "bi bi-caret-down svelte-ydwqzg");
     			attr_dev(svg0, "fill", "currentColor");
     			attr_dev(svg0, "xmlns", "http://www.w3.org/2000/svg");
-    			add_location(svg0, file$6, 172, 0, 4648);
+    			add_location(svg0, file$6, 197, 0, 4989);
     			attr_dev(button0, "class", "btn btn-outline-secondary svelte-ydwqzg");
-    			add_location(button0, file$6, 171, 0, 4569);
+    			add_location(button0, file$6, 196, 0, 4910);
     			attr_dev(path1, "d", "M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z");
-    			add_location(path1, file$6, 180, 4, 5191);
+    			add_location(path1, file$6, 205, 4, 5532);
     			attr_dev(path2, "fill-rule", "evenodd");
     			attr_dev(path2, "d", "M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z");
-    			add_location(path2, file$6, 181, 4, 5367);
+    			add_location(path2, file$6, 206, 4, 5708);
     			attr_dev(svg1, "width", "1em");
     			attr_dev(svg1, "height", "1em");
     			attr_dev(svg1, "viewBox", "0 0 16 16");
     			attr_dev(svg1, "class", "bi bi-trash svelte-ydwqzg");
     			attr_dev(svg1, "fill", "currentColor");
     			attr_dev(svg1, "xmlns", "http://www.w3.org/2000/svg");
-    			add_location(svg1, file$6, 179, 2, 5061);
+    			add_location(svg1, file$6, 204, 2, 5402);
     			attr_dev(button1, "class", "btn btn-outline-secondary svelte-ydwqzg");
-    			add_location(button1, file$6, 178, 2, 4977);
-    			attr_dev(div3, "class", "btn-group float-right");
-    			add_location(div3, file$6, 169, 0, 4532);
-    			attr_dev(div4, "class", "col-md-6");
-    			add_location(div4, file$6, 167, 2, 4508);
-    			attr_dev(div5, "class", "row svelte-ydwqzg");
-    			add_location(div5, file$6, 164, 0, 4190);
+    			add_location(button1, file$6, 203, 2, 5318);
+    			attr_dev(div2, "class", "btn-group float-right");
+    			add_location(div2, file$6, 194, 0, 4873);
+    			attr_dev(div3, "class", "col-md-4");
+    			add_location(div3, file$6, 192, 2, 4849);
+    			attr_dev(div4, "class", "row svelte-ydwqzg");
+    			add_location(div4, file$6, 175, 0, 4356);
     			attr_dev(li, "class", "list-group-item svelte-ydwqzg");
-    			add_location(li, file$6, 162, 0, 4160);
+    			add_location(li, file$6, 173, 0, 4326);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, li, anchor);
-    			append_dev(li, div5);
-    			append_dev(div5, div1);
-    			append_dev(div1, div0);
-    			append_dev(div5, t0);
-    			append_dev(div5, div2);
-    			if (if_block) if_block.m(div2, null);
-    			append_dev(div5, t1);
-    			append_dev(div5, div4);
+    			append_dev(li, div4);
+    			append_dev(div4, div0);
+    			if_block0.m(div0, null);
+    			append_dev(div4, t0);
+    			append_dev(div4, div1);
+    			if (if_block1) if_block1.m(div1, null);
+    			append_dev(div4, t1);
     			append_dev(div4, div3);
-    			append_dev(div3, button0);
+    			append_dev(div3, div2);
+    			append_dev(div2, button0);
     			append_dev(button0, svg0);
     			append_dev(svg0, path0);
-    			append_dev(div3, t2);
-    			append_dev(div3, button1);
+    			append_dev(div2, t2);
+    			append_dev(div2, button1);
     			append_dev(button1, svg1);
     			append_dev(svg1, path1);
     			append_dev(svg1, path2);
@@ -3551,15 +3700,24 @@ var app = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*settings, item, key*/ 7) {
-    				set_style(div0, "background-image", "url(" + (/*settings*/ ctx[2].live_url + /*img*/ ctx[10].filename) + ")");
+    			if (current_block_type === (current_block_type = select_block_type_1(ctx)) && if_block0) {
+    				if_block0.p(ctx, dirty);
+    			} else {
+    				if_block0.d(1);
+    				if_block0 = current_block_type(ctx);
+
+    				if (if_block0) {
+    					if_block0.c();
+    					if_block0.m(div0, null);
+    				}
     			}
 
-    			if (window.config.imgTitle) if_block.p(ctx, dirty);
+    			if (window.config.imgTitle) if_block1.p(ctx, dirty);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(li);
-    			if (if_block) if_block.d();
+    			if_block0.d();
+    			if (if_block1) if_block1.d();
     			mounted = false;
     			run_all(dispose);
     		}
@@ -3569,7 +3727,7 @@ var app = (function () {
     		block,
     		id: create_each_block$6.name,
     		type: "each",
-    		source: "(161:0) {#each item[key] as img, i}",
+    		source: "(172:0) {#each item[key] as img, i}",
     		ctx
     	});
 
@@ -3588,8 +3746,8 @@ var app = (function () {
     	let dispose;
 
     	function select_block_type(ctx, dirty) {
-    		if (/*uploading*/ ctx[3]) return create_if_block_2$2;
-    		return create_else_block$2;
+    		if (/*uploading*/ ctx[3]) return create_if_block_4$2;
+    		return create_else_block_2;
     	}
 
     	let current_block_type = select_block_type(ctx);
@@ -3612,10 +3770,10 @@ var app = (function () {
     			attr_dev(input, "class", "fileInput svelte-ydwqzg");
     			attr_dev(input, "accept", "image/*");
     			attr_dev(input, "data-name", /*key*/ ctx[1]);
-    			add_location(input, file$6, 141, 0, 3194);
+    			add_location(input, file$6, 152, 0, 3360);
     			attr_dev(button, "class", "btn btn-outline-secondary w-25 mb-3 svelte-ydwqzg");
-    			add_location(button, file$6, 142, 0, 3284);
-    			add_location(br, file$6, 195, 0, 5708);
+    			add_location(button, file$6, 153, 0, 3450);
+    			add_location(br, file$6, 220, 0, 6049);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -3706,6 +3864,13 @@ var app = (function () {
 
     	array[to] = target;
     	return array;
+    }
+
+    function imageExists(image_url) {
+    	var http = new XMLHttpRequest();
+    	http.open('HEAD', image_url, false);
+    	http.send();
+    	return http.status != 404;
     }
 
     function instance$7($$self, $$props, $$invalidate) {
@@ -3863,7 +4028,8 @@ var app = (function () {
     		clickSelect,
     		deleteImage,
     		move,
-    		moveDown
+    		moveDown,
+    		imageExists
     	});
 
     	$$self.$inject_state = $$props => {

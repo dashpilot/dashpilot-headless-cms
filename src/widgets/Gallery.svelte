@@ -137,6 +137,17 @@ function moveDown(key, index) {
     item = item;
   }
 }
+
+function imageExists(image_url){
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
+}
 </script>
 
 <input type="file" id="fileInput" class="fileInput" accept="image/*" data-name="{key}" />
@@ -163,9 +174,23 @@ function moveDown(key, index) {
 <li class="list-group-item">
 
 <div class="row">
-  <div class="col-md-1"><div class="box" style="background-image: url({settings.live_url+img.filename});"></div></div>
-  <div class="col-md-5">{#if window.config.imgTitle}<input type="text" class="form-control" bind:value="{item[key][i].title}" placeholder="{window.config.imgTitle}" />{/if}</div>
-  <div class="col-md-6">
+  <div class="col-md-4">
+
+{#if settings.live_url}
+
+  {#if imageExists(settings.live_url+img.filename)}
+    <div class="box" style="background-image: url({settings.live_url+img.filename});"></div>
+  {:else}
+    Generating thumbnails...
+  {/if}
+
+{:else}
+  Live URL not configured
+{/if}
+
+  </div>
+  <div class="col-md-4">{#if window.config.imgTitle}<input type="text" class="form-control" bind:value="{item[key][i].title}" placeholder="{window.config.imgTitle}" />{/if}</div>
+  <div class="col-md-4">
 
 <div class="btn-group float-right">
 
