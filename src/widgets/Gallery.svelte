@@ -176,17 +176,10 @@ function imageExists(image_url){
 <div class="row">
   <div class="col-md-4">
 
-{#if settings.live_url}
 
-  {#if imageExists(settings.live_url+img.filename)}
-    <div class="box" style="background-image: url({settings.live_url+img.filename});"></div>
-  {:else}
-    <div class="p-1">Generating thumbnails...</div>
-  {/if}
 
-{:else}
-  <div class="p-1"><a href="/#/settings">Live URL</a> not configured</div>
-{/if}
+    <div class="box" style="background-image: url({"api/preview_img/"+img.filename.replace('img/', '')});"></div>
+
 
   </div>
   <div class="col-md-4">{#if window.config.imgTitle}<input type="text" class="form-control" bind:value="{item[key][i].title}" placeholder="{window.config.imgTitle}" />{/if}</div>
