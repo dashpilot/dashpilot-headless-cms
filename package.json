@@ -14,6 +14,10 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
+    "@tiptap/core": "^2.0.0-beta.204",
+    "@tiptap/extension-image": "^2.0.0-beta.204",
+    "@tiptap/extension-link": "^2.0.0-beta.204",
+    "@tiptap/starter-kit": "^2.0.0-beta.204",
     "svelte-dnd-action": "^0.9.22",
     "svelte-spa-router": "^3.3.0"
   }
