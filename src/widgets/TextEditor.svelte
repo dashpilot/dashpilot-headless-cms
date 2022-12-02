@@ -151,14 +151,14 @@
     max-width: 100%;
   }
   
-  .editor{
-    padding: 15px;
-    border: 1px solid #9DA2A7;
-    border-top: 0;
-    margin-bottom: 20px;
-  }
-  
-  
+button{
+  border: 1px solid #ddd;
+}
+
+button:hover{
+  background-color: #EEE;
+  color: black;
+}
   
   .btn-group .btn:first-child{
     border-bottom-left-radius: 0;

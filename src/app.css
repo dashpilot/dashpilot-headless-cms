@@ -239,6 +239,18 @@ i.bi-trash {
   min-height: 50px;
 }
 
+.ProseMirror {
+  display: block;
+  min-height: 250px !important;
+  border: 1px solid #ddd;
+  padding: 15px;
+  outline: none;
+  border-radius: 0 0 6px 6px;
+  margin-bottom: 20px;
+  border-top: 0;
+  background-color: #ffffff;
+}
+
 @media only screen and (max-width: 767px) {
   .content {
     padding: 0;
