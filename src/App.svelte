@@ -10,6 +10,7 @@ import { fade } from 'svelte/transition';
 import { onMount } from 'svelte';
 import Router from 'svelte-spa-router'
 import {wrap} from 'svelte-spa-router/wrap'
+import {location} from 'svelte-spa-router'
 
 import Home from './routes/Home.svelte'
 import Types from './routes/Types.svelte'
@@ -129,7 +130,7 @@ window.renderData = function(mydata){
 
 {#each data.categories as item}
 
-<a href="/#/posts/{item.slug}" class:selected="{current === item.title}"
+<a href="/#/posts/{item.slug}" class:selected="{current === item.title || $location === '/posts/'+item.slug}"
 on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
 
 {/each}
@@ -140,20 +141,22 @@ on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
 <h5>Manage</h5>
 
 {#if data.permissions.categories}
-<a href="/#/categories" class:selected="{current === 'categories'}"
+<a href="/#/categories" class:selected="{current === 'categories' || $location === '/categories'}"
 on:click="{() => current = 'categories'}">Categories</a>
 {/if}
 
 {#if data.permissions.types}
-<a href="/#/types" class:selected="{current === 'types'}"
+<a href="/#/types" class:selected="{current === 'types' || $location === '/types'}"
 	on:click="{() => current = 'types'}">Post Types</a>
 {/if}
 
 {#if data.permissions.settings}
-	<a href="/#/settings" class:selected="{current === 'settings'}"
+	<a href="/#/settings" class:selected="{current === 'settings' || $location === '/settings'}"
 	on:click="{() => current = 'settings'}">settings</a>
 {/if}
 <br><br>
+
+
 <a on:click="{() => console.log(data)}">Debug</a>
 	<a href="/logout" id="logout">Log Out</a>
 </div>
