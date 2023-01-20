@@ -170,7 +170,6 @@ on:click="{() => current = 'categories'}">Categories</a>
 <br><br>
 
 
-<a on:click="{() => console.log(data)}">Debug</a>
 	<a href="/logout" id="logout">Log Out</a>
 </div>
 
