@@ -151,6 +151,9 @@ on:click="{() => current = item.slug}" class="text-truncate">{item.title}</a>
 
 </div>
 
+
+<div class="d-none d-md-block">
+
 <h5>Manage</h5>
 
 {#if data.permissions.categories}
@@ -171,6 +174,8 @@ on:click="{() => current = 'categories'}">Categories</a>
 
 
 	<a href="/logout" id="logout">Log Out</a>
+</div>
+	
 </div>
 
 </div>
