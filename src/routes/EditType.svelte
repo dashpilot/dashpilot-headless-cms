@@ -87,7 +87,7 @@ function slugifyFieldTitle(i)
 <div class="row">
   <div class="col-6">
     <b>Fields</b>
-    <div class="description">Fields in this Collection</div>
+    <div class="description">Fields for this post type</div>
   </div>
   <div class="col-6 text-right">
     <button class="btn btn-outline-dark btn-add float-right" on:click="{addField}"><i class="bi bi-plus-circle"></i> Add Field</button>
@@ -102,7 +102,7 @@ function slugifyFieldTitle(i)
     <li class="list-group-item">
     <div class="row">
     <div class="col-4"><input type="text" class="form-control mb-0" value="title"  readonly/></div>
-    <div class="col-8"><div class="description mt-2">Each collection has a title field</div></div>
+    <div class="col-8"><div class="description mt-2">Each post type has a title field</div></div>
     </div>
     </li>
 
