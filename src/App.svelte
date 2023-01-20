@@ -27,6 +27,8 @@ let routes = false;
 let current = false;
 let loading = true;
 
+let curCat = sessionStorage.getItem('curcat');
+
 onMount(async () => {
 
 				const res = await fetch(config.dataPath);
@@ -48,8 +50,15 @@ onMount(async () => {
 										data:data
 								}
 						}),
-
+						
 						'/edit/:cat/:id': wrap({
+								component: Edit,
+								props: {
+										data:data
+								}
+						}),
+
+						'/edit/:cat/:catslug/:id': wrap({
 								component: Edit,
 								props: {
 										data:data
@@ -101,6 +110,10 @@ onMount(async () => {
 window.renderData = function(mydata){
 	data = mydata;
 }
+
+function setCat(slug){
+	sessionStorage.setItem('curcat', slug);
+}
 </script>
 
 {#if loading}
@@ -130,8 +143,8 @@ window.renderData = function(mydata){
 
 {#each data.categories as item}
 
-<a href="/#/posts/{item.slug}" class:selected="{current === item.title || $location === '/posts/'+item.slug}"
-on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
+<a href="/#/posts/{item.slug}" class:selected="{current === item.title || $location.includes('/posts/'+item.slug)}"
+on:click="{() => current = item.slug}" class="text-truncate">{item.title}</a>
 
 {/each}
 
@@ -141,17 +154,17 @@ on:click="{() => current = item.title}" class="text-truncate">{item.title}</a>
 <h5>Manage</h5>
 
 {#if data.permissions.categories}
-<a href="/#/categories" class:selected="{current === 'categories' || $location === '/categories'}"
+<a href="/#/categories" class:selected="{$location.includes('categories')}"
 on:click="{() => current = 'categories'}">Categories</a>
 {/if}
 
 {#if data.permissions.types}
-<a href="/#/types" class:selected="{current === 'types' || $location === '/types'}"
+<a href="/#/types" class:selected="{$location.includes('type')}"
 	on:click="{() => current = 'types'}">Post Types</a>
 {/if}
 
 {#if data.permissions.settings}
-	<a href="/#/settings" class:selected="{current === 'settings' || $location === '/settings'}"
+	<a href="/#/settings" class:selected="{$location.includes('settings')}"
 	on:click="{() => current = 'settings'}">settings</a>
 {/if}
 <br><br>

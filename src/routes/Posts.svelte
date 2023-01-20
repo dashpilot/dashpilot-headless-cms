@@ -70,7 +70,7 @@ function deleteItem(id){
   <div class="row">
   <div class="col-6 text-truncate d-flex align-items-center">
 
-  <a href="/#/edit/posts/{item.id}" class="text-truncate">{#if item.title==''}Untitled{:else}{item.title}{/if}</a>
+  <a href="/#/edit/posts/{curCat.slug}/{item.id}" class="text-truncate">{#if item.title==''}Untitled{:else}{item.title}{/if}</a>
 
   </div>
   <div class="col-6 text-right">
