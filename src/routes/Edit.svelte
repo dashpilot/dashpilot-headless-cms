@@ -45,7 +45,7 @@ function save(){
   opts.data = data;
   call_api('api/save', opts).then(function(res) {
     window.renderData(data)
-    if (res.ok) {
+    if (res.status=='ok') {
       console.log('Saved');
       loading = false;
     } else {
