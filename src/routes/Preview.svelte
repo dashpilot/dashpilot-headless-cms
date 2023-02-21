@@ -6,13 +6,13 @@
 
   
   <div class="preview">
-	  
+	 {#if item.image}
+	 <img src="{item.image}" class="img-fluid" />
+	 {/if} 
 	  
 	<h2>{item.title}</h2>
 	
-	{#if item.image}
-	<img src="{item.image}" class="img-fluid" />
-	{/if}
+	
 	<p>{@html item.body}</p>
 	
 	
