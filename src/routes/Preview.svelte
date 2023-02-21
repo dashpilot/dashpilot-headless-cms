@@ -9,6 +9,10 @@
 	  
 	  
 	<h2>{item.title}</h2>
+	
+	{#if item.image}
+	<img src="{item.image}" />
+	{/if}
 	<p>{@html item.body}</p>
 	
 	
