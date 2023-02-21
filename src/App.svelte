@@ -205,7 +205,7 @@ on:click="{() => current = 'categories'}">Categories</a>
 <br><br>
 
 
-	<a href="/logout" id="logout">Log Out</a>
+	<a href="/api/logout" id="logout">Log Out</a>
 </div>
 	
 </div>
