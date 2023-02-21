@@ -24,7 +24,7 @@ function save(){
   opts.type = 'json';
   opts.data = data;
   call_api('api/save', opts).then(function(res) {
-    if (res.ok) {
+    if (res.status=='ok') {
       console.log('Saved');
       loading = false;
     } else {

@@ -41,6 +41,25 @@ function saveCat(){
     data.categories = data.categories;
     items = data.categories;
     console.log(data.categories);
+    
+    loading = true;
+    let opts = {};
+    opts.path = 'data.json';
+    opts.type = 'json';
+    opts.data = data;
+    call_api('api/save', opts).then(function(res) {
+      if (res.status=='ok') {
+        console.log('Saved');
+        loading = false;
+      } else {
+        console.log('Error saving');
+        setTimeout(function(){
+            loading = false;
+        }, 1000)
+      }
+    });
+    
+    
     addCat = false;
 }
 </script>
