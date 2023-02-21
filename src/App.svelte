@@ -31,9 +31,39 @@ let curCat = sessionStorage.getItem('curcat');
 
 onMount(async () => {
 
-				const res = await fetch(config.dataPath);
+				const res = await fetch('https://api.eu-central-1.linodeobjects.com/frontsome/data.json');
 				data = await res.json();
 				console.log(data);
+				
+				if(!data.permissions){
+					data.permissions = {
+						"categories": true,
+						"types": true,
+						"settings": true
+					}
+				}
+				
+				if(!data.types){
+					data.types = [{
+					"id": "1",
+					"title": "Post",
+					"slug": "post",
+					"fields": [{
+					  "title": "body",
+					  "description": "",
+					  "type": "rte"
+					}, {
+					  "title": "Gallery",
+					  "description": "",
+					  "type": "gal"
+					}, {
+					  "title": "Category",
+					  "description": "",
+					  "type": "cat"
+					}]
+					}]
+				}
+				  
 
 				routes = {
 						// Exact path
@@ -133,7 +163,9 @@ function setCat(slug){
 <div class="col-md-2">
 <div class="side">
 
+<!--
 <a href="/#/" class:selected="{current === false}" on:click="{() => current = false}"><img src="assets/img/rocketlogo.png" id="logo" /></a>
+-->
 
 <div class="side-nav">
 

@@ -151,7 +151,7 @@ function imageExists(image_url){
 </script>
 
 <input type="file" id="fileInput" class="fileInput" accept="image/*" data-name="{key}" />
-<button class="btn btn-outline-secondary w-25 mb-3" on:click="{() => clickSelect(key)}">
+<button class="btn btn-outline-secondary mb-3" on:click="{() => clickSelect(key)}">
 
 
 {#if uploading}

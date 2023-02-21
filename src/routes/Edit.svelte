@@ -3,6 +3,7 @@ import Markdown from "../widgets/Markdown.svelte"
 import TextEditor from "../widgets/TextEditor.svelte"
 import Textarea from "../widgets/Textarea.svelte"
 import Gallery from "../widgets/Gallery.svelte"
+import Preview from "./Preview.svelte"
 export let params;
 export let data;
 let cat = false;
@@ -88,6 +89,10 @@ function slugifyTitle()
 
 
 <div class="content">
+  
+  
+  <div class="row">
+  <div class="col-md-6">
 
 
 {#if cat=='categories'}
@@ -95,6 +100,9 @@ function slugifyTitle()
 <input type="text" class="form-control" bind:value="{data[cat][index].title}" />
 
 {:else}
+
+
+
 
 <div class="row">
 <div class="col-md-8">
@@ -152,6 +160,19 @@ function slugifyTitle()
 
 
   {/each}
+  
+  
+  </div>
+  <div class="col-md-6">
+    
+{#if cat!=='categories'}
+<b>Preview</b>
+<Preview bind:item={data[cat][index]} />
+{/if}
+  
+  
+  </div>
+  </div>
 
 </div>
 

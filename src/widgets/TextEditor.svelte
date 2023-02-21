@@ -123,7 +123,7 @@
  
 
  -->
-     <button class="btn btn btn-outline-secondary w-50" disabled></button>
+     <button class="btn btn btn-outline-secondary w-25" disabled></button>
   
    </div>
    
