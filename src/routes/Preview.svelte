@@ -7,7 +7,7 @@
   
   <div class="preview">
 	 {#if item.image}
-	 <img src="{item.image}" class="img-fluid" />
+	 <img src="{item.image}" class="img-fluid mb-4" />
 	 {/if} 
 	  
 	<h2>{item.title}</h2>
