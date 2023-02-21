@@ -150,7 +150,7 @@ function setCat(slug){
 
 <div id="loading" class="text-center">
 
-<img src="assets/img/rocket-planet.png" />
+<img src="https://dashpilot-headless-cms.vercel.app/assets/img/rocket-planet.png" />
 <div class="clear"></div>
 <div class="spinner-border" role="status">
   <span class="sr-only">Loading...</span>

@@ -1,22 +1,21 @@
-config = {}
-config.dataPath = 'data.json';
+config = {};
+config.dataPath = "data.json";
 
-const getData = async function(service, path) {
+const getData = async function (service, path) {
   let opts = {};
   opts.path = path;
-  call_api(service + '/get-data', opts).then(function(res) {
+  call_api(service + "/get-data", opts).then(function (res) {
     return res;
   });
-}
+};
 
-function logout() {
-
-}
+function logout() {}
 
 async function call_api(route, mydata) {
+  console.log("calling api");
 
   var settings = {
-    method: 'post',
+    method: "post",
     body: JSON.stringify(mydata),
   };
   try {
@@ -26,5 +25,4 @@ async function call_api(route, mydata) {
   } catch (e) {
     return e;
   }
-
 }
