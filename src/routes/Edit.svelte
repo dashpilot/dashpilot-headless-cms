@@ -33,6 +33,36 @@ onMount(async () => {
   document.getElementById('preview-frame').onload = function() {
     document.getElementById('preview-frame').classList.add('fade-in')
   };
+  
+  
+ 
+ 
+ 
+ /*
+  document.onkeypress = function (e) {
+      e = e || window.event;
+      
+      if(typeof interval == 'undefined'){
+        var interval = setInterval(()=>{
+          preview();
+          
+          setTimeout(()=>{
+            // clear after a certain time of inactivity
+            clearInterval(interval)
+          }, 6000)
+          
+          
+        }, 3000);
+        
+        
+      }
+     
+  };
+  */
+  
+  
+ 
+ 
 });
 
 
@@ -80,7 +110,7 @@ function save(){
 }
 
 function preview(){
-  var domain = 'https://frontsome-sveltekit.vercel.app';
+  var domain = cfg.live_url;
   var iframe = document.getElementById('preview-frame').contentWindow;
   
   //message sender
