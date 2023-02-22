@@ -21,7 +21,6 @@ import Posts from './routes/Posts.svelte'
 import Settings from './routes/Settings.svelte'
 import NotFound from './routes/NotFound.svelte'
 
-import Publish from './components/Publish.svelte'
 
 let data = false;
 let showApp = false;
@@ -29,7 +28,7 @@ let routes = false;
 let current = false;
 let loading = true;
 
-let showPublish = false;
+
 let showNav = true;
 
 
@@ -84,6 +83,7 @@ onMount(async () => {
 								component: Posts,
 								props: {
 										data:data
+										
 								}
 						}),
 						
@@ -161,8 +161,6 @@ function toggleNav(){
 </script>
 
 
-<Publish bind:showPublish />
-
 {#if loading}
 
 <div id="loading" class="text-center">
@@ -228,7 +226,7 @@ on:click="{() => current = 'categories'}">Categories</a>
 	on:click="{() => current = 'settings'}">settings</a>
 {/if}
 <br><br>
-<button class="btn btn-outline-light" style="margin-left: 25px;" on:click={()=>showPublish=true}>Publish</button>
+
 
 
 

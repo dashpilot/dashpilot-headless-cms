@@ -6,6 +6,8 @@ import TextEditor from "../widgets/TextEditor.svelte"
 import Textarea from "../widgets/Textarea.svelte"
 import Gallery from "../widgets/Gallery.svelte"
 
+import Publish from '../components/Publish.svelte'
+
 export let params;
 export let data;
 let cat = false;
@@ -16,6 +18,8 @@ let collection = false;
 let fields = {};
 let loading = false;
 let title = false;
+
+let showPublish = false;
 
 /*
 onMount(async () => {
@@ -100,6 +104,12 @@ function slugifyTitle()
 
 </script>
 
+
+
+<Publish bind:showPublish />
+
+
+
 {#if collection}
 
 
@@ -110,9 +120,14 @@ function slugifyTitle()
 </div>
 <div class="col-7 text-right">
   
+  {#if cat!=='categories'}
   <button class="btn btn-dark btn-add small-hide" on:click={preview}>Preview</button>
+  {/if}
   
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
+
+
+<button class="btn btn-dark btn-add" on:click={()=>showPublish=true}>Publish</button>
 
 
 
