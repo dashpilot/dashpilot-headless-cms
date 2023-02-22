@@ -35,7 +35,7 @@ let curCat = sessionStorage.getItem('curcat');
 
 onMount(async () => {
 
-				const res = await fetch('https://api.eu-central-1.linodeobjects.com/frontsome/data.json');
+				const res = await fetch(cfg.dataPath);
 				data = await res.json();
 				console.log(data);
 				
