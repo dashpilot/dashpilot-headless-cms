@@ -183,7 +183,7 @@ function slugifyTitle()
 {#if cat!=='categories'}
 <b>Preview</b>
 
-<iframe src="https://frontsome-svelte.vercel.app" width="100%" height="500"></iframe>
+<iframe src="https://frontsome-sveltekit.vercel.app" width="100%" height="500"></iframe>
 <!--
 <Preview bind:item={data[cat][index]} />
 
