@@ -6,6 +6,7 @@ import TextEditor from "../widgets/TextEditor.svelte"
 import Textarea from "../widgets/Textarea.svelte"
 import Gallery from "../widgets/Gallery.svelte"
 
+import Preview from '../components/Preview.svelte'
 import Publish from '../components/Publish.svelte'
 
 export let params;
@@ -248,7 +249,12 @@ function slugifyTitle()
 <b>Preview</b>
 
 <div class="preview">
+  
+  <Preview bind:item />
+  
+  <!--
 <iframe src="{cfg.live_url}/article/{item.slug}" width="100%" height="600" frameborder="0" id="preview-frame" name="preview-frame"></iframe>
+-->
 </div>
 </div>
   
@@ -264,6 +270,10 @@ function slugifyTitle()
 {/if}
 
 <style>
+  .preview{
+    padding: 20px;
+  }
+  
   #preview-frame{
     opacity: 0;
   }
