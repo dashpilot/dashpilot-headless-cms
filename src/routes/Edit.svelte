@@ -64,7 +64,7 @@ function preview(){
   var iframe = document.getElementById('preview-frame').contentWindow;
   
   //message sender
-  var message = "Help me, Obi-Wan Kenobi. You're my only hope. - Princess Leia";
+  var message = JSON.stringify(data);
   iframe.postMessage(message,domain)
   console.log('message sent')
 }
