@@ -151,9 +151,11 @@ function slugifyTitle()
 </div>
 <div class="col-7 text-right">
   
+  <!--
   {#if cat!=='categories'}
   <button class="btn btn-dark btn-add small-hide" on:click={preview}>Preview</button>
   {/if}
+-->
   
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
 
