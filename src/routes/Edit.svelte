@@ -94,7 +94,7 @@ function slugifyTitle()
 </div>
 <div class="col-6 text-right">
   
-  <button class="btn btn-dark" on:click={preview}>Preview</button>
+  <button class="btn btn-dark btn-add" on:click={preview}>Preview</button>
   
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
 
@@ -184,7 +184,7 @@ function slugifyTitle()
 {#if cat!=='categories'}
 <b>Preview</b>
 
-<iframe src="https://frontsome-sveltekit.vercel.app" width="100%" height="600" id="preview-frame" title="preview-frame" name="preview-frame"></iframe>
+<iframe src="https://frontsome-sveltekit.vercel.app" width="100%" height="600" frameborder="0" id="preview-frame" name="preview-frame"></iframe>
 <!--
 <Preview bind:item={data[cat][index]} />
 
