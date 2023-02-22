@@ -294,6 +294,18 @@ iframe {
 }
 
 @media only screen and (max-width: 767px) {
+  .open-nav {
+    left: 19px;
+  }
+
+  .shownav {
+    padding-left: 15px;
+  }
+
+  .shownav h4 {
+    margin-left: 35px;
+  }
+
   .content {
     padding: 0;
     padding-top: 15px;
@@ -307,8 +319,7 @@ iframe {
   }
   .side {
     padding-bottom: 20px;
-    position: relative;
-    width: 100%;
+    position: fixed;
     padding-bottom: 50px;
   }
   .medium-hide {

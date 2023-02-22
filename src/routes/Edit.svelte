@@ -99,12 +99,12 @@ function slugifyTitle()
 
 
 <div class="row topnav">
-<div class="col-6">
+<div class="col-5">
 <h4>Edit {title}</h4>
 </div>
-<div class="col-6 text-right">
+<div class="col-7 text-right">
   
-  <button class="btn btn-dark btn-add" on:click={preview}>Preview</button>
+  <button class="btn btn-dark btn-add small-hide" on:click={preview}>Preview</button>
   
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
 
@@ -192,14 +192,12 @@ function slugifyTitle()
   <div class="col-md-6">
     
 {#if cat!=='categories'}
+
+<div class="small-hide w-100">
 <b>Preview</b>
 
 <iframe src="https://frontsome-sveltekit.vercel.app" width="100%" height="600" frameborder="0" id="preview-frame" name="preview-frame"></iframe>
-<!--
-<Preview bind:item={data[cat][index]} />
-
--->
-  
+</div>
 
   
   
