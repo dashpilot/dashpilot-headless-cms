@@ -61,7 +61,7 @@ function save(){
 
 function preview(){
   var domain = 'https://dashpilot.cyclic.app';
-  var iframe = document.getElementById('preview').contentWindow;
+  var iframe = document.getElementById('preview-frame').contentWindow;
   
   //message sender
   var message = "Help me, Obi-Wan Kenobi. You're my only hope. - Princess Leia";
@@ -184,7 +184,7 @@ function slugifyTitle()
 {#if cat!=='categories'}
 <b>Preview</b>
 
-<iframe src="https://frontsome-sveltekit.vercel.app" width="100%" height="500" id="preview"></iframe>
+<iframe src="https://frontsome-sveltekit.vercel.app" width="100%" height="500" id="preview-frame" title="preview-frame"></iframe>
 <!--
 <Preview bind:item={data[cat][index]} />
 
