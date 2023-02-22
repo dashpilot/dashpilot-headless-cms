@@ -59,6 +59,15 @@ function save(){
 
 }
 
+function preview(){
+  var domain = 'https://dashpilot.cyclic.app';
+  var iframe = document.getElementById('preview').contentWindow;
+  
+  //message sender
+  var message = "Help me, Obi-Wan Kenobi. You're my only hope. - Princess Leia";
+  iframe.postMessage(message,domain)
+}
+
 function slugifyTitle()
 {
   let slug = data[cat][index].title.toString().toLowerCase()
@@ -83,7 +92,13 @@ function slugifyTitle()
 <h4>Edit {title}</h4>
 </div>
 <div class="col-6 text-right">
+  
+  <button class="btn btn-dark" on:click={preview}>Preview</button>
+  
 <button class="btn btn-dark btn-add" on:click="{save}">{#if loading}<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {/if} &nbsp;Save</button>
+
+
+
 </div>
 </div>
 
@@ -167,7 +182,16 @@ function slugifyTitle()
     
 {#if cat!=='categories'}
 <b>Preview</b>
+
+<iframe src="https://frontsome-svelte.vercel.app" width="100%" height="500"></iframe>
+<!--
 <Preview bind:item={data[cat][index]} />
+
+-->
+  
+
+  
+  
 {/if}
   
   
