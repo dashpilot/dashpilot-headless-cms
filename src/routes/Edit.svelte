@@ -60,7 +60,7 @@ function save(){
 }
 
 function preview(){
-  var domain = 'https://zany-pear-crayfish-yoke.cyclic.app';
+  var domain = 'https://dashpilot.cyclic.app';
   var iframe = document.getElementById('preview-frame').contentWindow;
   
   //message sender
