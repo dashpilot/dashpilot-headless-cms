@@ -1,7 +1,7 @@
 <script>
 import {flip} from "svelte/animate";
 import {dndzone} from "svelte-dnd-action";
-import {slugify} from "./Helpers.svelte";
+import {slugify} from "../components/Helpers.svelte";
 
 export let data;
 let cat = false;

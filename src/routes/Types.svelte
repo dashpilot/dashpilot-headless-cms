@@ -1,5 +1,5 @@
 <script>
-import {slugify} from "./Helpers.svelte";
+import {slugify} from "../components/Helpers.svelte";
 export let data;
 let cat = false;
 let items = false;

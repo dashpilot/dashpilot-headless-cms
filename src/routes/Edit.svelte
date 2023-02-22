@@ -5,7 +5,7 @@ import Markdown from "../widgets/Markdown.svelte"
 import TextEditor from "../widgets/TextEditor.svelte"
 import Textarea from "../widgets/Textarea.svelte"
 import Gallery from "../widgets/Gallery.svelte"
-import Preview from "./Preview.svelte"
+
 export let params;
 export let data;
 let cat = false;
