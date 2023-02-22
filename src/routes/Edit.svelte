@@ -54,9 +54,9 @@ if(cat=='posts'){
 }
 
 function save(){
-  //if(typeof data[cat][index].slug === 'undefined' || data[cat][index].slug == ''){
+  if(typeof data[cat][index].slug === 'undefined' || data[cat][index].slug == ''){
     slugifyTitle();
-  //}
+  }
 
   loading = true;
   let opts = {};
