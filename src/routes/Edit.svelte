@@ -25,6 +25,12 @@ onMount(async () => {
 });
 */
 
+onMount(async () => {
+  document.getElementById('preview-frame').onload = function() {
+    document.getElementById('preview-frame').classList.add('fade-in')
+  };
+});
+
 
 $: if (params.cat && params.id) {
 cat = params.cat;
@@ -196,9 +202,10 @@ function slugifyTitle()
 <div class="small-hide w-100">
 <b>Preview</b>
 
+<div class="preview">
 <iframe src="https://frontsome-sveltekit.vercel.app" width="100%" height="600" frameborder="0" id="preview-frame" name="preview-frame"></iframe>
 </div>
-
+</div>
   
   
 {/if}
@@ -210,3 +217,9 @@ function slugifyTitle()
 </div>
 
 {/if}
+
+<style>
+  #preview-frame{
+    opacity: 0;
+  }
+</style>
