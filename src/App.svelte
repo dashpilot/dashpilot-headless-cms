@@ -6,7 +6,7 @@
 </svelte:head>
 
 <script>
-import { fade } from 'svelte/transition';
+import { fade, fly } from 'svelte/transition';
 import { onMount } from 'svelte';
 import Router from 'svelte-spa-router'
 import {wrap} from 'svelte-spa-router/wrap'
@@ -30,6 +30,8 @@ let current = false;
 let loading = true;
 
 let showPublish = false;
+let showNav = true;
+
 
 let curCat = sessionStorage.getItem('curcat');
 
@@ -148,6 +150,14 @@ window.renderData = function(mydata){
 function setCat(slug){
 	sessionStorage.setItem('curcat', slug);
 }
+
+function toggleNav(){
+	if(!showNav){
+		showNav = true;
+	}else{
+		showNav = false;
+	}
+}
 </script>
 
 
@@ -166,9 +176,18 @@ function setCat(slug){
 </div>
 
 {:else if routes && data}
-<div class="row no-gutters page" transition:fade>
-<div class="col-md-2">
-<div class="side">
+<div class="page" transition:fade>
+	<div class="open-nav" on:click={toggleNav}><i class="fas fa-bars"></i></div>
+
+{#if showNav}
+
+<div class="side" in:fly="{{ x: -200, duration: 500 }}" out:fly="{{ x: -200, duration: 500 }}">
+	
+	
+
+	
+	
+	<div class="text-light close-large" on:click={toggleNav}>&times;</div>
 
 <!--
 <a href="/#/" class:selected="{current === false}" on:click="{() => current = false}"><img src="assets/img/rocketlogo.png" id="logo" /></a>
@@ -177,7 +196,6 @@ function setCat(slug){
 <div class="side-nav">
 
 
-<h5>Content</h5>
 <div id="collections-nav">
 
 {#each data.categories as item}
@@ -222,16 +240,15 @@ on:click="{() => current = 'categories'}">Categories</a>
 
 </div>
 
-</div>
-<div class="col-md-10">
+{/if}
 
-<div class="main">
-	
+
+<div class="main" class:shownav={showNav===true}>
+
 	
 	<Router {routes} />
 </div>
+</div>
 
-</div>
-</div>
 
 {/if}

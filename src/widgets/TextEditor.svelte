@@ -33,7 +33,7 @@
       },
       onUpdate({ editor }) {
         html = editor.getHTML()
-        console.log(html)
+        // console.log(html)
       },
     })
   })

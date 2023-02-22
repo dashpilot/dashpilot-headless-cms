@@ -103,3 +103,5 @@ function saveType(){
 
 </div>
 {/if}
+
+

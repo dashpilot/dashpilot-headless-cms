@@ -1,4 +1,6 @@
 <script>
+import { onMount } from 'svelte'; 
+  
 import Markdown from "../widgets/Markdown.svelte"
 import TextEditor from "../widgets/TextEditor.svelte"
 import Textarea from "../widgets/Textarea.svelte"
@@ -14,6 +16,14 @@ let collection = false;
 let fields = {};
 let loading = false;
 let title = false;
+
+/*
+onMount(async () => {
+  var interval = setInterval(()=>{
+    preview();
+  }, 5000)
+});
+*/
 
 
 $: if (params.cat && params.id) {

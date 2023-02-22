@@ -58,14 +58,20 @@ b {
   height: 100%;
   text-transform: capitalize;
   position: fixed;
-  width: 16.6%;
+  width: 230px;
   overflow: hidden;
   overflow-y: auto;
+  z-index: 9999999;
+}
+
+.side-nav {
+  margin-top: 6px;
 }
 
 .side-nav a {
   display: block !important;
   padding: 10px;
+
   color: white;
   padding-left: 25px;
 }
@@ -124,19 +130,24 @@ b {
 .main {
   padding: 15px;
   padding-top: 0;
+  transition: 0.4s all ease-out;
 }
 
 .topnav {
   height: 70px;
-  padding: 25px;
+  padding: 25px 15px 25px 20px;
   padding-top: 15px;
   padding-bottom: 5px;
   background-color: white;
   border-bottom: 1px solid #ddd;
 }
 
+.topnav h4 {
+  margin-left: 35px;
+}
+
 .content {
-  padding: 25px;
+  padding: 25px 15px 25px 20px;
 }
 
 .entries-list a {
@@ -256,6 +267,30 @@ iframe {
   border-radius: 8px;
   padding: 10px;
   background-color: white;
+}
+
+.open-nav {
+  position: absolute;
+  font-size: 19px;
+  top: 20px;
+  left: 33px;
+  z-index: 999999;
+  cursor: pointer;
+}
+
+.close-large {
+  font-size: 40px;
+  margin-left: 24px;
+  margin-top: 4px;
+  cursor: pointer;
+}
+
+.shownav {
+  padding-left: 245px;
+}
+
+.shownav h4 {
+  margin-left: 0;
 }
 
 @media only screen and (max-width: 767px) {
