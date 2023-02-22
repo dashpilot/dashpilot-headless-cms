@@ -207,7 +207,7 @@ on:click="{() => current = item.slug}" class="text-truncate">{item.title}</a>
 </div>
 
 
-<div class="d-none d-md-block">
+<div>
 
 <h5>Manage</h5>
 
@@ -227,11 +227,13 @@ on:click="{() => current = 'categories'}">Categories</a>
 {/if}
 <br><br>
 
+<h5>Account</h5>
+<a href="/api/logout">Log Out</a>
 
 
 
 
-	<a href="/api/logout" id="logout">Log Out</a>
+	
 </div>
 	
 </div>

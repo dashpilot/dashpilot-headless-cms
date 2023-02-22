@@ -54,9 +54,9 @@ if(cat=='posts'){
 }
 
 function save(){
-  if(typeof data[cat][index].slug === 'undefined' || data[cat][index].slug == ''){
+  //if(typeof data[cat][index].slug === 'undefined' || data[cat][index].slug == ''){
     slugifyTitle();
-  }
+  //}
 
   loading = true;
   let opts = {};
@@ -218,7 +218,7 @@ function slugifyTitle()
 <b>Preview</b>
 
 <div class="preview">
-<iframe src="{cfg.live_url}" width="100%" height="600" frameborder="0" id="preview-frame" name="preview-frame"></iframe>
+<iframe src="{cfg.live_url}/article/{item.slug}" width="100%" height="600" frameborder="0" id="preview-frame" name="preview-frame"></iframe>
 </div>
 </div>
   
