@@ -218,7 +218,7 @@ function slugifyTitle()
 <b>Preview</b>
 
 <div class="preview">
-<iframe src="https://frontsome-sveltekit.vercel.app" width="100%" height="600" frameborder="0" id="preview-frame" name="preview-frame"></iframe>
+<iframe src="{cfg.live_url}" width="100%" height="600" frameborder="0" id="preview-frame" name="preview-frame"></iframe>
 </div>
 </div>
   
